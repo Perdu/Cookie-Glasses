@@ -11,6 +11,8 @@ Will only work with cookie banners of IAB Europe's TCF.
 
 We also added a functionality to manually decode a so-called "consent string" of the framework.
 
+Author: Célestin Matte (Université Côte d'Azur, Inria, France)
+
 ## Install
 
 The extension is currently under review for being published to Firefox's addons store, and will also be published to Chrome's store. But for the moment, you have to install it manually.
