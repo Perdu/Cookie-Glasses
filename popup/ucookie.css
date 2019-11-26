@@ -1,0 +1,44 @@
+html, body {
+  width: 400px;
+}
+
+.hidden {
+  display: none;
+}
+
+.button {
+  margin: 3% auto;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #CFF2F2;
+}
+
+.button {
+  background-color: #E5F2F2;
+}
+
+.button:hover {
+  background-color: #EAEA9D;
+}
+
+textarea {
+  width: 380px;
+}
+
+#nb_purposes, #nb_vendors, #cmp {
+    font-weight: bold;
+}
+
+#vendors {
+    font-size: 0.8em;
+    white-space: pre-line;
+}
+
+#purposes {
+    white-space: pre-line;
+}
