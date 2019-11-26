@@ -9,6 +9,8 @@ This extension for Firefox and Chrome queries CMPs of IAB Europe's TCF in the sa
 In other words, you can see whether consent registered by cookie banners is actually the consent you gave.
 Will only work with cookie banners of IAB Europe's TCF.
 
+![User interface of the extension](extension_popup.png?raw=true "User interface")
+
 We also added a functionality to manually decode a so-called "consent string" of the framework.
 
 Author: Célestin Matte (Université Côte d'Azur, Inria, France)
