@@ -38,6 +38,15 @@ function format_date(date) {
     });
 }
 
+function find_vendor(id) {
+    for (vendor in vendorlist["vendors"]) {
+	if (vendorlist["vendors"][vendor]["id"] == id) {
+	    return vendorlist["vendors"][vendor]["name"];
+	}
+    }
+    return "[Incorrect vendor, ID " + vendor + "]";
+}
+
 function update_with_consent_string_data(consent_string) {
     nb_purposes = consent_string.allowedPurposeIds.length;
     nb_vendors = consent_string.allowedVendorIds.length;
@@ -46,12 +55,8 @@ function update_with_consent_string_data(consent_string) {
 	var vendors = "";
 	var vendor_names = [];
 	if (consent_string.allowedVendorIds.length > 0) {
-	    for (vendor in consent_string.allowedVendorIds) {
-		if (vendor in vendorlist["vendors"]) {
-		    vendor_names.push(vendorlist["vendors"][vendor]["name"]);
-		} else {
-		    vendor_names.push("[Incorrect vendor, ID " + vendor + "]")
-		}
+	    for (id in consent_string.allowedVendorIds) {
+		vendor_names.push(find_vendor(consent_string.allowedVendorIds[id]));
 	    }
 	    vendors = "\r\nVendors:\r\n";
 	    for (vendor_name in vendor_names.sort()) {
