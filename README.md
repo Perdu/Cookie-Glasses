@@ -22,23 +22,28 @@ The extension has been tested on Firefox, Chromium and Firefox mobile.
 
 ### Chrome / Chromium
 
-1. Download the folder "cookie_glasses" on your computer.
-2. Go to chrome://extensions/ and enable Developer mode in the top right.
-3. In chrome://extensions/, click "Load unpacked"
-4. Choose the folder "cookie_glasses" on your computer.
-5. Visit websites implementing the Transparency & Consent Framework
-6. Enjoy detecting violations!
+1. Download the ZIP file of Cookie Glasses on your computer.
+![Location of the zip file](https://camo.githubusercontent.com/71c8e3ec5ddbd2cac3b1d6469311f6bbf26c6465/68747470733a2f2f692e696d6775722e636f6d2f47784f6d6a46682e706e67)
+2. Unzip the ZIP file you just downloaded on your computer.
+3. Open Chrome and enter the following URL in your tab bar: chrome://extensions/
+4. Enable Developer mode in the top right.
+5. Click "Load unpacked"
+6. Choose the `Cookie-Glasse-master` folder on your computer.
+7. Visit websites implementing the Transparency & Consent Framework
+8. Enjoy detecting violations!
 
 ### Firefox
 
 On Firefox, out-of-store addons can only be loaded for the duration of the session (you will have to redo these steps if you close your browser).
 
-1. Download the folder "cookie_glasses" on your computer.
-2. Go to about:debugging#/runtime/this-firefox
-3. Click "Load temporary addon"
-4. Choose the "manifest.json" file in the "cookie_glasses" folder on your computer.
-5. Visit websites implementing the Transparency & Consent Framework
-6. Enjoy detecting violations!
+1. Download the ZIP file of Cookie Glasses on your computer.
+![Location of the zip file](https://camo.githubusercontent.com/71c8e3ec5ddbd2cac3b1d6469311f6bbf26c6465/68747470733a2f2f692e696d6775722e636f6d2f47784f6d6a46682e706e67)
+2. Unzip the ZIP file you just downloaded on your computer.
+3. Open Firefox and enter the following URL in your tab bar: about:debugging#/runtime/this-firefox
+4. Click "Load temporary addon"
+5. Choose the `manifest.json` file in the `Cookie-Glasse-master` folder on your computer.
+6. Visit websites implementing the Transparency & Consent Framework
+7. Enjoy detecting violations!
 
 ## Limitations
 
