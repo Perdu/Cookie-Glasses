@@ -59,3 +59,7 @@ If you want to see consent on the remaining 21% of websites, here's a manual wor
 3. If you obtain a response, copy-paste the string in the "consentData" field in Cookie Glasses' popup's "decode consent string" field and click on "decode".
 
 For now, the extension does not display the global shared cookie (which is a cookie storing consent, readable and writable by all CMPs of the framework).
+
+## Privacy Policy
+Cookie Glasses does not handle any personal information.
+Cookie Glasses only processes consent information from IAB Europe's Transparency and Consent Framework (TCF) locally, and does not send any information to a distant server.
