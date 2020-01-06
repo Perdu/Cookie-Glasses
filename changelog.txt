@@ -1,0 +1,5 @@
+1.1.3:
+- update vendor list to version 182
+
+1.1.2:
+- fixed a bug that displayed incorrect vendor names
