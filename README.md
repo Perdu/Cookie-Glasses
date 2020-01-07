@@ -17,10 +17,18 @@ Author: Célestin Matte (Université Côte d'Azur, Inria, France)
 
 ## Install
 
-The extension is currently under review for being published to Firefox's addons store, and will also be published to Chrome's store. But for the moment, you have to install it manually.
+You can either install the extension from browsers' addon stores (simple, easy), or manually install it from source.
+
+### Install from addon store
+
+Chrome / Chromium : https://chrome.google.com/webstore/detail/cookie-glasses/gncnjghkclkhpkfhghcbobednpchjifk
+Firefox: submission still pending
+
+### Manual install from source:
+
 The extension has been tested on Firefox, Chromium and Firefox mobile.
 
-### Chrome / Chromium
+#### Chrome / Chromium
 
 1. Download the ZIP file of Cookie Glasses on your computer.
 ![Location of the zip file](https://camo.githubusercontent.com/71c8e3ec5ddbd2cac3b1d6469311f6bbf26c6465/68747470733a2f2f692e696d6775722e636f6d2f47784f6d6a46682e706e67)
@@ -32,7 +40,7 @@ The extension has been tested on Firefox, Chromium and Firefox mobile.
 7. Visit websites implementing the Transparency & Consent Framework
 8. Enjoy detecting violations!
 
-### Firefox
+#### Firefox
 
 On Firefox, out-of-store addons can only be loaded for the duration of the session (you will have to redo these steps if you close your browser).
 
