@@ -22,6 +22,7 @@ You can either install the extension from browsers' addon stores (simple, easy),
 ### Install from addon store
 
 Chrome / Chromium : https://chrome.google.com/webstore/detail/cookie-glasses/gncnjghkclkhpkfhghcbobednpchjifk
+
 Firefox: submission still pending
 
 ### Manual install from source:
