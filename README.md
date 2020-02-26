@@ -1,9 +1,9 @@
 # Cookie Glasses
-Browser extension showing consent registered by cookie banners of IAB Europe's Transparency &amp; Consent Framework
+This browser extension shows you whether consent registered by cookie banners of IAB Europe's Transparency &amp; Consent Framework corresponds to your choice
 
 ## Introduction
 
-In the paper [Do Cookie Banners Respect my Choice? Measuring Legal Compliance of Banners from IAB Europe's Transparency and Consent Framework](https://arxiv.org/abs/1911.09964), we show that Consent Management Providers (CMPs) of IAB Europe's Transparency & Consent Framework (TCF) do not always respect user's choice. This extension allows users to verify that their consent is stored appropriately by themselves.
+In the paper [Do Cookie Banners Respect my Choice? Measuring Legal Compliance of Banners from IAB Europe's Transparency and Consent Framework](https://arxiv.org/abs/1911.09964), we show that Consent Management Providers (CMPs) of IAB Europe's Transparency & Consent Framework (TCF) do not always respect user's choice. This extension allows you to verify that your consent is stored appropriately.
 
 This extension for Firefox and Chrome queries CMPs of IAB Europe's TCF in the same position as a third-party advertiser, making it possible to see consent set by CMPs in real time.
 In other words, you can see whether consent registered by cookie banners is actually the consent you gave.
