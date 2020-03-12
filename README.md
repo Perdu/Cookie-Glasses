@@ -23,8 +23,7 @@ You can either install the extension from browsers' addon stores (simple, easy),
 
 Chrome / Chromium : https://chrome.google.com/webstore/detail/cookie-glasses/gncnjghkclkhpkfhghcbobednpchjifk
 
-Firefox: https://github.com/Perdu/Cookie-Glasses/releases/download/1.1.4/cookie_glasses-1.1.4-an+fx.xpi
-(Submission on Firefox addon store still pending)
+Firefox: https://addons.mozilla.org/fr/firefox/addon/cookie-glasses/
 
 ### Manual install from source:
 
