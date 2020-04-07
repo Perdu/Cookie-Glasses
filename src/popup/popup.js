@@ -70,7 +70,16 @@ function update_with_consent_string_data(consent_string) {
 	document.getElementById('nothing_found').classList.add('hidden');
 	document.getElementById('popup-content').classList.remove('hidden');
 	document.getElementById('cmp_content').classList.remove('hidden');
-	document.getElementById('cmp').textContent = cmp_names[consent_string.cmpId]
+        var cmpid = parseInt(consent_string.cmpId);
+        if (cmpid in cmp_names) {
+	    document.getElementById('cmp').textContent = cmp_names[cmpid];
+        } else {
+            document.getElementById('cmp').textContent = "Unknown CMP ID. Look for it on IAB Europe's list: ";
+            var a = document.createElement("a");
+            a.href = "https://iabeurope.eu/cmp-list/";
+            a.appendChild(document.createTextNode("https://iabeurope.eu/cmp-list/"));
+            document.getElementById('cmp').appendChild(a);
+        }
 	document.getElementById('cmpid').textContent = ' (ID: ' + consent_string.cmpId + ')';
 	document.getElementById('nb_purposes').textContent = nb_purposes;
 	document.getElementById('vendors').textContent = vendors;
