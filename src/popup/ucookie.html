@@ -31,8 +31,9 @@
       <span id='vendors' class="hidden"></span>
     </div>
     <br />
-    <div>
-      Decode consent string:
+    <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
+    <div class="hidden" id="decoder">
+      Manually decode a consent string:
       <input type="text" id="cs_to_decode" />
       <button id="decode_cs">Decode</button>
       <span id="decode_cs_error" class="hidden">Error: Invalid consent string</span>

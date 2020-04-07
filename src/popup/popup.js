@@ -166,6 +166,14 @@ window.onload = function() {
     fetch_data();
 }
 
+if (document.getElementById('open_decoder')) {
+    document.getElementById('open_decoder').onclick = function(e) {
+        e.preventDefault();
+	document.getElementById('decoder').classList.remove('hidden');
+	document.getElementById('open_decoder').classList.add('hidden');
+    };
+}
+
 window.setInterval(function(){
     fetch_data();
 }, 5000);

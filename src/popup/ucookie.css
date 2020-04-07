@@ -1,5 +1,5 @@
 html, body {
-  width: 400px;
+  width: 500px;
 }
 
 .hidden {
@@ -41,4 +41,8 @@ textarea {
 
 #purposes {
     white-space: pre-line;
+}
+
+.icon {
+  width: 20px;
 }
