@@ -8,6 +8,7 @@ if (chrome == undefined) {
 var cmplocator_found = false;
 
 var descriptions = ["Information storage and access", "Personalisation", "Ad selection, delivery, reporting", "Content selection, delivery, reporting", "Measurement"];
+var descriptions_long = ["The storage of information, or access to information that is already stored, on your device such as advertising identifiers, device identifiers, cookies, and similar technologies.", "The collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as on other websites or apps, over time. Typically, the content of the site or app is used to make inferences about your interests, which inform future selection of advertising and/or content.", "The collection of information, and combination with previously collected information, to select and deliver advertisements for you, and to measure the delivery and effectiveness of such advertisements. This includes using previously collected information about your interests to select ads, processing data about what advertisements were shown, how often they were shown, when and where they were shown, and whether you took any action related to the advertisement, including for example clicking an ad or making a purchase. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as websites or apps, over time.", "The collection of information, and combination with previously collected information, to select and deliver content for you, and to measure the delivery and effectiveness of such content. This includes using previously collected information about your interests to select content, processing data about what content was shown, how often or how long it was shown, when and where it was shown, and whether the you took any action related to the content, including for example clicking on content. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, such as websites or apps, over time.", "The collection of information about your use of the content, and combination with previously collected information, used to measure, understand, and report on your usage of the service. This does not include personalisation, the collection of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, i.e. on other service, such as websites or apps, over time."];
 
 function fetch_data() {
     api.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -73,14 +74,27 @@ function update_with_consent_string_data(consent_string) {
 	document.getElementById('cmpid').textContent = ' (ID: ' + consent_string.cmpId + ')';
 	document.getElementById('nb_purposes').textContent = nb_purposes;
 	document.getElementById('vendors').textContent = vendors;
-	var purposes = "";
+        //document.getElementById('purposes').firstChild().delete();
+        var purposes = document.getElementById('purposes');
+        while (purposes.firstChild) {
+            purposes.removeChild(purposes.lastChild);
+        }
 	for (i = 0; i < nb_purposes; i++) {
 	    purpose_id = parseInt(consent_string.allowedPurposeIds[i], 10);
 	    if (purpose_id >= 1 && purpose_id <= 5) {
-		purposes += "\r\n- " + descriptions[purpose_id - 1];
+                var br = document.createElement("br");
+                purposes.appendChild(br);
+                var text = document.createTextNode("- ");
+                purposes.appendChild(text);
+                var abbr = document.createElement("abbr");
+                abbr.title = descriptions_long[purpose_id - 1];
+                var abbr_text = document.createTextNode(descriptions[purpose_id - 1]);
+                abbr.appendChild(abbr_text);
+                //document.getElementById('purposes').appendChild("\r\n- ");
+                purposes.appendChild(abbr); // += "\r\n- <abbr title=\"" +  + "\">" + descriptions[purpose_id - 1] + "</abbr>";
 	    }
 	}
-	document.getElementById('purposes').textContent = purposes;
+	//document.getElementById('purposes').textContent = purposes;
 	document.getElementById('nb_vendors').textContent = nb_vendors;
 	document.getElementById('created').textContent = format_date(consent_string.created);
 	document.getElementById('last_updated').textContent = format_date(consent_string.lastUpdated);
