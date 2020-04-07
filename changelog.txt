@@ -1,5 +1,6 @@
 1.1.5:
 - improve interface
+- Update CMP list
 
 1.1.4:
 - update vendor list to version 192
