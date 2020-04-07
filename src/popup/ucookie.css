@@ -46,3 +46,7 @@ textarea {
 .icon {
   width: 20px;
 }
+
+#version {
+    font-size: 0.8em;
+}
