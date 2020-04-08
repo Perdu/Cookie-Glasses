@@ -190,7 +190,7 @@ function show_vendors(vendorlist) {
         var vendor = find_vendor(consent_string.allowedVendorIds[id], vendorlist);
         var vendor_name;
         if (vendor == null) {
-            vendor_name = "[Incorrect vendor, ID " + id + "]";
+            vendor_name = "{Incorrect vendor, ID " + id + "}";
         } else {
             vendor_name = vendor["name"];
             if (vendor["purposeIds"].length == 0) {
