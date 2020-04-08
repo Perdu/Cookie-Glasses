@@ -3,6 +3,7 @@
 - Update CMP list
 - load vendorlists dynamically from IAB's website, and save them in localstorage
 - change the icon's color behaviour: red is only set if both purposes and vendors arrays are not empty
+- indicate which vendors rely on legitimate interests only
 - minor bugfix (don't crash when CMP provides an invalid consent string)
 
 1.1.4:
