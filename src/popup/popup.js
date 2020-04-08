@@ -227,8 +227,12 @@ window.onload = function() {
 if (document.getElementById('open_decoder')) {
     document.getElementById('open_decoder').onclick = function(e) {
         e.preventDefault();
-	document.getElementById('decoder').classList.remove('hidden');
-	document.getElementById('open_decoder').classList.add('hidden');
+        var decoder = document.getElementById('decoder');
+        if (decoder.classList.contains('hidden')) {
+	    decoder.classList.remove('hidden');
+        } else {
+	    decoder.classList.add('hidden');
+        }
     };
 }
 
