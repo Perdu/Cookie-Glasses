@@ -1,6 +1,7 @@
 1.1.5:
 - improve interface
 - Update CMP list
+- load vendorlists dynamically from IAB's website, and save them in localstorage
 
 1.1.4:
 - update vendor list to version 192
