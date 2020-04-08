@@ -42,54 +42,63 @@ function format_date(date) {
 }
 
 function update_with_consent_string_data(consent_string) {
-    nb_purposes = consent_string.allowedPurposeIds.length;
-    nb_vendors = consent_string.allowedVendorIds.length;
-    allowed_purposes = consent_string.allowedPurposeIds;
-    vendorlist_version = parseInt(consent_string.vendorListVersion);
-    if (document.title == "Cookie Glasses") { // this part is unecessary if popup is not open
-	if (consent_string.allowedVendorIds.length == 0) {
-	    document.getElementById('show_vendors').classList.add("hidden");
-	}
-	document.getElementById('cmplocator_found').classList.add('hidden');
-	document.getElementById('nothing_found').classList.add('hidden');
-	document.getElementById('popup-content').classList.remove('hidden');
-	document.getElementById('cmp_content').classList.remove('hidden');
-        var cmpid = parseInt(consent_string.cmpId);
-        if (cmpid in cmp_names) {
-	    document.getElementById('cmp').textContent = cmp_names[cmpid];
-        } else {
-            document.getElementById('cmp').textContent = "Unknown CMP ID. Look for it on IAB Europe's list: ";
-            var a = document.createElement("a");
-            a.href = "https://iabeurope.eu/cmp-list/";
-            a.appendChild(document.createTextNode("https://iabeurope.eu/cmp-list/"));
-            document.getElementById('cmp').appendChild(a);
-        }
-	document.getElementById('cmpid').textContent = ' (ID: ' + consent_string.cmpId + ')';
-	document.getElementById('nb_purposes').textContent = nb_purposes;
-        //document.getElementById('purposes').firstChild().delete();
-        var purposes = document.getElementById('purposes');
-        while (purposes.firstChild) {
-            purposes.removeChild(purposes.lastChild);
-        }
-	for (i = 0; i < nb_purposes; i++) {
-	    purpose_id = parseInt(consent_string.allowedPurposeIds[i], 10);
-	    if (purpose_id >= 1 && purpose_id <= 5) {
-                var br = document.createElement("br");
-                purposes.appendChild(br);
-                var text = document.createTextNode("- ");
-                purposes.appendChild(text);
-                var abbr = document.createElement("abbr");
-                abbr.title = descriptions_long[purpose_id - 1];
-                var abbr_text = document.createTextNode(descriptions[purpose_id - 1]);
-                abbr.appendChild(abbr_text);
-                //document.getElementById('purposes').appendChild("\r\n- ");
-                purposes.appendChild(abbr); // += "\r\n- <abbr title=\"" +  + "\">" + descriptions[purpose_id - 1] + "</abbr>";
+    try {
+        nb_purposes = consent_string.allowedPurposeIds.length;
+        nb_vendors = consent_string.allowedVendorIds.length;
+        allowed_purposes = consent_string.allowedPurposeIds;
+        vendorlist_version = parseInt(consent_string.vendorListVersion);
+        if (document.title == "Cookie Glasses") { // this part is unecessary if popup is not open
+	    if (consent_string.allowedVendorIds.length == 0) {
+	        document.getElementById('show_vendors').classList.add("hidden");
 	    }
-	}
-	//document.getElementById('purposes').textContent = purposes;
-	document.getElementById('nb_vendors').textContent = nb_vendors;
-	document.getElementById('created').textContent = format_date(consent_string.created);
-	document.getElementById('last_updated').textContent = format_date(consent_string.lastUpdated);
+	    document.getElementById('cmplocator_found').classList.add('hidden');
+	    document.getElementById('nothing_found').classList.add('hidden');
+	    document.getElementById('popup-content').classList.remove('hidden');
+	    document.getElementById('cmp_content').classList.remove('hidden');
+            var cmpid = parseInt(consent_string.cmpId);
+            if (cmpid in cmp_names) {
+	        document.getElementById('cmp').textContent = cmp_names[cmpid];
+            } else {
+                document.getElementById('cmp').textContent = "Unknown CMP ID. Look for it on IAB Europe's list: ";
+                var a = document.createElement("a");
+                a.href = "https://iabeurope.eu/cmp-list/";
+                a.appendChild(document.createTextNode("https://iabeurope.eu/cmp-list/"));
+                document.getElementById('cmp').appendChild(a);
+            }
+	    document.getElementById('cmpid').textContent = ' (ID: ' + consent_string.cmpId + ')';
+	    document.getElementById('nb_purposes').textContent = nb_purposes;
+            var purposes = document.getElementById('purposes');
+            while (purposes.firstChild) {
+                purposes.removeChild(purposes.lastChild);
+            }
+	    for (i = 0; i < nb_purposes; i++) {
+	        purpose_id = parseInt(consent_string.allowedPurposeIds[i], 10);
+	        if (purpose_id >= 1 && purpose_id <= 5) {
+                    var br = document.createElement("br");
+                    purposes.appendChild(br);
+                    var text = document.createTextNode("- ");
+                    purposes.appendChild(text);
+                    var abbr = document.createElement("abbr");
+                    abbr.title = descriptions_long[purpose_id - 1];
+                    var abbr_text = document.createTextNode(descriptions[purpose_id - 1]);
+                    abbr.appendChild(abbr_text);
+                    purposes.appendChild(abbr);
+	        }
+	    }
+	    document.getElementById('nb_vendors').textContent = nb_vendors;
+	    document.getElementById('created').textContent = format_date(consent_string.created);
+	    document.getElementById('last_updated').textContent = format_date(consent_string.lastUpdated);
+            return true;
+        }
+    } catch(e) {
+        if (e instanceof TypeError) {
+            /*if (document.title == "Cookie Glasses") {
+	        document.getElementById('show_invalid_cs').classList.remove('hidden');
+            }*/
+            return false;
+        } else {
+            throw e;
+        }
     }
 }
 
@@ -112,7 +121,10 @@ function handle_response(message) {
     if (res.consentData) {
 	consent_string = decodeConsentString(res.consentData);
     }
-    update_with_consent_string_data(consent_string);
+    var valid_cs = update_with_consent_string_data(consent_string);
+    if (! valid_cs) {
+        return;
+    }
     if (res.consentData) {
 	document.getElementById('show_cs').classList.remove('hidden');
 	document.getElementById('manual_cs').classList.add('hidden');
