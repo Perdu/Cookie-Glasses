@@ -6,6 +6,8 @@ if (chrome == undefined) {
 }
 
 var cmplocator_found = false;
+var vendorlist_version = 0;
+var consent_string = null;
 
 var descriptions = ["Information storage and access", "Personalisation", "Ad selection, delivery, reporting", "Content selection, delivery, reporting", "Measurement"];
 var descriptions_long = ["The storage of information, or access to information that is already stored, on your device such as advertising identifiers, device identifiers, cookies, and similar technologies.", "The collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as on other websites or apps, over time. Typically, the content of the site or app is used to make inferences about your interests, which inform future selection of advertising and/or content.", "The collection of information, and combination with previously collected information, to select and deliver advertisements for you, and to measure the delivery and effectiveness of such advertisements. This includes using previously collected information about your interests to select ads, processing data about what advertisements were shown, how often they were shown, when and where they were shown, and whether you took any action related to the advertisement, including for example clicking an ad or making a purchase. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as websites or apps, over time.", "The collection of information, and combination with previously collected information, to select and deliver content for you, and to measure the delivery and effectiveness of such content. This includes using previously collected information about your interests to select content, processing data about what content was shown, how often or how long it was shown, when and where it was shown, and whether the you took any action related to the content, including for example clicking on content. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, such as websites or apps, over time.", "The collection of information about your use of the content, and combination with previously collected information, used to measure, understand, and report on your usage of the service. This does not include personalisation, the collection of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, i.e. on other service, such as websites or apps, over time."];
@@ -39,31 +41,13 @@ function format_date(date) {
     });
 }
 
-function find_vendor(id) {
-    for (vendor in vendorlist["vendors"]) {
-	if (vendorlist["vendors"][vendor]["id"] == id) {
-	    return vendorlist["vendors"][vendor]["name"];
-	}
-    }
-    return "[Incorrect vendor, ID " + vendor + "]";
-}
-
 function update_with_consent_string_data(consent_string) {
     nb_purposes = consent_string.allowedPurposeIds.length;
     nb_vendors = consent_string.allowedVendorIds.length;
     allowed_purposes = consent_string.allowedPurposeIds;
+    vendorlist_version = parseInt(consent_string.vendorListVersion);
     if (document.title == "Cookie Glasses") { // this part is unecessary if popup is not open
-	var vendors = "";
-	var vendor_names = [];
-	if (consent_string.allowedVendorIds.length > 0) {
-	    for (id in consent_string.allowedVendorIds) {
-		vendor_names.push(find_vendor(consent_string.allowedVendorIds[id]));
-	    }
-	    vendors = "\r\nVendors:\r\n";
-	    for (vendor_name in vendor_names.sort()) {
-		vendors += vendor_names[vendor_name] + "\r\n";
-	    }
-	} else {
+	if (consent_string.allowedVendorIds.length == 0) {
 	    document.getElementById('show_vendors').classList.add("hidden");
 	}
 	document.getElementById('cmplocator_found').classList.add('hidden');
@@ -82,7 +66,6 @@ function update_with_consent_string_data(consent_string) {
         }
 	document.getElementById('cmpid').textContent = ' (ID: ' + consent_string.cmpId + ')';
 	document.getElementById('nb_purposes').textContent = nb_purposes;
-	document.getElementById('vendors').textContent = vendors;
         //document.getElementById('purposes').firstChild().delete();
         var purposes = document.getElementById('purposes');
         while (purposes.firstChild) {
@@ -163,11 +146,63 @@ function handle_response(message) {
     });
 }
 
+function fetch_vendorlist() {
+    let req = new Request( "https://vendorlist.consensu.org/v-" + vendorlist_version + "/vendorlist.json", {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        redirect: 'follow',
+        referrer: 'client'
+    });
+    fetch(req).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        a = {};
+        a["vendorlist_" + vendorlist_version] = data
+        api.storage.local.set(a);
+        show_vendors(data);
+    }).catch(error => { console.log(error); });
+}
+
+function find_vendor(id, vendorlist) {
+    for (vendor in vendorlist["vendors"]) {
+	if (vendorlist["vendors"][vendor]["id"] == id) {
+	    return vendorlist["vendors"][vendor]["name"];
+	}
+    }
+    return "[Incorrect vendor, ID " + vendor + "]";
+}
+
+function show_vendors(vendorlist) {
+    var vendors = "";
+    var vendor_names = [];
+    for (id in consent_string.allowedVendorIds) {
+	vendor_names.push(find_vendor(consent_string.allowedVendorIds[id], vendorlist));
+    }
+    vendors = "\r\nVendors:\r\n";
+    for (vendor_name in vendor_names.sort()) {
+	vendors += vendor_names[vendor_name] + "\r\n";
+    }
+    document.getElementById('vendors').textContent = vendors;
+    document.getElementById('show_vendors').classList.add("hidden");
+}
+
+function load_vendors() {
+    var vendorlist_name = "vendorlist_" + vendorlist_version;
+    api.storage.local.get(["vendorlist_" + vendorlist_version], function(result) {
+        document.getElementById('vendors').classList.remove("hidden");
+        if (result[vendorlist_name] === undefined) {
+            // vendorlist is not in localstorage, load it from IAB's website
+            document.getElementById('vendors').appendChild(document.createTextNode("Loading vendorlist..."));
+            fetch_vendorlist();
+        } else {
+            // vendorlist is in localstorage
+            show_vendors(result[vendorlist_name]);
+        }
+    });
+}
+
 if (document.getElementById('show_vendors')) {
-    document.getElementById('show_vendors').onclick = function() {
-	document.getElementById('show_vendors').classList.add("hidden");
-	document.getElementById('vendors').classList.remove("hidden");
-    };
+    document.getElementById('show_vendors').onclick = load_vendors;
 }
 
 if (document.getElementById('decode_cs')) {
