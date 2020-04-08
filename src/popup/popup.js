@@ -178,19 +178,29 @@ function fetch_vendorlist() {
 function find_vendor(id, vendorlist) {
     for (vendor in vendorlist["vendors"]) {
 	if (vendorlist["vendors"][vendor]["id"] == id) {
-	    return vendorlist["vendors"][vendor]["name"];
+	    return vendorlist["vendors"][vendor];
 	}
     }
-    return "[Incorrect vendor, ID " + vendor + "]";
+    return null;
 }
 
 function show_vendors(vendorlist) {
     var vendors = "";
     var vendor_names = [];
     for (id in consent_string.allowedVendorIds) {
-	vendor_names.push(find_vendor(consent_string.allowedVendorIds[id], vendorlist));
+        var vendor = find_vendor(consent_string.allowedVendorIds[id], vendorlist);
+        var vendor_name;
+        if (vendor == null) {
+            vendor_name = "[Incorrect vendor, ID " + id + "]";
+        } else {
+            vendor_name = vendor["name"];
+        }
+        if (vendor["purposeIds"].length == 0) {
+            vendor_name = vendor_name + " [*]";
+        }
+	vendor_names.push(vendor_name);
     }
-    vendors = "\r\nVendors:\r\n";
+    vendors = "\r\nVendors ([*] indicates that vendors relies on legitimates interests only):\r\n";
     for (vendor_name in vendor_names.sort()) {
 	vendors += vendor_names[vendor_name] + "\r\n";
     }
