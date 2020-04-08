@@ -193,9 +193,9 @@ function show_vendors(vendorlist) {
             vendor_name = "[Incorrect vendor, ID " + id + "]";
         } else {
             vendor_name = vendor["name"];
-        }
-        if (vendor["purposeIds"].length == 0) {
-            vendor_name = vendor_name + " [*]";
+            if (vendor["purposeIds"].length == 0) {
+                vendor_name = vendor_name + " [*]";
+            }
         }
 	vendor_names.push(vendor_name);
     }
