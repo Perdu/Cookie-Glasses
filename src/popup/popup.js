@@ -53,7 +53,6 @@ function update_with_consent_string_data(consent_string) {
 	    }
 	    document.getElementById('cmplocator_found').classList.add('hidden');
 	    document.getElementById('nothing_found').classList.add('hidden');
-	    document.getElementById('popup-content').classList.remove('hidden');
 	    document.getElementById('cmp_content').classList.remove('hidden');
             var cmpid = parseInt(consent_string.cmpId);
             if (cmpid in cmp_names) {
