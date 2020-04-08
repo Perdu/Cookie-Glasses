@@ -230,8 +230,22 @@ if (document.getElementById('open_decoder')) {
         var decoder = document.getElementById('decoder');
         if (decoder.classList.contains('hidden')) {
 	    decoder.classList.remove('hidden');
+            document.getElementById('details').classList.add('hidden');
         } else {
 	    decoder.classList.add('hidden');
+        }
+    };
+}
+
+if (document.getElementById('open_details')) {
+    document.getElementById('open_details').onclick = function(e) {
+        e.preventDefault();
+        var details = document.getElementById('details');
+        if (details.classList.contains('hidden')) {
+	    details.classList.remove('hidden');
+            document.getElementById('decoder').classList.add('hidden');
+        } else {
+	    details.classList.add('hidden');
         }
     };
 }

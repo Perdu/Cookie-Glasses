@@ -33,11 +33,19 @@
     </div>
     <br />
     <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
+    <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
     <div class="hidden" id="decoder">
       Manually decode a consent string:
       <input type="text" id="cs_to_decode" />
       <button id="decode_cs">Decode</button>
       <span id="decode_cs_error" class="hidden">Error: Invalid consent string</span>
+    </div>
+    <div class="hidden" id="details">
+      Icon color scheme:<br />
+      - Red indicates that consent is still set for at least one vendor and one purpose.<br />
+      - Green indicates that consent is completely refused.<br />
+      Vendors (advertisers) are supposed to check that <b>both</b> purposes and their vendor identifier is allowed to perform tracking.<br />
+      The number shown in the icon is the number of allowed purposes.
     </div>
     <div id="version">
       Cookie Glasses version: 1.1.5
