@@ -2,6 +2,7 @@
 - improve interface
 - Update CMP list
 - load vendorlists dynamically from IAB's website, and save them in localstorage
+- change the icon's color behaviour: red is only set if both purposes and vendors arrays are not empty
 
 1.1.4:
 - update vendor list to version 192
