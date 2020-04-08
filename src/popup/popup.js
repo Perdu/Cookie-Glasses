@@ -121,7 +121,7 @@ function handle_response(message) {
     api.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	if (api.browserAction.setIcon) { // setIcon() won't work on mobile
 	    tab_id = tabs[0].id;
-	    if (nb_vendors + nb_purposes == 0) {
+	    if (nb_vendors * nb_purposes == 0) {
 		api.browserAction.setIcon({
 		    tabId: tab_id,
 		    path: {
