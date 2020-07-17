@@ -15,6 +15,8 @@ We also added a functionality to manually decode a so-called "consent string" of
 
 Author: Célestin Matte (Université Côte d'Azur, Inria, France)
 
+This is a research project made at Inria. Stage: complete. TCFv2 support might be added later.
+
 ## Install
 
 You can either install the extension from browsers' addon stores (simple, easy), or manually install it from source.
