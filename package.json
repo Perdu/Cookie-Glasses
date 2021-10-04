@@ -1,0 +1,24 @@
+{
+  "name": "cookie-glasses",
+  "version": "1.0.0",
+  "description": "Cookie Glasses browser extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katie-ta/Cookie-Glasses.git"
+  },
+  "author": "Katie Ta, Charles Tan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katie-ta/Cookie-Glasses/issues"
+  },
+  "homepage": "https://github.com/katie-ta/Cookie-Glasses#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
