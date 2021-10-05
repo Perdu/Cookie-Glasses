@@ -1,23 +1,31 @@
+/* eslint-disable no-underscore-dangle */
+const TCF_VERSION_NUMBER = 2;
+
 let api;
+
 if (chrome === undefined) {
   api = browser;
 } else {
   api = chrome;
 }
 
-function setup_cmp_wrapper() {
+function setUpCmpWrapper() {
   // find the CMP frame
   let f = window;
   let cmpFrame;
   while (!cmpFrame) {
     try {
-      if (f.frames.__cmpLocator) {
+      if (f.frames.__tcfapiLocator) {
         cmpFrame = f;
+        break;
       }
-    } catch (e) {}
+    } catch (ignore) {
+      // ignore so we can keep searching for the __tcfapiLocator frame
+    }
     if (f === window.top) { break; }
     f = f.parent;
   }
+
   if (!cmpFrame) {
     return 0;
   }
@@ -28,13 +36,13 @@ function setup_cmp_wrapper() {
        stash the callback.
        This function behaves (from the caller's perspective)
        identically to the in-frame __cmp call */
-
-  window.__cmpCookieGlasses = function (cmd, arg, callback) {
+  window.__tcfapiCookieGlasses = (cmd, version, callback, arg) => {
     const callId = `uCookie_${Math.random()}`;
     const msg = {
-      __cmpCall: {
+      __tcfapiCall: {
         command: cmd,
         parameter: arg,
+        version,
         callId,
       },
     };
@@ -43,46 +51,60 @@ function setup_cmp_wrapper() {
     cmpFrame.postMessage(msg, '*');
   };
 
-  /* when we get the return message, call the stashed callback */
-  window.addEventListener('message', (event) => {
-    let json;
-    if (typeof event.data === 'string') {
-      try {
-        json = JSON.parse(event.data);
-      } catch {
-        json = event.data;
-      }
-    } else {
-      json = event.data;
+  // handles incoming messages from CMP
+  function postMessageHandler(event) {
+    /**
+      * when we get the return message, call the mapped callback
+      */
+    let json = {};
+
+    try {
+      /**
+         * if this isn't valid JSON then this will throw an error
+         */
+      json = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+    } catch (ignore) {
+      // ignore parsing error
     }
-    if (json.__cmpReturn) {
-      const i = json.__cmpReturn;
-      if (i.callId in cmpCallbacks) {
-        cmpCallbacks[i.callId](i.returnValue, i.success);
-        delete cmpCallbacks[i.callId];
+
+    const payload = json.__tcfapiReturn;
+
+    if (payload) {
+      // messages we care about will have a payload
+      if (typeof cmpCallbacks[payload.callId] === 'function') {
+        // call the mapped callback and then remove the reference
+        cmpCallbacks[payload.callId](payload.returnValue, payload.success);
+        cmpCallbacks[payload.callId] = null;
       }
     }
-  }, false);
+  }
+
+  window.addEventListener('message', postMessageHandler, false);
+
   return 1;
 }
 
-function call_cmp(request, sender, sendResponse) {
-  // respond to query checking whether there is a __cmpLocator iframe
-  if (request.test == 'looking for __cmpLocator') {
+function callCmp(request, sender, sendResponse) {
+  // respond to query checking whether there is a __tcfapiLocator iframe
+  if (request.test === 'looking for __tcfapiLocator') {
     sendResponse({ response: 'found' });
     return true;
   }
+
   // call CMP
-  __cmpCookieGlasses(request.call, null, (val, success) => {
+  window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
     if (request.manual) {
-      console.log('Cookie Glasses: response from CMP:', val);
+      console.log('Cookie Glasses: success', success);
+      console.log('Cookie Glasses: response from CMP:', tcData);
     }
-    sendResponse({ response: val });
+
+    sendResponse({ response: tcData });
   });
+
   return true;
 }
 
-const correct_frame = setup_cmp_wrapper();
-if (correct_frame) {
-  api.runtime.onMessage.addListener(call_cmp);
+const correctFrame = setUpCmpWrapper();
+if (correctFrame) {
+  api.runtime.onMessage.addListener(callCmp);
 }
