@@ -1,4 +1,7 @@
 /* eslint-disable no-underscore-dangle */
+/* global chrome */
+/* global browser */
+
 const TCF_VERSION_NUMBER = 2;
 
 let api;
