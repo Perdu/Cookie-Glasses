@@ -5,7 +5,7 @@ if (chrome == undefined) {
   api = chrome;
 }
 
-let cmplocator_found = false;
+let cmpLocatorFound = false;
 let vendorListVersion = 2;
 let consent_string = null;
 
@@ -13,17 +13,18 @@ const descriptions = ['Information storage and access', 'Personalisation', 'Ad s
 const descriptions_long = ['The storage of information, or access to information that is already stored, on your device such as advertising identifiers, device identifiers, cookies, and similar technologies.', 'The collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as on other websites or apps, over time. Typically, the content of the site or app is used to make inferences about your interests, which inform future selection of advertising and/or content.', 'The collection of information, and combination with previously collected information, to select and deliver advertisements for you, and to measure the delivery and effectiveness of such advertisements. This includes using previously collected information about your interests to select ads, processing data about what advertisements were shown, how often they were shown, when and where they were shown, and whether you took any action related to the advertisement, including for example clicking an ad or making a purchase. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as websites or apps, over time.', 'The collection of information, and combination with previously collected information, to select and deliver content for you, and to measure the delivery and effectiveness of such content. This includes using previously collected information about your interests to select content, processing data about what content was shown, how often or how long it was shown, when and where it was shown, and whether the you took any action related to the content, including for example clicking on content. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, such as websites or apps, over time.', 'The collection of information about your use of the content, and combination with previously collected information, used to measure, understand, and report on your usage of the service. This does not include personalisation, the collection of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, i.e. on other service, such as websites or apps, over time.'];
 
 function fetch_data() {
+  let message;
   api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs[0] === undefined) {
       return;
     }
     try {
-      if (!cmplocator_found) {
-        message = { test: 'looking for __cmpLocator' };
+      if (!cmpLocatorFound) {
+        message = { test: 'looking for __tcfapiLocator' };
       } else {
-        message = { call: 'getConsentData', manual: false };
+        message = { call: 'getTCData', manual: false };
       }
-      const mes = api.tabs.sendMessage(tabs[0].id, message, handle_response);
+      api.tabs.sendMessage(tabs[0].id, message, handle_response);
     } catch (error) {
       console.log('popup.js: error caught', error);
     }
@@ -103,7 +104,7 @@ function update_with_consent_string_data(consent_string) {
 function handle_response(message) {
   if (message == undefined || message.response == null) { return; }
   if (message.response == 'found') {
-    cmplocator_found = true;
+    cmpLocatorFound = true;
     fetch_data();
     try {
       document.getElementById('nothing_found').classList.add('hidden');
@@ -115,8 +116,8 @@ function handle_response(message) {
   }
   const res = message.response;
   console.log(res);
-  if (res.consentData) {
-    consent_string = decodeConsentString(res.consentData);
+  if (res.tcString) {
+    consent_string = decodeConsentString(res.tcString);
   }
   const valid_cs = update_with_consent_string_data(consent_string);
   if (!valid_cs) {
