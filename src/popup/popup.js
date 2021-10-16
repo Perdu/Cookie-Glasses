@@ -105,7 +105,7 @@ function update_with_consent_string_data(consent_string) {
 }
 
 function handleResponse(message) {
-  if (!message) { return; }
+  if (!message || !message.response) { return; }
   if (message.response === 'found') {
     cmpLocatorFound = true;
     fetch_data();
