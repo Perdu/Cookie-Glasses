@@ -1,5 +1,8 @@
+/* global chrome */
+/* global browser */
+
 let api;
-if (chrome == undefined) {
+if (chrome === undefined) {
   api = browser;
 } else {
   api = chrome;
@@ -24,7 +27,7 @@ function fetch_data() {
       } else {
         message = { call: 'getTCData', manual: false };
       }
-      api.tabs.sendMessage(tabs[0].id, message, handle_response);
+      api.tabs.sendMessage(tabs[0].id, message, handleResponse);
     } catch (error) {
       console.log('popup.js: error caught', error);
     }
@@ -101,9 +104,9 @@ function update_with_consent_string_data(consent_string) {
   }
 }
 
-function handle_response(message) {
-  if (message == undefined || message.response == null) { return; }
-  if (message.response == 'found') {
+function handleResponse(message) {
+  if (!message || !message.response) { return; }
+  if (message.response === 'found') {
     cmpLocatorFound = true;
     fetch_data();
     try {
@@ -114,7 +117,12 @@ function handle_response(message) {
     }
     return;
   }
+
   const res = message.response;
+  if (res.gdprApplies === false) {
+    document.getElementById('gdpr_applies_false').classList.remove('hidden');
+    document.getElementById('cmplocator_found').classList.add('hidden');
+  }
   console.log(res);
   if (res.tcString) {
     consent_string = decodeConsentString(res.tcString);
