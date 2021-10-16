@@ -12,7 +12,7 @@ if (chrome === undefined) {
   api = chrome;
 }
 
-function setUpCmpWrapper() {
+function getCmpFrame() {
   // find the CMP frame
   let f = window;
   let cmpFrame;
@@ -30,7 +30,16 @@ function setUpCmpWrapper() {
   }
 
   if (!cmpFrame) {
-    return 0;
+    return null;
+  }
+  return cmpFrame;
+}
+
+function setUpCmpWrapper() {
+  const cmpFrame = getCmpFrame();
+  if (cmpFrame === null) {
+    // The CMP frame was not present
+    return false;
   }
 
   const cmpCallbacks = {};
@@ -60,7 +69,6 @@ function setUpCmpWrapper() {
       * when we get the return message, call the mapped callback
       */
     let json = {};
-
     try {
       /**
          * if this isn't valid JSON then this will throw an error
@@ -71,7 +79,6 @@ function setUpCmpWrapper() {
     }
 
     const payload = json.__tcfapiReturn;
-
     if (payload) {
       // messages we care about will have a payload
       if (typeof cmpCallbacks[payload.callId] === 'function') {
@@ -84,30 +91,32 @@ function setUpCmpWrapper() {
 
   window.addEventListener('message', postMessageHandler, false);
 
-  return 1;
-}
-
-function callCmp(request, sender, sendResponse) {
-  // respond to query checking whether there is a __tcfapiLocator iframe
-  if (request.test === 'looking for __tcfapiLocator') {
-    sendResponse({ response: 'found' });
-    return true;
-  }
-
-  // call CMP
-  window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
-    if (request.manual) {
-      console.log('Cookie Glasses: success', success);
-      console.log('Cookie Glasses: response from CMP:', tcData);
-    }
-
-    sendResponse({ response: tcData });
-  });
-
   return true;
 }
 
-const correctFrame = setUpCmpWrapper();
-if (correctFrame) {
-  api.runtime.onMessage.addListener(callCmp);
+const foundCmpFrame = setUpCmpWrapper();
+
+function callPopupJs(request, sender, sendResponseToPopupJs) {
+  // respond to query checking whether there is a __tcfapiLocator iframe
+  if (request.check_cmp_frame === 'looking for __tcfapiLocator') {
+    if (foundCmpFrame) {
+      sendResponseToPopupJs({ response: 'found' });
+    } else {
+      sendResponseToPopupJs({ response: 'not found' });
+    }
+    return true;
+  } if (request.call === 'getTCData') {
+    // call CMP to get consentData and send it back to popup.js
+    window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
+      if (request.manual) {
+        console.log('Cookie Glasses: success', success);
+        console.log('Cookie Glasses: response from CMP:', tcData);
+      }
+
+      sendResponseToPopupJs({ response: { tcData } });
+    });
+  }
+  return true;
 }
+
+api.runtime.onMessage.addListener(callPopupJs);

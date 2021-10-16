@@ -13,9 +13,9 @@ let vendorListVersion = 2;
 let consent_string = null;
 
 const descriptions = ['Information storage and access', 'Personalisation', 'Ad selection, delivery, reporting', 'Content selection, delivery, reporting', 'Measurement'];
-const descriptions_long = ['The storage of information, or access to information that is already stored, on your device such as advertising identifiers, device identifiers, cookies, and similar technologies.', 'The collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as on other websites or apps, over time. Typically, the content of the site or app is used to make inferences about your interests, which inform future selection of advertising and/or content.', 'The collection of information, and combination with previously collected information, to select and deliver advertisements for you, and to measure the delivery and effectiveness of such advertisements. This includes using previously collected information about your interests to select ads, processing data about what advertisements were shown, how often they were shown, when and where they were shown, and whether you took any action related to the advertisement, including for example clicking an ad or making a purchase. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as websites or apps, over time.', 'The collection of information, and combination with previously collected information, to select and deliver content for you, and to measure the delivery and effectiveness of such content. This includes using previously collected information about your interests to select content, processing data about what content was shown, how often or how long it was shown, when and where it was shown, and whether the you took any action related to the content, including for example clicking on content. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, such as websites or apps, over time.', 'The collection of information about your use of the content, and combination with previously collected information, used to measure, understand, and report on your usage of the service. This does not include personalisation, the collection of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, i.e. on other service, such as websites or apps, over time.'];
+const descriptionsLong = ['The storage of information, or access to information that is already stored, on your device such as advertising identifiers, device identifiers, cookies, and similar technologies.', 'The collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as on other websites or apps, over time. Typically, the content of the site or app is used to make inferences about your interests, which inform future selection of advertising and/or content.', 'The collection of information, and combination with previously collected information, to select and deliver advertisements for you, and to measure the delivery and effectiveness of such advertisements. This includes using previously collected information about your interests to select ads, processing data about what advertisements were shown, how often they were shown, when and where they were shown, and whether you took any action related to the advertisement, including for example clicking an ad or making a purchase. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise advertising and/or content for you in other contexts, such as websites or apps, over time.', 'The collection of information, and combination with previously collected information, to select and deliver content for you, and to measure the delivery and effectiveness of such content. This includes using previously collected information about your interests to select content, processing data about what content was shown, how often or how long it was shown, when and where it was shown, and whether the you took any action related to the content, including for example clicking on content. This does not include personalisation, which is the collection and processing of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, such as websites or apps, over time.', 'The collection of information about your use of the content, and combination with previously collected information, used to measure, understand, and report on your usage of the service. This does not include personalisation, the collection of information about your use of this service to subsequently personalise content and/or advertising for you in other contexts, i.e. on other service, such as websites or apps, over time.'];
 
-function fetch_data() {
+function fetchData() {
   let message;
   api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs[0] === undefined) {
@@ -23,15 +23,94 @@ function fetch_data() {
     }
     try {
       if (!cmpLocatorFound) {
-        message = { test: 'looking for __tcfapiLocator' };
+        message = { check_cmp_frame: 'looking for __tcfapiLocator' };
       } else {
         message = { call: 'getTCData', manual: false };
       }
-      api.tabs.sendMessage(tabs[0].id, message, handleResponse);
+      // send message to uCookie.js
+      // eslint-disable-next-line no-use-before-define
+      api.tabs.sendMessage(tabs[0].id, message, handleResponseFromUCookieJs);
     } catch (error) {
       console.log('popup.js: error caught', error);
     }
   });
+}
+
+/*
+  call fetchData every 5 seconds:
+  1. need to continue checking if CMP iframe has been found
+  2. need to continue checking for TC Data for any updates (ie cookie consent)
+*/
+const fetchDataIntervalId = window.setInterval(() => {
+  fetchData();
+}, 5000);
+
+function handleResponseFromUCookieJs(message) {
+  if (!message || !message.response) { return; }
+  const res = message.response;
+  if (res === 'not found') {
+    // CMP iframe isn't present on this page so stop calling fetchData
+    window.clearInterval(fetchDataIntervalId);
+    return;
+  }
+  if (res === 'found') {
+    // CMP iframe is found
+    cmpLocatorFound = true;
+    fetchData();
+    try {
+      document.getElementById('nothing_found').classList.add('hidden');
+      document.getElementById('cmplocator_found').classList.remove('hidden');
+    } catch {
+      // popup not open
+    }
+    return;
+  }
+
+  if (res.tcData) {
+    if (res.tcData.gdprApplies === false) {
+      document.getElementById('gdpr_applies_false').classList.remove('hidden');
+      document.getElementById('cmplocator_found').classList.add('hidden');
+    }
+    console.log(res);
+    if (res.tcData.tcString) {
+      consent_string = decodeConsentString(res.tcData.tcString);
+    }
+    const validCs = update_with_consent_string_data(consent_string);
+    if (!validCs) {
+      return;
+    }
+    if (res.tcData.consentData) {
+      document.getElementById('show_cs').classList.remove('hidden');
+      document.getElementById('manual_cs').classList.add('hidden');
+      document.getElementById('consent_string').textContent = res.tcData.consentData;
+    }
+    api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (api.browserAction.setIcon) { // setIcon() won't work on mobile
+        tab_id = tabs[0].id;
+        if (nb_vendors * nb_purposes == 0) {
+          api.browserAction.setIcon({
+            tabId: tab_id,
+            path: {
+              19: '../button/19_green.png',
+              38: '../button/38_green.png',
+            },
+          });
+        } else {
+          api.browserAction.setIcon({
+            tabId: tab_id,
+            path: {
+              19: '../button/19_red.png',
+              38: '../button/38_red.png',
+            },
+          });
+        }
+        api.browserAction.setBadgeText({
+          tabId: tab_id,
+          text: nb_purposes.toString(),
+        });
+      }
+    });
+  }
 }
 
 function format_date(date) {
@@ -82,7 +161,7 @@ function update_with_consent_string_data(consent_string) {
           const text = document.createTextNode('- ');
           purposes.appendChild(text);
           const abbr = document.createElement('abbr');
-          abbr.title = descriptions_long[purpose_id - 1];
+          abbr.title = descriptionsLong[purpose_id - 1];
           const abbr_text = document.createTextNode(descriptions[purpose_id - 1]);
           abbr.appendChild(abbr_text);
           purposes.appendChild(abbr);
@@ -102,66 +181,6 @@ function update_with_consent_string_data(consent_string) {
     }
     throw e;
   }
-}
-
-function handleResponse(message) {
-  if (!message || !message.response) { return; }
-  if (message.response === 'found') {
-    cmpLocatorFound = true;
-    fetch_data();
-    try {
-      document.getElementById('nothing_found').classList.add('hidden');
-      document.getElementById('cmplocator_found').classList.remove('hidden');
-    } catch {
-      // popup not open
-    }
-    return;
-  }
-
-  const res = message.response;
-  if (res.gdprApplies === false) {
-    document.getElementById('gdpr_applies_false').classList.remove('hidden');
-    document.getElementById('cmplocator_found').classList.add('hidden');
-  }
-  console.log(res);
-  if (res.tcString) {
-    consent_string = decodeConsentString(res.tcString);
-  }
-  const valid_cs = update_with_consent_string_data(consent_string);
-  if (!valid_cs) {
-    return;
-  }
-  if (res.consentData) {
-    document.getElementById('show_cs').classList.remove('hidden');
-    document.getElementById('manual_cs').classList.add('hidden');
-    document.getElementById('consent_string').textContent = res.consentData;
-  }
-  api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (api.browserAction.setIcon) { // setIcon() won't work on mobile
-      tab_id = tabs[0].id;
-      if (nb_vendors * nb_purposes == 0) {
-        api.browserAction.setIcon({
-          tabId: tab_id,
-          path: {
-            19: '../button/19_green.png',
-            38: '../button/38_green.png',
-          },
-        });
-      } else {
-        api.browserAction.setIcon({
-          tabId: tab_id,
-          path: {
-            19: '../button/19_red.png',
-            38: '../button/38_red.png',
-          },
-        });
-      }
-      api.browserAction.setBadgeText({
-        tabId: tab_id,
-        text: nb_purposes.toString(),
-      });
-    }
-  });
 }
 
 function find_vendor(id, vendorList) {
@@ -250,7 +269,7 @@ if (document.getElementById('decode_cs')) {
 }
 
 window.onload = function () {
-  fetch_data();
+  fetchData();
 };
 
 if (document.getElementById('open_decoder')) {
@@ -278,10 +297,6 @@ if (document.getElementById('open_details')) {
     }
   };
 }
-
-window.setInterval(() => {
-  fetch_data();
-}, 5000);
 
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1425829#c12
 async function firefoxWorkaroundForBlankPanel() {
