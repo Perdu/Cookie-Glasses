@@ -23,7 +23,7 @@ function fetchData() {
     }
     try {
       if (!cmpLocatorFound) {
-        message = { check_cmp_frame: 'looking for __tcfapiLocator' };
+        message = { checkCmpFrame: 'looking for __tcfapiLocator' };
       } else {
         message = { call: 'getTCData', manual: false };
       }
@@ -65,21 +65,21 @@ function handleResponseFromUCookieJs(message) {
     }
     return;
   }
-
   if (res.tcData) {
-    if (res.tcData.gdprApplies === false) {
+    const { gdprApplies, tcString, consentData } = res.tcData;
+    if (gdprApplies === false) {
       document.getElementById('gdpr_applies_false').classList.remove('hidden');
       document.getElementById('cmplocator_found').classList.add('hidden');
     }
     console.log(res);
-    if (res.tcData.tcString) {
-      consent_string = decodeConsentString(res.tcData.tcString);
+    if (tcString) {
+      consent_string = decodeConsentString(tcString);
     }
     const validCs = update_with_consent_string_data(consent_string);
     if (!validCs) {
       return;
     }
-    if (res.tcData.consentData) {
+    if (consentData) {
       document.getElementById('show_cs').classList.remove('hidden');
       document.getElementById('manual_cs').classList.add('hidden');
       document.getElementById('consent_string').textContent = res.tcData.consentData;

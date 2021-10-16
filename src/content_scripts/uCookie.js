@@ -98,7 +98,7 @@ const foundCmpFrame = setUpCmpWrapper();
 
 function callPopupJs(request, sender, sendResponseToPopupJs) {
   // respond to query checking whether there is a __tcfapiLocator iframe
-  if (request.check_cmp_frame === 'looking for __tcfapiLocator') {
+  if (request.checkCmpFrame === 'looking for __tcfapiLocator') {
     if (foundCmpFrame) {
       sendResponseToPopupJs({ response: 'found' });
     } else {
