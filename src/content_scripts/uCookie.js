@@ -2,7 +2,11 @@
 /* global chrome */
 /* global browser */
 
-const TCF_VERSION_NUMBER = 2;
+export const TCF_VERSION_NUMBER = 2;
+export const LOOKING_FOR_LOCATOR_MSG = 'looking for __tcfapiLocator';
+export const FOUND_MSG = 'found';
+export const NOT_FOUND_MSG = 'not found';
+export const GET_TC_DATA_CALL = 'getTCData';
 
 let api;
 
@@ -11,6 +15,31 @@ if (chrome === undefined) {
 } else {
   api = chrome;
 }
+
+// This line opens up a long-lived connection to your background page.
+const port = chrome.runtime.connect({ name: 'mycontentscript' });
+port.onMessage.addListener((message, sender) => {
+  console.log('ucookie.js received a message: ', message);
+
+  if (message.greeting === 'hello') {
+    console.log('ucookie.js: ', message);
+    alert(message.greeting);
+  }
+});
+
+// api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//   if (tabs[0] === undefined) {
+//     return;
+//   }
+//   const port = api.tabs.connect(tabs[0].id);
+//   port.onMessage.addListener((message, sender) => {
+//     console.log('ucookie.js received a message: ', message);
+
+//     if (message.greeting === 'hello') {
+//       console.log('ucookie.js: ', message);
+//     }
+//   });
+// });
 
 function getCmpFrame() {
   // find the CMP frame
@@ -96,27 +125,36 @@ function setUpCmpWrapper() {
 
 const foundCmpFrame = setUpCmpWrapper();
 
-function callPopupJs(request, sender, sendResponseToPopupJs) {
-  // respond to query checking whether there is a __tcfapiLocator iframe
-  if (request.checkCmpFrame === 'looking for __tcfapiLocator') {
-    if (foundCmpFrame) {
-      sendResponseToPopupJs({ response: 'found' });
-    } else {
-      sendResponseToPopupJs({ response: 'not found' });
-    }
-    return true;
-  } if (request.call === 'getTCData') {
-    // call CMP to get consentData and send it back to popup.js
-    window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
-      if (request.manual) {
-        console.log('Cookie Glasses: success', success);
-        console.log('Cookie Glasses: response from CMP:', tcData);
-      }
-
-      sendResponseToPopupJs({ response: { tcData } });
-    });
+function handleMessage(message) {
+  console.log('ooo received message', message);
+  if (message.message === 'hello') {
+    port.postMessage({ response: 'response from ucookie' });
   }
+
+  // TODO: reimplement the logic below
+  // sendResponseToPopupJs({ response: 'response!!!' });
+  // // respond to query checking whether there is a __tcfapiLocator iframe
+  // if (request.checkCmpFrame === LOOKING_FOR_LOCATOR_MSG) {
+  //   if (foundCmpFrame) {
+  //     sendResponseToPopupJs({ response: FOUND_MSG });
+  //   } else {
+  //     sendResponseToPopupJs({ response: NOT_FOUND_MSG });
+  //   }
+  //   return true;
+  // } if (request.call === GET_TC_DATA_CALL) {
+  //   // call CMP to get consentData and send it back to popup.js
+  //   window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
+  //     console.log('Cookie Glasses: success', success);
+  //     console.log('Cookie Glasses: response from CMP:', tcData);
+  //     if (request.manual) {
+  //       console.log('Cookie Glasses: success', success);
+  //       console.log('Cookie Glasses: response from CMP:', tcData);
+  //     }
+
+  //     sendResponseToPopupJs({ response: { tcData } });
+  //   });
+  // }
   return true;
 }
 
-api.runtime.onMessage.addListener(callPopupJs);
+// port.onMessage.addListener(handleMessage);

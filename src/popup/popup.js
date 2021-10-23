@@ -1,5 +1,15 @@
 /* global chrome */
 /* global browser */
+import './img/Octicons-tools.png';
+import './img/question_mark.svg';
+import './IAB_CMP_list_full';
+import '../button/19_green.png';
+import '../button/19_red.png';
+import '../button/19.png';
+import '../button/38_green.png';
+import '../button/38_red.png';
+import '../button/38.png';
+import './ucookie.css';
 
 let api;
 if (chrome === undefined) {
@@ -42,7 +52,7 @@ function fetchData() {
   2. need to continue checking for TC Data for any updates (ie cookie consent)
 */
 const fetchDataIntervalId = window.setInterval(() => {
-  fetchData();
+  // fetchData();
 }, 5000);
 
 function handleResponseFromUCookieJs(message) {
@@ -269,7 +279,7 @@ if (document.getElementById('decode_cs')) {
 }
 
 window.onload = function () {
-  fetchData();
+  // fetchData();
 };
 
 if (document.getElementById('open_decoder')) {
