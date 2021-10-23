@@ -243,7 +243,7 @@ function fetchVendorList() {
 function loadVendors() {
   const vendorListName = `vendorList_${vendorListVersion}`;
   api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
-    document.getElementById('vendors').classList.remove('hidden');
+    // document.getElementById('vendors').classList.remove('hidden');
     if (result[vendorListName] === undefined) {
       // vendorList is not in localstorage, load it from IAB's website
       document.getElementById('vendors').appendChild(document.createTextNode('Loading vendor list...'));
