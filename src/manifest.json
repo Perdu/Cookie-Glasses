@@ -9,7 +9,7 @@
     "permissions": [
 	"activeTab",
 	"storage",
-        "https://vendorlist.consensu.org/v-*/vendorlist.json"
+        "https://vendor-list.consensu.org/v*/vendor-list.json"
     ],
 
   "content_scripts": [
@@ -22,7 +22,7 @@
   ],
 
     "background": {
-	"scripts": ["popup/lib.js", "popup/IAB_CMP_list_full.js", "popup/popup.js"]
+	    "scripts": ["popup/lib.js", "popup/IAB_CMP_list_full.js", "popup/popup.js"]
     },
 
     "browser_action": {
