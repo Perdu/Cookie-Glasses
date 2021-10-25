@@ -7,30 +7,35 @@
     "description": "Show consent registered by cookie banners of IAB Europe's Transparency & Consent Framework",
 
     "permissions": [
-	"activeTab",
-	"storage",
+        "activeTab",
+        "storage",
         "https://vendor-list.consensu.org/v*/vendor-list.json"
     ],
 
   "content_scripts": [
     {
         "matches": [ "*://*/*" ],
-        "js": ["content_scripts/uCookie.js"] ,
+        "js": ["contentScript.bundle.js"] ,
         "run_at": "document_end",
         "all_frames": true
     }
   ],
 
+  "web_accessible_resources": [
+    "src/*"
+  ],
+
     "background": {
-	    "scripts": ["popup/lib.js", "popup/IAB_CMP_list_full.js", "popup/popup.js"]
+        "page": "background.html"
     },
 
     "browser_action": {
-	"default_icon": {
-	    "19": "button/19.png",
-	    "38": "button/38.png"
-	},
-	"default_title": "Cookie Glasses",
-	"default_popup": "popup/ucookie.html"
-    }
+        "default_icon": {
+            "19": "19.png",
+            "38": "38.png"
+        },
+        "default_title": "Cookie Glasses",
+        "default_popup": "ucookie.html"
+    },
+    "content_security_policy":  "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

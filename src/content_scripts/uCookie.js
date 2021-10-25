@@ -2,7 +2,12 @@
 /* global chrome */
 /* global browser */
 
-const TCF_VERSION_NUMBER = 2;
+export const TCF_VERSION_NUMBER = 2;
+export const LOOKING_FOR_LOCATOR_MSG = 'looking for __tcfapiLocator';
+export const FOUND_MSG = 'found';
+export const NOT_FOUND_MSG = 'not found';
+export const API_MSG = 'api';
+export const GET_TC_DATA_CALL = 'getTCData';
 
 let api;
 
@@ -95,28 +100,32 @@ function setUpCmpWrapper() {
 }
 
 const foundCmpFrame = setUpCmpWrapper();
+// This line opens up a long-lived connection to the background page (background.js).
+const port = api.runtime.connect();
 
-function callPopupJs(request, sender, sendResponseToPopupJs) {
-  // respond to query checking whether there is a __tcfapiLocator iframe
-  if (request.checkCmpFrame === 'looking for __tcfapiLocator') {
-    if (foundCmpFrame) {
-      sendResponseToPopupJs({ response: 'found' });
-    } else {
-      sendResponseToPopupJs({ response: 'not found' });
-    }
-    return true;
-  } if (request.call === 'getTCData') {
-    // call CMP to get consentData and send it back to popup.js
-    window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
-      if (request.manual) {
-        console.log('Cookie Glasses: success', success);
-        console.log('Cookie Glasses: response from CMP:', tcData);
+function handleMessage(message) {
+  switch (message.message) {
+    case LOOKING_FOR_LOCATOR_MSG:
+      port.postMessage({ response: foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG });
+      break;
+    case API_MSG:
+      if (message.api) {
+        window.__tcfapiCookieGlasses(message.api, TCF_VERSION_NUMBER, (tcData, success) => {
+          if (message.manual) {
+            console.log('Cookie Glasses: success', success);
+            console.log('Cookie Glasses: response from CMP:', tcData);
+          }
+
+          port.postMessage({ response: message.api, data: { tcData } });
+        });
       }
 
-      sendResponseToPopupJs({ response: { tcData } });
-    });
+      break;
+    default:
+      console.log('[uCookie.js] unexpected message:', message);
+      // TODO: show error message? or do nothing?
   }
   return true;
 }
 
-api.runtime.onMessage.addListener(callPopupJs);
+port.onMessage.addListener(handleMessage);
