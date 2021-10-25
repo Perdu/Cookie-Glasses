@@ -33,26 +33,30 @@ function fetchData(port) {
 function handleMessageFromUCookie(message) {
   if (!message || !message.response) { return; }
   const { response } = message;
-
-  switch (response) {
-    case NOT_FOUND_MSG:
+  try {
+    switch (response) {
+      case NOT_FOUND_MSG:
       // TODO: show user that this page does not implement TCF
       // CMP iframe isn't present on this page so stop calling fetchData
-      window.clearInterval(fetchDataIntervalId);
-      break;
-    case FOUND_MSG:
-      cmpLocatorFound = true;
+        window.clearInterval(fetchDataIntervalId);
+        break;
+      case FOUND_MSG:
+        cmpLocatorFound = true;
 
-      // TODO:
-      // - update UI that cmp was found
-      break;
-    case GET_TC_DATA_CALL:
+        // TODO:
+        // - update UI that cmp was found
+        break;
+      case GET_TC_DATA_CALL:
       // TODO:  write function to handle getTCData response
-      console.log('received tcData!', message);
-      window.clearInterval(fetchDataIntervalId);
-      break;
-    default:
-      console.log('[background.js] Unknown response: ', response);
+        console.log('received tcData!', message.data);
+        window.clearInterval(fetchDataIntervalId);
+        break;
+      default:
+        console.log('[background.js] Unknown response: ', response);
+    }
+  } catch (error) {
+    console.log('Error handling message: ', error);
+    window.clearInterval(fetchDataIntervalId);
   }
 }
 
