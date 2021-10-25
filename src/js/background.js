@@ -49,7 +49,6 @@ function handleMessageFromUCookie(message) {
       case GET_TC_DATA_CALL:
       // TODO:  write function to handle getTCData response
         console.log('received tcData!', message.data);
-        window.clearInterval(fetchDataIntervalId);
         break;
       default:
         console.log('[background.js] Unknown response: ', response);
