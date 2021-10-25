@@ -16,31 +16,6 @@ if (chrome === undefined) {
   api = chrome;
 }
 
-// This line opens up a long-lived connection to your background page.
-const port = chrome.runtime.connect({ name: 'mycontentscript' });
-port.onMessage.addListener((message, sender) => {
-  console.log('ucookie.js received a message: ', message);
-
-  if (message.greeting === 'hello') {
-    console.log('ucookie.js: ', message);
-    alert(message.greeting);
-  }
-});
-
-// api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//   if (tabs[0] === undefined) {
-//     return;
-//   }
-//   const port = api.tabs.connect(tabs[0].id);
-//   port.onMessage.addListener((message, sender) => {
-//     console.log('ucookie.js received a message: ', message);
-
-//     if (message.greeting === 'hello') {
-//       console.log('ucookie.js: ', message);
-//     }
-//   });
-// });
-
 function getCmpFrame() {
   // find the CMP frame
   let f = window;
@@ -124,37 +99,32 @@ function setUpCmpWrapper() {
 }
 
 const foundCmpFrame = setUpCmpWrapper();
+// This line opens up a long-lived connection to your background page.
+const port = api.runtime.connect({ name: 'mycontentscript' });
 
 function handleMessage(message) {
-  console.log('ooo received message', message);
-  if (message.message === 'hello') {
-    port.postMessage({ response: 'response from ucookie' });
+  switch (message.message) {
+    case LOOKING_FOR_LOCATOR_MSG:
+      port.postMessage({ response: foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG });
+      break;
+    case 'api':
+      if (message.api) {
+        window.__tcfapiCookieGlasses(message.api, TCF_VERSION_NUMBER, (tcData, success) => {
+          if (message.manual) {
+            console.log('Cookie Glasses: success', success);
+            console.log('Cookie Glasses: response from CMP:', tcData);
+          }
+
+          port.postMessage({ response: message.api, data: { tcData } });
+        });
+      }
+
+      break;
+    default:
+      console.log('[uCookie.js] unexpected message:', message);
+      // TODO: show error message? or do nothing?
   }
-
-  // TODO: reimplement the logic below
-  // sendResponseToPopupJs({ response: 'response!!!' });
-  // // respond to query checking whether there is a __tcfapiLocator iframe
-  // if (request.checkCmpFrame === LOOKING_FOR_LOCATOR_MSG) {
-  //   if (foundCmpFrame) {
-  //     sendResponseToPopupJs({ response: FOUND_MSG });
-  //   } else {
-  //     sendResponseToPopupJs({ response: NOT_FOUND_MSG });
-  //   }
-  //   return true;
-  // } if (request.call === GET_TC_DATA_CALL) {
-  //   // call CMP to get consentData and send it back to popup.js
-  //   window.__tcfapiCookieGlasses(request.call, TCF_VERSION_NUMBER, (tcData, success) => {
-  //     console.log('Cookie Glasses: success', success);
-  //     console.log('Cookie Glasses: response from CMP:', tcData);
-  //     if (request.manual) {
-  //       console.log('Cookie Glasses: success', success);
-  //       console.log('Cookie Glasses: response from CMP:', tcData);
-  //     }
-
-  //     sendResponseToPopupJs({ response: { tcData } });
-  //   });
-  // }
   return true;
 }
 
-// port.onMessage.addListener(handleMessage);
+port.onMessage.addListener(handleMessage);
