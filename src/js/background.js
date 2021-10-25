@@ -1,14 +1,5 @@
 /* global chrome */
 /* global browser */
-import '../popup/img/Octicons-tools.png';
-import '../popup/img/question_mark.svg';
-import '../popup/IAB_CMP_list_full';
-import '../button/19_green.png';
-import '../button/19_red.png';
-import '../button/19.png';
-import '../button/38_green.png';
-import '../button/38_red.png';
-import '../button/38.png';
 import {
   GET_TC_DATA_CALL, LOOKING_FOR_LOCATOR_MSG, NOT_FOUND_MSG, FOUND_MSG,
 } from '../content_scripts/uCookie';
