@@ -6,6 +6,7 @@ export const TCF_VERSION_NUMBER = 2;
 export const LOOKING_FOR_LOCATOR_MSG = 'looking for __tcfapiLocator';
 export const FOUND_MSG = 'found';
 export const NOT_FOUND_MSG = 'not found';
+export const API_MSG = 'api';
 export const GET_TC_DATA_CALL = 'getTCData';
 
 let api;
@@ -99,15 +100,15 @@ function setUpCmpWrapper() {
 }
 
 const foundCmpFrame = setUpCmpWrapper();
-// This line opens up a long-lived connection to your background page.
-const port = api.runtime.connect({ name: 'mycontentscript' });
+// This line opens up a long-lived connection to the background page (background.js).
+const port = api.runtime.connect();
 
 function handleMessage(message) {
   switch (message.message) {
     case LOOKING_FOR_LOCATOR_MSG:
       port.postMessage({ response: foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG });
       break;
-    case 'api':
+    case API_MSG:
       if (message.api) {
         window.__tcfapiCookieGlasses(message.api, TCF_VERSION_NUMBER, (tcData, success) => {
           if (message.manual) {

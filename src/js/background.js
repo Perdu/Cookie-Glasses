@@ -1,7 +1,7 @@
 /* global chrome */
 /* global browser */
 import {
-  GET_TC_DATA_CALL, LOOKING_FOR_LOCATOR_MSG, NOT_FOUND_MSG, FOUND_MSG,
+  API_MSG, GET_TC_DATA_CALL, LOOKING_FOR_LOCATOR_MSG, NOT_FOUND_MSG, FOUND_MSG,
 } from '../content_scripts/uCookie';
 
 let api;
@@ -20,7 +20,7 @@ function fetchData(port) {
     if (!cmpLocatorFound) {
       message = { message: LOOKING_FOR_LOCATOR_MSG };
     } else {
-      message = { message: 'api', api: GET_TC_DATA_CALL, manual: false };
+      message = { message: API_MSG, api: GET_TC_DATA_CALL, manual: false };
     }
 
     // send message to uCookie.js
@@ -61,6 +61,9 @@ function handleDisconnect(port) {
   console.log('[background.js] Port was closed', port);
 }
 
+// Once the we connect to the port, start pinging the
+// content script (uCookie.js) to let us know if the API locator
+// frame was found and we can start fetching TC data
 api.runtime.onConnect.addListener((port) => {
   fetchData(port);
 
