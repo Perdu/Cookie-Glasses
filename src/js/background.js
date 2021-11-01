@@ -9,8 +9,6 @@ import {
 } from '../content_scripts/uCookie';
 
 let api;
-let cmpLocatorFound = false;
-let fetchDataIntervalId;
 
 if (chrome === undefined) {
   api = browser;
@@ -34,12 +32,12 @@ function handleMessageFromUCookie(message, port) {
     switch (response) {
       case NOT_FOUND_MSG:
       // TODO: show user that this page does not implement TCF
-      // CMP iframe isn't present on this page so stop calling fetchData
         break;
       case FOUND_MSG:
         // uCookie found the tcfapiLocator frame
         // send a message back asking for the TC Data
         port.postMessage({ message: API_MSG, api: GET_TC_DATA_CALL, manual: false });
+        // TODO: update ucookie.html
         break;
       case GET_TC_DATA_CALL:
       // TODO:  write function to handle getTCData response
@@ -62,7 +60,6 @@ function handleDisconnect(port) {
 let contentScriptPort;
 api.tabs.onActivated.addListener(() => {
   console.log('switched tabs!');
-  cmpLocatorFound = false;
 
   if (contentScriptPort) {
     console.log('disconnecting port', contentScriptPort);
