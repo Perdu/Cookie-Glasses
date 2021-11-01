@@ -100,13 +100,14 @@ function setUpCmpWrapper() {
 }
 
 const foundCmpFrame = setUpCmpWrapper();
-// This line opens up a long-lived connection to the background page (background.js).
-const port = api.runtime.connect();
 
+let backgroundPort;
 function handleMessage(message) {
   switch (message.message) {
     case LOOKING_FOR_LOCATOR_MSG:
-      port.postMessage({ response: foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG });
+      backgroundPort.postMessage({
+        response: foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG,
+      });
       break;
     case API_MSG:
       if (message.api) {
@@ -116,7 +117,7 @@ function handleMessage(message) {
             console.log('Cookie Glasses: response from CMP:', tcData);
           }
 
-          port.postMessage({ response: message.api, data: { tcData } });
+          backgroundPort.postMessage({ response: message.api, data: { tcData } });
         });
       }
 
@@ -128,4 +129,9 @@ function handleMessage(message) {
   return true;
 }
 
-port.onMessage.addListener(handleMessage);
+// This line opens up a long-lived connection to the background page (background.js).
+api.runtime.onConnect.addListener((port) => {
+  console.log('port', port);
+  backgroundPort = port;
+  backgroundPort.onMessage.addListener(handleMessage);
+});
