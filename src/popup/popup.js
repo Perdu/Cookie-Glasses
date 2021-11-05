@@ -76,10 +76,6 @@ function getActiveTabStorage() {
   });
 }
 
-window.setInterval(() => {
-  getActiveTabStorage();
-}, 5000);
-
 getActiveTabStorage();
 
 // ----------------------------- OLD LOGIC -----------------------------
