@@ -1,12 +1,14 @@
 /* global chrome */
 /* global browser */
 import {
-  API_MSG, GET_TC_DATA_CALL, LOOKING_FOR_LOCATOR_MSG, NOT_FOUND_MSG, FOUND_MSG,
+  API_MSG,
+  GET_TC_DATA_CALL,
+  LOOKING_FOR_LOCATOR_MSG,
+  NOT_FOUND_MSG,
+  FOUND_MSG,
 } from '../content_scripts/uCookie';
 
 let api;
-let cmpLocatorFound = false;
-let fetchDataIntervalId;
 
 if (chrome === undefined) {
   api = browser;
@@ -14,66 +16,91 @@ if (chrome === undefined) {
   api = chrome;
 }
 
-function fetchData(port) {
-  let message;
+function askForCmpFrame(port) {
   try {
-    if (!cmpLocatorFound) {
-      message = { message: LOOKING_FOR_LOCATOR_MSG };
-    } else {
-      message = { message: API_MSG, api: GET_TC_DATA_CALL, manual: false };
-    }
-
     // send message to uCookie.js
-    port.postMessage(message);
+    port.postMessage({ message: LOOKING_FOR_LOCATOR_MSG });
   } catch (error) {
     console.log('background.js: error caught', error);
   }
 }
 
-function handleMessageFromUCookie(message) {
+function handleMessageFromUCookie(message, port, activeTabId) {
   if (!message || !message.response) { return; }
   const { response } = message;
   try {
     switch (response) {
       case NOT_FOUND_MSG:
-      // TODO: show user that this page does not implement TCF
-      // CMP iframe isn't present on this page so stop calling fetchData
-        window.clearInterval(fetchDataIntervalId);
+        api.storage.local.set({
+          [activeTabId]:
+          {
+            found: false,
+            gdprApplies: false,
+            tcString: undefined,
+          },
+        });
         break;
       case FOUND_MSG:
-        cmpLocatorFound = true;
-
-        // TODO:
-        // - update UI that cmp was found
+        // uCookie found the tcfapiLocator frame
+        // send a message back asking for the TC Data
+        port.postMessage({ message: API_MSG, api: GET_TC_DATA_CALL, manual: false });
         break;
       case GET_TC_DATA_CALL:
-      // TODO:  write function to handle getTCData response
-        console.log('received tcData!', message.data);
+        console.log('received tcData!', message);
+
+        // TODO(ctan): add timestamp so we know when last updated
+        api.storage.local.set({
+          [activeTabId]:
+          {
+            found: true,
+            gdprApplies: message.data.tcData.gdprApplies,
+            tcString: message.data.tcData.tcString,
+          },
+        });
         break;
       default:
         console.log('[background.js] Unknown response: ', response);
     }
   } catch (error) {
     console.log('Error handling message: ', error);
-    window.clearInterval(fetchDataIntervalId);
   }
 }
 
 function handleDisconnect(port) {
   // TODO: show an error to the user if the port was disconnected
-  console.log('[background.js] Port was closed', port);
+  console.log('[background.js] Port was closed', port.name);
 }
 
-// Once the we connect to the port, start pinging the
-// content script (uCookie.js) to let us know if the API locator
-// frame was found and we can start fetching TC data
-api.runtime.onConnect.addListener((port) => {
-  fetchData(port);
+let contentScriptPort;
+api.storage.local.clear();
 
-  fetchDataIntervalId = window.setInterval(() => {
-    fetchData(port);
-  }, 5000);
+function setUpConnection() {
+  api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    // set up a connection with the active tab's content script (uCookie)
+    const activeTabId = tabs[0].id;
+    console.log('activeTabId', tabs[0].id);
+    contentScriptPort = api.tabs.connect(tabs[0].id, { name: String(tabs[0].id) });
+    console.log('connected to port: ', contentScriptPort);
 
-  port.onDisconnect.addListener(handleDisconnect);
-  port.onMessage.addListener(handleMessageFromUCookie);
+    // ask if the cmp frame has been located
+    askForCmpFrame(contentScriptPort);
+
+    contentScriptPort.onMessage.addListener((message) => {
+      handleMessageFromUCookie(message, contentScriptPort, activeTabId);
+    });
+
+    contentScriptPort.onDisconnect.addListener(handleDisconnect);
+  });
+}
+
+api.tabs.onActivated.addListener(() => {
+  if (contentScriptPort) {
+    console.log('disconnecting port', contentScriptPort);
+    contentScriptPort.disconnect();
+  }
+
+  setUpConnection();
 });
+
+// TODO: reset connection when page refreshes (i.e. uCookie gets refreshes)
+setUpConnection();

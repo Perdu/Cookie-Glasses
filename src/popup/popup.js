@@ -11,6 +11,7 @@ import '../button/38_green.png';
 import '../button/38_red.png';
 import '../button/38.png';
 import './ucookie.css';
+import { TCString } from '@iabtcf/core';
 
 let api;
 if (chrome === undefined) {
@@ -19,6 +20,65 @@ if (chrome === undefined) {
   api = chrome;
 }
 
+function handleCmpLocatorFound(cmpLocatorFound) {
+  try {
+    if (cmpLocatorFound === true) {
+      document.getElementById('nothing_found').classList.add('hidden');
+      document.getElementById('cmplocator_found').classList.remove('hidden');
+    } else {
+      document.getElementById('nothing_found').classList.remove('hidden');
+      document.getElementById('cmplocator_found').classList.add('hidden');
+    }
+  } catch {
+    // popup not open
+  }
+}
+
+function handleGdprApplies(gdprApplies) {
+  try {
+    if (gdprApplies === true) {
+      document.getElementById('gdpr_applies_false').classList.add('hidden');
+      document.getElementById('cmplocator_found').classList.remove('hidden');
+    } else {
+      document.getElementById('gdpr_applies_false').classList.remove('hidden');
+      document.getElementById('cmplocator_found').classList.add('hidden');
+    }
+  } catch {
+    // popup not open
+  }
+}
+
+function getActiveTabStorage() {
+  api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const activeTabId = tabs[0].id;
+    console.log('active tab id', tabs[0].id);
+
+    api.storage.local.get([String(activeTabId)], (result) => {
+      const data = result[activeTabId];
+      console.log('data from storage', data);
+
+      // we've confirmed if the tcfapiLocator has been found
+      if (data.found !== undefined) {
+        handleCmpLocatorFound(data.found);
+      } else {
+        return;
+      }
+
+      if (data.gdprApplies !== undefined) {
+        handleGdprApplies(data.gdprApplies);
+      }
+
+      // tcfapiLocator has been found & received tcString
+      if (data.found === true && data.tcString !== undefined) {
+        console.log('decoded string', TCString.decode(data.tcString));
+      }
+    });
+  });
+}
+
+getActiveTabStorage();
+
+// ----------------------------- OLD LOGIC -----------------------------
 let cmpLocatorFound = false;
 let vendorListVersion = 2;
 let consentString = null;
