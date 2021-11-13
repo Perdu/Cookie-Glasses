@@ -1,4 +1,4 @@
-const cmp_names = {
+export default {
   2: 'Chandago',
   3: 'Faktor BV',
   5: 'Usercentrics GmbH',
