@@ -23,6 +23,7 @@ if (chrome === undefined) {
 }
 
 const tz = Intl.DateTimeFormat().resolvedOptions().locale;
+const CHECK_TAB_STORAGE_RETRIES = 3;
 
 function hideElement(elementId) {
   document.getElementById(elementId).classList.add('hidden');
@@ -132,7 +133,6 @@ function handleTCData(data, timestamp) {
 
 function getActiveTabStorage() {
   let count = 0;
-  const retries = 3;
   function loop() {
     count += 1;
     api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -143,10 +143,10 @@ function getActiveTabStorage() {
         const data = result[activeTabId];
         console.log('data from storage', data);
         if (data === undefined) {
-          if (count <= retries) {
+          if (count <= CHECK_TAB_STORAGE_RETRIES) {
             document.getElementById('nothing_found').classList.add('hidden');
             document.getElementById('error_fetching_retry').classList.remove('hidden');
-            setTimeout(() => { console.log(`Could not find TCF data in local storage, try ${count}/${retries}`); loop(); }, 1000);
+            setTimeout(() => { console.log(`Could not find TCF data in local storage, try ${count}/${CHECK_TAB_STORAGE_RETRIES}`); loop(); }, 1000);
           } else {
             document.getElementById('nothing_found').classList.add('hidden');
             document.getElementById('error_fetching_retry').classList.add('hidden');
@@ -278,8 +278,8 @@ function handleResponseFromUCookieJs(message) {
     cmpLocatorFound = true;
     fetchData();
     try {
-      document.getElementById('nothing_found').classList.add('hidden');
-      document.getElementById('cmplocator_found').classList.remove('hidden');
+      hideElement('nothing_found');
+      showHiddenElement('cmplocator_found');
     } catch {
       // popup not open
     }

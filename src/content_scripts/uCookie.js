@@ -136,5 +136,3 @@ api.runtime.onConnect.addListener((port) => {
   backgroundPort = port;
   backgroundPort.onMessage.addListener(handleMessage);
 });
-
-// on page load

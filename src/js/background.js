@@ -37,7 +37,7 @@ function handleMessageFromUCookie(message, port, activeTabId) {
             tcfapiLocatorFound: false,
             gdprApplies: false,
             tcString: undefined,
-            timestamp: Date.now(),
+            timestampTcDataLoaded: Date.now(),
           },
         });
         break;
@@ -54,7 +54,7 @@ function handleMessageFromUCookie(message, port, activeTabId) {
             tcfapiLocatorFound: true,
             gdprApplies: message.data.tcData.gdprApplies,
             tcString: message.data.tcData.tcString,
-            timestamp: Date.now(),
+            timestampTcDataLoaded: Date.now(),
           },
         });
         break;
