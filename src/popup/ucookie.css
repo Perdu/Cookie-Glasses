@@ -83,6 +83,11 @@ textarea {
   margin-bottom: 5px;
 }
 
+.identified_cmp {
+  color: rgb(6, 103, 116);
+  font-size: 16px;
+}
+
 #nb_purposes, #nb_vendors, #cmp {
     font-weight: bold;
 }

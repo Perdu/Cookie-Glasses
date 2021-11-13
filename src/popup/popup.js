@@ -65,6 +65,7 @@ function showCmp(cmpId) {
   if (cmpId in cmpListFull) {
     document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
     document.getElementById('cmp').textContent = cmpListFull[cmpId];
+    document.getElementById('cmp').classList.add('identified_cmp');
   } else {
     document.getElementById('cmp').textContent = `Unknown CMP ID ${cmpId}. Search for it on the cmp-list: `;
     const a = document.createElement('a');
