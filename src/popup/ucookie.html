@@ -23,17 +23,45 @@
       </p>
     </div>
     <div id="cmp_content" class="hidden">
-      The consent string registered by the CMP on this page contains the following information:<br />
-      CMP: <span id='cmp'></span><span id='cmpid'></span><br />
-      Number of vendors you consented to: <span id='nb_vendors'></span> <button id="show_vendors">Show</button><br />
-      Number of purposes of data processing you consented to: <span id='nb_purposes'></span><br />
-      Purposes of data processing you consented to: <span id='purposes'></span><br />
-      <br />
-      <span id="manual_cs" class="hidden">User-provided consent string.<br /></span>
-      <span id="show_cs">Consent string stored by CMP:<br /><textarea rows='5' id='consent_string'></textarea></span>
-      <br />
-      Created: <span id='created'></span><br />
-      Last Updated: <span id='last_updated'></span><br />
+      <!-- <div>The consent string registered by the CMP on this page contains the following information:</div> -->
+
+      <div class="content-container">CMP: <span id='cmp'></span><span id='cmpid'></span></div>
+      <div class="content-container">
+        <h2>Vendors</h2>
+        <div class="total_nb_container">
+          <span id='nb_vendors' class="total_nb"></span> total vendors consented to
+          <button id="show_vendors">Show vendors</button>
+        </div>
+      </div>
+      <div class="content-container">
+        <h2>Purposes</h2>
+        <div class="total_nb_container">
+          <span><span id='nb_purposes' class="total_nb"></span> / 10 purposes with consent</span>
+          <button id="show_purposes" class="show_button">Show purposes</button>
+        </div>
+        
+        <div class="hidden" id="purposes_list">
+          <ol>
+            <li id='purpose-1'><strong>&nbsp;Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
+            <li id='purpose-2'><strong>&nbsp;Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
+            <li id='purpose-3'><strong>&nbsp;Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
+            <li id='purpose-4'><strong>&nbsp;Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
+            <li id='purpose-5'><strong>&nbsp;Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
+            <li id='purpose-6'><strong>&nbsp;Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
+            <li id='purpose-7'><strong>&nbsp;Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
+            <li id='purpose-8'><strong>&nbsp;Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
+            <li id='purpose-9'><strong>&nbsp;Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
+            <li id='purpose-10'><strong>&nbsp;Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
+          </ol>
+          <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/">TCF policies</a></i>
+        </div>
+      </div>
+      <div class="content-container">
+        <span id="manual_cs" class="hidden">User-provided consent string.<br /></span>
+        <span id="show_cs">Consent string stored by CMP:<br /><br /><textarea rows='5' id='consent_string'></textarea></span>
+        Created: <i><span id='created'></span></i><br />
+        Last Updated: <i><span id='last_updated'></span></i><br />
+      </div>
       <span id='vendors' class="hidden"></span>
     </div>
     <br />
