@@ -1,9 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable guard-for-in */
 /* global chrome */
 /* global browser */
 import './img/Octicons-tools.png';
 import './img/question_mark.svg';
-import './IAB_CMP_list_full';
 import '../button/19_green.png';
 import '../button/19_red.png';
 import '../button/19.png';
@@ -12,6 +12,7 @@ import '../button/38_red.png';
 import '../button/38.png';
 import './ucookie.css';
 import { TCString } from '@iabtcf/core';
+import cmpListFull from './IAB_CMP_list_full';
 
 let api;
 if (chrome === undefined) {
@@ -48,6 +49,43 @@ function handleGdprApplies(gdprApplies) {
   }
 }
 
+function showTCString(tcString) {
+  document.getElementById('consent_string').textContent = tcString;
+}
+
+function showCmp(cmpId) {
+  if (cmpId in cmpListFull) {
+    document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
+    document.getElementById('cmp').textContent = cmpListFull[cmpId];
+  } else {
+    document.getElementById('cmp').textContent = `Unknown CMP ID ${cmpId}. Search for it on the cmp-list: `;
+    const a = document.createElement('a');
+    a.href = 'https://iabeurope.eu/cmp-list/';
+    a.appendChild(document.createTextNode('https://iabeurope.eu/cmp-list/'));
+    document.getElementById('cmp').appendChild(a);
+  }
+}
+
+function showNumVendors(vendorConsents) {
+  document.getElementById('nb_vendors').textContent = vendorConsents.set_.size;
+}
+
+function showPurposes(purposeConsents) {
+  document.getElementById('nb_purposes').textContent = purposeConsents.set_.size;
+}
+
+function showTimestamps(createdAt, lastUpdated) {
+  document.getElementById('created').textContent = createdAt;
+  document.getElementById('last_updated').textContent = lastUpdated;
+}
+
+function handleTCData(data) {
+  showCmp(data.cmpId_);
+  showNumVendors(data.vendorConsents);
+  showPurposes(data.purposeConsents);
+  showTimestamps(data.created, data.lastUpdated);
+}
+
 function getActiveTabStorage() {
   api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const activeTabId = tabs[0].id;
@@ -70,7 +108,14 @@ function getActiveTabStorage() {
 
       // tcfapiLocator has been found & received tcString
       if (data.found === true && data.tcString !== undefined) {
-        console.log('decoded string', TCString.decode(data.tcString));
+        // no longer need to show found message
+        document.getElementById('cmplocator_found').classList.add('hidden');
+        document.getElementById('cmp_content').classList.remove('hidden');
+        showTCString(data.tcString);
+
+        const decodedString = TCString.decode(data.tcString);
+        console.log('decoded string', decodedString);
+        handleTCData(decodedString);
       }
     });
   });
