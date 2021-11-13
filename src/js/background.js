@@ -34,9 +34,10 @@ function handleMessageFromUCookie(message, port, activeTabId) {
         api.storage.local.set({
           [activeTabId]:
           {
-            found: false,
+            tcfapiLocatorFound: false,
             gdprApplies: false,
             tcString: undefined,
+            timestampTcDataLoaded: Date.now(),
           },
         });
         break;
@@ -47,14 +48,13 @@ function handleMessageFromUCookie(message, port, activeTabId) {
         break;
       case GET_TC_DATA_CALL:
         console.log('received tcData!', message);
-
-        // TODO(ctan): add timestamp so we know when last updated
         api.storage.local.set({
           [activeTabId]:
           {
-            found: true,
+            tcfapiLocatorFound: true,
             gdprApplies: message.data.tcData.gdprApplies,
             tcString: message.data.tcData.tcString,
+            timestampTcDataLoaded: Date.now(),
           },
         });
         break;
@@ -67,7 +67,6 @@ function handleMessageFromUCookie(message, port, activeTabId) {
 }
 
 function handleDisconnect(port) {
-  // TODO: show an error to the user if the port was disconnected
   console.log('[background.js] Port was closed', port.name);
 }
 
@@ -75,6 +74,11 @@ let contentScriptPort;
 api.storage.local.clear();
 
 function setUpConnection() {
+  if (contentScriptPort) {
+    console.log('disconnecting port', contentScriptPort);
+    contentScriptPort.disconnect();
+    contentScriptPort = undefined;
+  }
   api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     // set up a connection with the active tab's content script (uCookie)
     const activeTabId = tabs[0].id;
@@ -94,13 +98,15 @@ function setUpConnection() {
 }
 
 api.tabs.onActivated.addListener(() => {
-  if (contentScriptPort) {
-    console.log('disconnecting port', contentScriptPort);
-    contentScriptPort.disconnect();
-  }
-
   setUpConnection();
 });
 
 // TODO: reset connection when page refreshes (i.e. uCookie gets refreshes)
-setUpConnection();
+
+chrome.webNavigation.onCommitted.addListener((details) => {
+  if (['reload', 'link', 'typed', 'generated'].includes(details.transitionType)) {
+    if (details.frameId === 0) {
+      setTimeout(() => { console.log('page reloaded, setting up uCookie connection'); setUpConnection(); }, 1000);
+    }
+  }
+});

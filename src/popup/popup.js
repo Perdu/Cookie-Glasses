@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable guard-for-in */
 /* global chrome */
@@ -20,6 +21,9 @@ if (chrome === undefined) {
 } else {
   api = chrome;
 }
+
+const tz = Intl.DateTimeFormat().resolvedOptions().locale;
+const CHECK_TAB_STORAGE_RETRIES = 3;
 
 function hideElement(elementId) {
   document.getElementById(elementId).classList.add('hidden');
@@ -91,50 +95,118 @@ function showPurposes(purposeConsents) {
   });
 }
 
-function showTimestamps(createdAt, lastUpdated) {
-  document.getElementById('created').textContent = createdAt;
-  document.getElementById('last_updated').textContent = lastUpdated;
+function formatDate(date) {
+  return date.toLocaleString(undefined, {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
 }
 
-function handleTCData(data) {
+function formatIntlDate(date) {
+  return new Intl.DateTimeFormat(tz, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  }).format(date);
+}
+
+function showTimestamps(createdAt, lastUpdated, lastFetched) {
+  document.getElementById('created').textContent = formatDate(createdAt);
+  document.getElementById('last_updated').textContent = formatDate(lastUpdated);
+  document.getElementById('last_fetched').textContent = formatIntlDate(lastFetched);
+}
+
+function handleTCData(data, timestampTcDataLoaded) {
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
-  showTimestamps(data.created, data.lastUpdated);
+  showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 }
 
 function getActiveTabStorage() {
-  api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const activeTabId = tabs[0].id;
-    console.log('active tab id', tabs[0].id);
+  let count = 0;
+  function loop() {
+    count += 1;
+    api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTabId = tabs[0].id;
+      console.log('active tab id', tabs[0].id);
 
-    api.storage.local.get([String(activeTabId)], (result) => {
-      const data = result[activeTabId];
-      console.log('data from storage', data);
+      api.storage.local.get([String(activeTabId)], (result) => {
+        const data = result[activeTabId];
+        console.log('data from storage', data);
+        if (data === undefined) {
+          if (count <= CHECK_TAB_STORAGE_RETRIES) {
+            document.getElementById('nothing_found').classList.add('hidden');
+            document.getElementById('error_fetching_retry').classList.remove('hidden');
+            setTimeout(() => { console.log(`Could not find TCF data in local storage, try ${count}/${CHECK_TAB_STORAGE_RETRIES}`); loop(); }, 1000);
+          } else {
+            document.getElementById('nothing_found').classList.add('hidden');
+            document.getElementById('error_fetching_retry').classList.add('hidden');
+            document.getElementById('error_fetching').classList.remove('hidden');
+            return false;
+          }
+        }
 
-      // we've confirmed if the tcfapiLocator has been found
-      if (data.found !== undefined) {
-        handleCmpLocatorFound(data.found);
-      } else {
-        return;
-      }
+        // we've confirmed if the tcfapiLocator has been found
+        if (data.tcfapiLocatorFound !== undefined) {
+          handleCmpLocatorFound(data.tcfapiLocatorFound);
+        } else {
+          return true;
+        }
 
-      if (data.gdprApplies !== undefined && data.found) {
-        handleGdprApplies(data.gdprApplies);
-      }
+        if (data.gdprApplies !== undefined && data.tcfapiLocatorFound) {
+          handleGdprApplies(data.gdprApplies);
+        }
 
-      // tcfapiLocator has been found & received tcString
-      if (data.found === true && data.tcString !== undefined) {
+        // tcfapiLocator has been found & received tcString
+        if (data.tcfapiLocatorFound === true && data.tcString !== undefined) {
         // no longer need to show found message
-        hideElement('cmplocator_found');
-        showHiddenElement('cmp_content');
-        showTCString(data.tcString);
+          hideElement('cmplocator_found');
+          showHiddenElement('cmp_content');
+          showTCString(data.tcString);
 
-        const decodedString = TCString.decode(data.tcString);
-        console.log('decoded string', decodedString);
-        handleTCData(decodedString);
-      }
+          const decodedString = TCString.decode(data.tcString);
+          console.log('decoded string', decodedString);
+          handleTCData(decodedString, data.timestampTcDataLoaded);
+        }
+      });
+      return true;
     });
+  }
+  loop();
+}
+
+/**
+ * Prunes tab storage, called when the popup is opened
+ * 1. If there are over 200 keys in local storage
+ * 2. Check if the key is something we set (ie from cookie glasses)
+ * 3. If the storage item is from cookie glasses and is over 12 hours old, remove it from storage
+ */
+function pruneTabStorage() {
+  chrome.storage.local.get(null, (result) => {
+    console.log('Pruning local tabs storage');
+    const keys = Object.keys(result);
+    if (keys.length > 200) {
+      keys.map((key) => {
+        const item = result[key];
+        if (item.tcfapiLocatorFound !== undefined
+          && item.gdprApplies !== undefined
+          && item.timestamp !== undefined) {
+          if (item.timestamp < Date.now() - 43200000) {
+            chrome.storage.local.remove(key);
+          }
+        }
+        return true;
+      });
+    }
   });
 }
 
@@ -152,6 +224,7 @@ if (document.getElementById('show_purposes')) {
   };
 }
 
+pruneTabStorage();
 getActiveTabStorage();
 
 // ----------------------------- OLD LOGIC -----------------------------
@@ -205,8 +278,8 @@ function handleResponseFromUCookieJs(message) {
     cmpLocatorFound = true;
     fetchData();
     try {
-      document.getElementById('nothing_found').classList.add('hidden');
-      document.getElementById('cmplocator_found').classList.remove('hidden');
+      hideElement('nothing_found');
+      showHiddenElement('cmplocator_found');
     } catch {
       // popup not open
     }

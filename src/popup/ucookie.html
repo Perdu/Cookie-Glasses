@@ -11,6 +11,12 @@
     <div id="nothing_found">
       <p>This webpage does not seem to implement IAB Europe's Transparency and Consent Framework (this extension only works for websites using IAB Europe's TCF).</p>
     </div>
+    <div id="error_fetching_retry" class = "hidden">
+      <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Retrying...</p>
+    </div>
+    <div id="error_fetching" class = "hidden">
+      <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Please try again later.</p>
+    </div>
     <div id="cmplocator_found" class="hidden">
       <p>A CMP on this webpage implements IAB Europe's Transparency and Consent Framework.<br /><br />Waiting for an answer from CMP... (We may not get one before you close the cookie banner)</p>
     </div>
@@ -59,8 +65,9 @@
       <div class="content-container">
         <span id="manual_cs" class="hidden">User-provided consent string.<br /></span>
         <span id="show_cs">Consent string stored by CMP:<br /><br /><textarea rows='5' id='consent_string'></textarea></span>
-        Created: <i><span id='created'></span></i><br />
-        Last Updated: <i><span id='last_updated'></span></i><br />
+        TCF String Created: <i><span id='created'></span></i><br />
+        TCF String Last Updated: <i><span id='last_updated'></span></i><br />
+        TCF String Last Fetched: <i><span id='last_fetched'></span></i><br />
       </div>
       <span id='vendors' class="hidden"></span>
     </div>
