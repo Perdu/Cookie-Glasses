@@ -21,14 +21,22 @@ if (chrome === undefined) {
   api = chrome;
 }
 
+function hideElement(elementId) {
+  document.getElementById(elementId).classList.add('hidden');
+}
+
+function showHiddenElement(elementId) {
+  document.getElementById(elementId).classList.remove('hidden');
+}
+
 function handleCmpLocatorFound(cmpLocatorFound) {
   try {
     if (cmpLocatorFound === true) {
-      document.getElementById('nothing_found').classList.add('hidden');
-      document.getElementById('cmplocator_found').classList.remove('hidden');
+      hideElement('nothing_found');
+      showHiddenElement('cmplocator_found');
     } else {
-      document.getElementById('nothing_found').classList.remove('hidden');
-      document.getElementById('cmplocator_found').classList.add('hidden');
+      showHiddenElement('nothing_found');
+      hideElement('cmplocator_found');
     }
   } catch {
     // popup not open
@@ -38,11 +46,11 @@ function handleCmpLocatorFound(cmpLocatorFound) {
 function handleGdprApplies(gdprApplies) {
   try {
     if (gdprApplies === true) {
-      document.getElementById('gdpr_applies_false').classList.add('hidden');
-      document.getElementById('cmplocator_found').classList.remove('hidden');
+      hideElement('gdpr_applies_false');
+      showHiddenElement('cmplocator_found');
     } else {
-      document.getElementById('gdpr_applies_false').classList.remove('hidden');
-      document.getElementById('cmplocator_found').classList.add('hidden');
+      showHiddenElement('gdpr_applies_false');
+      hideElement('cmplocator_found');
     }
   } catch {
     // popup not open
@@ -72,6 +80,14 @@ function showNumVendors(vendorConsents) {
 
 function showPurposes(purposeConsents) {
   document.getElementById('nb_purposes').textContent = purposeConsents.set_.size;
+  [...Array(10).keys()].map((id) => {
+    if (purposeConsents.set_.has(id + 1)) {
+      document.getElementById(`purpose-${id + 1}`).classList.add('purpose-consented-item');
+      return true;
+    }
+    document.getElementById(`purpose-${id + 1}`).classList.add('purpose-not-consented-item');
+    return false;
+  });
 }
 
 function showTimestamps(createdAt, lastUpdated) {
@@ -102,15 +118,15 @@ function getActiveTabStorage() {
         return;
       }
 
-      if (data.gdprApplies !== undefined) {
+      if (data.gdprApplies !== undefined && data.found) {
         handleGdprApplies(data.gdprApplies);
       }
 
       // tcfapiLocator has been found & received tcString
       if (data.found === true && data.tcString !== undefined) {
         // no longer need to show found message
-        document.getElementById('cmplocator_found').classList.add('hidden');
-        document.getElementById('cmp_content').classList.remove('hidden');
+        hideElement('cmplocator_found');
+        showHiddenElement('cmp_content');
         showTCString(data.tcString);
 
         const decodedString = TCString.decode(data.tcString);
@@ -119,6 +135,20 @@ function getActiveTabStorage() {
       }
     });
   });
+}
+
+if (document.getElementById('show_purposes')) {
+  const purposesElement = document.getElementById('purposes_list');
+  const showPurposesButton = document.getElementById('show_purposes');
+  showPurposesButton.onclick = () => {
+    if (purposesElement.classList.contains('hidden')) {
+      showPurposesButton.innerText = 'Hide';
+      purposesElement.classList.remove('hidden');
+    } else {
+      showPurposesButton.innerText = 'Show purposes';
+      purposesElement.classList.add('hidden');
+    }
+  };
 }
 
 getActiveTabStorage();
