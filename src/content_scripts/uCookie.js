@@ -105,6 +105,7 @@ let backgroundPort;
 function handleMessage(message) {
   switch (message.message) {
     case LOOKING_FOR_LOCATOR_MSG:
+      console.log('Found CMP frame?', foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG);
       backgroundPort.postMessage({
         response: foundCmpFrame ? FOUND_MSG : NOT_FOUND_MSG,
       });
@@ -135,3 +136,5 @@ api.runtime.onConnect.addListener((port) => {
   backgroundPort = port;
   backgroundPort.onMessage.addListener(handleMessage);
 });
+
+// on page load

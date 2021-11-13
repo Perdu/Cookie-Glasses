@@ -9,6 +9,7 @@
     "permissions": [
         "activeTab",
         "storage",
+        "webNavigation",
         "https://vendor-list.consensu.org/v*/vendor-list.json"
     ],
 
