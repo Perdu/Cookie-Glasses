@@ -192,7 +192,7 @@ function getActiveTabStorage() {
  */
 function pruneTabStorage() {
   chrome.storage.local.get(null, (result) => {
-    console.log('FOOBAR', result);
+    console.log('Pruning local tabs storage');
     const keys = Object.keys(result);
     if (keys.length > 200) {
       keys.map((key) => {
