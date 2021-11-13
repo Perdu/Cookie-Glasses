@@ -124,11 +124,11 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
   document.getElementById('last_fetched').textContent = formatIntlDate(lastFetched);
 }
 
-function handleTCData(data, timestamp) {
+function handleTCData(data, timestampTcDataLoaded) {
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
-  showTimestamps(data.created, data.lastUpdated, timestamp);
+  showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 }
 
 function getActiveTabStorage() {
@@ -175,7 +175,7 @@ function getActiveTabStorage() {
 
           const decodedString = TCString.decode(data.tcString);
           console.log('decoded string', decodedString);
-          handleTCData(decodedString, data.timestamp);
+          handleTCData(decodedString, data.timestampTcDataLoaded);
         }
       });
       return true;
