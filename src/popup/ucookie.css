@@ -150,6 +150,8 @@ button:hover {
   color: rgb(102, 102, 102);
   margin-right: 8px;
   font-size: 10px;
+  max-height: 15px;
+  line-height: 15px;
 }
 
 .identified_cmp {
