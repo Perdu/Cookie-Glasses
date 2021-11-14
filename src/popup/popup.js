@@ -357,7 +357,7 @@ function update_with_consent_string_data(consentString) {
     vendorListVersion = parseInt(consentString.vendorListVersion);
     if (document.title === 'Cookie Glasses') { // this part is unecessary if popup is not open
       if (consentString.allowedVendorIds.length === 0) {
-        // document.getElementById('show_vendors').classList.add('hidden');
+        document.getElementById('show_vendors').classList.add('hidden');
       }
       document.getElementById('cmplocator_found').classList.add('hidden');
       document.getElementById('nothing_found').classList.add('hidden');
