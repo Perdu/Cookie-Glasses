@@ -13,8 +13,8 @@ function findVendor(id, vendorList) {
   return vendorList.vendors[id];
 }
 
-function showVendors(vendorList, allowedVendorIds) {
-  const vendorsListElement = document.getElementById('vendors_list');
+function showVendors(vendorList, allowedVendorIds, forPurposes) {
+  const vendorsListElement = document.getElementById(forPurposes ? 'purpose_vendors_list' : 'legitimate_interests_vendors_list');
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
     let vendorName;
@@ -56,7 +56,7 @@ function fetchVendorList(vendorListVersion, allowedVendors) {
   });
 }
 
-function loadVendors(vendorConsents, vendorListVersion) {
+function loadVendors(vendorConsents, vendorListVersion, forPurposes) {
   const allowedVendors = vendorConsents.set_;
   const vendorListName = `vendorList_${vendorListVersion}`;
   api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
@@ -66,23 +66,28 @@ function loadVendors(vendorConsents, vendorListVersion) {
       fetchVendorList(vendorListVersion, allowedVendors);
     } else {
       // vendorList is in locals storage
-      showVendors(result[vendorListName], allowedVendors);
+      showVendors(result[vendorListName], allowedVendors, forPurposes);
     }
   });
 }
 
-export default function handleVendors(vendorConsents, vendorListVersion) {
-  if (document.getElementById('show_vendors')) {
-    const showVendorsButton = document.getElementById('show_vendors');
-    const vendorsContainerElement = document.getElementById('vendors_container');
+export default function handleVendors(vendorConsents, vendorListVersion, forConsent) {
+  const buttonId = forConsent ? 'show_vendor_purposes' : 'show_vendor_legitimate_interests';
+  const containerId = forConsent ? 'purposes_vendors_container' : 'legitimate_interests_vendors_container';
+
+  if (document.getElementById(buttonId)) {
+    const showVendorsButton = document.getElementById(buttonId);
+    const vendorsContainerElement = document.getElementById(containerId);
     showVendorsButton.onclick = () => {
+      console.log('clicking!', vendorsContainerElement);
+
       if (vendorsContainerElement.classList.contains('hidden')) {
-        document.getElementById('vendors_container').classList.remove('hidden');
-        loadVendors(vendorConsents, vendorListVersion);
+        vendorsContainerElement.classList.remove('hidden');
+        loadVendors(vendorConsents, vendorListVersion, forConsent);
         showVendorsButton.innerText = 'Hide';
       } else {
         showVendorsButton.innerText = 'Show vendors';
-        document.getElementById('vendors_container').classList.add('hidden');
+        vendorsContainerElement.classList.add('hidden');
       }
     };
   }

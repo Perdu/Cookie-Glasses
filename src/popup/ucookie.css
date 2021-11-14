@@ -40,6 +40,7 @@ textarea {
   color: rgb(7, 125, 141);
   padding: 6px;
   font-size: 18px;
+  font-weight: bold;
 }
 
 .content-container {
@@ -88,7 +89,7 @@ textarea {
   font-size: 16px;
 }
 
-#vendors_container {
+.vendors_container {
   border: 1px solid rgb(218, 218, 218);
   border-radius: 5px;
   overflow-y: auto;
@@ -100,7 +101,7 @@ textarea {
   padding-left: 28px;
 }
 
-#nb_purposes, #nb_vendors, #cmp {
+#cmp {
     font-weight: bold;
 }
 
