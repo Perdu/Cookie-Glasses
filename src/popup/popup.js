@@ -121,6 +121,10 @@ function formatIntlDate(date) {
   }).format(date);
 }
 
+function handleLegitimateInterests(vendorLegitimateInterests) {
+  document.getElementById('nb_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
+}
+
 function showTimestamps(createdAt, lastUpdated, lastFetched) {
   document.getElementById('created').textContent = formatDate(createdAt);
   document.getElementById('last_updated').textContent = formatDate(lastUpdated);
@@ -135,6 +139,7 @@ function handleTCData(data, timestampTcDataLoaded) {
 
   // handle vendor buttons
   handleVendors(data.vendorConsents, VENDOR_LIST_VERSION);
+  handleLegitimateInterests(data.vendorLegitimateInterests);
 }
 
 function getActiveTabStorage() {
