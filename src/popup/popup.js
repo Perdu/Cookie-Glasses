@@ -96,6 +96,27 @@ function showPurposes(purposeConsents) {
     document.getElementById(`purpose-${id + 1}`).classList.add('purpose-not-consented-item');
     return false;
   });
+
+  if (document.getElementById('show_consents')) {
+    const purposesList = document.getElementById('purposes_list');
+    const showPurposeConsentsButton = document.getElementById('show_consents');
+    showPurposeConsentsButton.onclick = () => {
+      if (purposesList.classList.contains('hidden')) {
+        showPurposeConsentsButton.innerText = 'Hide';
+        showPurposeConsentsButton.classList.add('button_hide');
+        purposesList.classList.remove('hidden');
+
+        // hide vendors list
+        hideElement('consents_vendors_container');
+        document.getElementById('show_vendor_consents').innerText = 'Show vendors';
+        document.getElementById('show_vendor_consents').classList.remove('button_hide');
+      } else {
+        showPurposeConsentsButton.innerText = 'Show purposes';
+        purposesList.classList.add('hidden');
+        showPurposeConsentsButton.classList.remove('button_hide');
+      }
+    };
+  }
 }
 
 function formatDate(date) {
@@ -121,8 +142,41 @@ function formatIntlDate(date) {
   }).format(date);
 }
 
-function handleLegitimateInterests(vendorLegitimateInterests) {
-  document.getElementById('nb_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
+function handleLegitimateInterests(purposeLegitimateInterests, vendorLegitimateInterests) {
+  document.getElementById('nb_vendor_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
+
+  // update legitimate interest consents
+  document.getElementById('nb_legitimate_interests').textContent = purposeLegitimateInterests.set_.size;
+  [...Array(10).keys()].map((id) => {
+    if (purposeLegitimateInterests.set_.has(id + 1)) {
+      document.getElementById(`legit-interest-${id + 1}`).classList.add('purpose-consented-item');
+      return true;
+    }
+    document.getElementById(`legit-interest-${id + 1}`).classList.add('purpose-not-consented-item');
+    return false;
+  });
+}
+
+const showLegitimateInterestsButton = document.getElementById('show_legitimate_interests');
+const showVendorLegitimateInterestsButton = document.getElementById('show_vendor_legitimate_interests');
+const legitimateInterestsList = document.getElementById('legitimate_interests_list');
+if (showLegitimateInterestsButton && legitimateInterestsList) {
+  showLegitimateInterestsButton.onclick = () => {
+    if (legitimateInterestsList.classList.contains('hidden')) {
+      showLegitimateInterestsButton.textContent = 'Hide';
+      showLegitimateInterestsButton.classList.add('button_hide');
+      showHiddenElement('legitimate_interests_list');
+      hideElement('legitimate_interests_vendors_container');
+
+      // update vendors button
+      showVendorLegitimateInterestsButton.textContent = 'Show vendors';
+      showVendorLegitimateInterestsButton.classList.remove('button_hide');
+    } else {
+      showLegitimateInterestsButton.textContent = 'Show purposes';
+      showLegitimateInterestsButton.classList.remove('button_hide');
+      hideElement('legitimate_interests_list');
+    }
+  };
 }
 
 function showTimestamps(createdAt, lastUpdated, lastFetched) {
@@ -132,15 +186,17 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
 }
 
 function handleTCData(data, timestampTcDataLoaded) {
+  // TODO(@ctan): use a force update when user manually decodes consent string
+  const forceUpdate = false;
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
-  handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true);
-  handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false);
-  handleLegitimateInterests(data.vendorLegitimateInterests);
+  handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true, forceUpdate);
+  handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false, forceUpdate);
+  handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
 }
 
 function getActiveTabStorage() {
@@ -189,6 +245,7 @@ function getActiveTabStorage() {
           console.log('decoded string', decodedString);
           handleTCData(decodedString, data.timestampTcDataLoaded);
         }
+        return true;
       });
       return true;
     });
@@ -220,20 +277,6 @@ function pruneTabStorage() {
       });
     }
   });
-}
-
-if (document.getElementById('show_purposes')) {
-  const purposesElement = document.getElementById('purposes_list');
-  const showPurposesButton = document.getElementById('show_purposes');
-  showPurposesButton.onclick = () => {
-    if (purposesElement.classList.contains('hidden')) {
-      showPurposesButton.innerText = 'Hide';
-      purposesElement.classList.remove('hidden');
-    } else {
-      showPurposesButton.innerText = 'Show purposes';
-      purposesElement.classList.add('hidden');
-    }
-  };
 }
 
 pruneTabStorage();

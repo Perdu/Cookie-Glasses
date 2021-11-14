@@ -29,25 +29,67 @@ textarea {
   margin-bottom: 5px;
 }
 
-.total_nb_container{
+.show_button {
+  margin-top: 10px;
+  width: 50%;
+}
+
+.counts_container {
+  display: flex;
+}
+
+.total_nb_container {
   margin-top: 14px;
   margin-bottom: 14px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 5px;
+  padding: 10px;
+  background:rgb(241, 241, 241)
+}
+
+.total_nb_purposes_container {
+  /* border-right: 1px solid rgb(219, 219, 219);
+  padding-right: 3px; */
+  margin-right: 10px;
+}
+
+.total_nb_vendors_container {
+  padding-left: 8px;
+}
+
+.total_nb_purposes {
+  border: 1px solid rgb(7, 125, 141);
+  background-color: rgb(7, 125, 141);
+}
+
+.total_nb_vendors {
+  border: 1px solid rgb(179, 104, 61);
+  background-color: rgb(179, 104, 61);
 }
 
 .total_nb {
-  border: 1px solid rgb(7, 125, 141);
-  border-radius: 20%;
-  color: rgb(7, 125, 141);
-  padding: 6px;
+  border-radius: 50%;
+  color: white;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  text-align: center;
+  padding: 3px;
   font-size: 18px;
   font-weight: bold;
+  margin: 3px;
+  margin-left: 'auto';
+  margin-right: 'auto';
 }
 
 .content-container {
   padding-bottom: 8px;
   padding-top: 8px;
   padding-left: 8px;
-  border-bottom: 1px solid rgb(204, 203, 203);
+  /* border-bottom: 1px solid rgb(204, 203, 203); */
 }
 
 .purpose-consented-item {
@@ -64,36 +106,39 @@ textarea {
   display: none;
 }
 
-.button {
-  margin: 3% auto;
+button {
   padding: 4px;
-  text-align: center;
-  font-size: 1.5em;
+  border-radius: 5px;
+  border: 1px solid rgb(119, 119, 119);
+  background-color:rgb(241, 241, 241);
+}
+
+button:hover {
   cursor: pointer;
+  background-color:rgb(226, 226, 226);
 }
 
-.button:hover {
-  background-color: #CFF2F2;
+.button_hide {
+  background-color:rgb(70, 70, 70);
+  color: white;
 }
 
-.button {
-  background-color: #E5F2F2;
+.button_hide:hover {
+  background-color:rgb(32, 32, 32);
 }
 
-.button:hover {
-  background-color: #EAEA9D;
-}
 
 .identified_cmp {
   color: rgb(6, 103, 116);
   font-size: 16px;
 }
 
-.vendors_container {
+.bounded_container {
   border: 1px solid rgb(218, 218, 218);
   border-radius: 5px;
   overflow-y: auto;
   max-height: 200px;
+  padding-top: 8px;
 }
 
 #vendors_list {
