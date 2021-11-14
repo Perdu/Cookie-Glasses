@@ -15,8 +15,14 @@ function findVendor(id, vendorList) {
 
 function showVendors(vendorList, allowedVendorIds, forPurposes) {
   const vendorsListElement = document.getElementById(forPurposes ? 'purpose_vendors_list' : 'legitimate_interests_vendors_list');
+  if (vendorsListElement.children.length > 0) {
+    // we already populated the list of vendors
+    return;
+  }
+
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
+    console.log('vendor: ', vendor);
     let vendorName;
     if (vendor === undefined) {
       vendorName = `{Incorrect vendor, ID ${id}}`;
@@ -72,22 +78,29 @@ function loadVendors(vendorConsents, vendorListVersion, forPurposes) {
 }
 
 export default function handleVendors(vendorConsents, vendorListVersion, forConsent) {
-  const buttonId = forConsent ? 'show_vendor_purposes' : 'show_vendor_legitimate_interests';
-  const containerId = forConsent ? 'purposes_vendors_container' : 'legitimate_interests_vendors_container';
+  const buttonId = forConsent ? 'show_vendor_consents' : 'show_vendor_legitimate_interests';
+  const containerId = forConsent ? 'consents_vendors_container' : 'legitimate_interests_vendors_container';
+  const purposesListId = forConsent ? 'purposes_list' : 'legitimate_interests_list';
+  const showPurposesButtonId = forConsent ? 'show_consents' : 'show_legitimate_interests';
 
   if (document.getElementById(buttonId)) {
     const showVendorsButton = document.getElementById(buttonId);
     const vendorsContainerElement = document.getElementById(containerId);
     showVendorsButton.onclick = () => {
-      console.log('clicking!', vendorsContainerElement);
-
       if (vendorsContainerElement.classList.contains('hidden')) {
         vendorsContainerElement.classList.remove('hidden');
         loadVendors(vendorConsents, vendorListVersion, forConsent);
         showVendorsButton.innerText = 'Hide';
+        showVendorsButton.classList.add('button_hide');
+
+        // hide purposes list
+        document.getElementById(purposesListId).classList.add('hidden');
+        document.getElementById(showPurposesButtonId).innerText = 'Show purposes';
+        document.getElementById(showPurposesButtonId).classList.remove('button_hide');
       } else {
         showVendorsButton.innerText = 'Show vendors';
         vendorsContainerElement.classList.add('hidden');
+        showVendorsButton.classList.remove('button_hide');
       }
     };
   }

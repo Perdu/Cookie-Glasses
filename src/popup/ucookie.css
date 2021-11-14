@@ -45,7 +45,6 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid rgb(241, 241, 241);
   border-radius: 5px;
   padding: 10px;
   background:rgb(241, 241, 241)
@@ -108,8 +107,26 @@ textarea {
 }
 
 button {
-  padding: 3px;
+  padding: 4px;
+  border-radius: 5px;
+  border: 1px solid rgb(119, 119, 119);
+  background-color:rgb(241, 241, 241);
 }
+
+button:hover {
+  cursor: pointer;
+  background-color:rgb(226, 226, 226);
+}
+
+.button_hide {
+  background-color:rgb(70, 70, 70);
+  color: white;
+}
+
+.button_hide:hover {
+  background-color:rgb(32, 32, 32);
+}
+
 
 .identified_cmp {
   color: rgb(6, 103, 116);
