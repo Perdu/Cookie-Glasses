@@ -14,9 +14,9 @@ import '../button/38.png';
 import './ucookie.css';
 import { TCString } from '@iabtcf/core';
 import cmpListFull from './IAB_CMP_list_full';
-import { fetchVendorList, showVendors } from '../js/vendorUtils';
+import handleVendors from '../js/vendorUtils';
 
-const vendorListVersion = 2;
+const VENDOR_LIST_VERSION = 2;
 let api;
 if (chrome === undefined) {
   api = browser;
@@ -127,21 +127,6 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
   document.getElementById('last_fetched').textContent = formatIntlDate(lastFetched);
 }
 
-function loadVendors(vendorConsents) {
-  const allowedVendors = vendorConsents.set_;
-  const vendorListName = `vendorList_${vendorListVersion}`;
-  api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
-    if (result[vendorListName] === undefined) {
-      // vendorList is not in localstorage, load it from IAB's website
-      document.getElementById('vendors_container').appendChild(document.createTextNode('Loading vendor list...'));
-      fetchVendorList(vendorListVersion, allowedVendors);
-    } else {
-      // vendorList is in locals storage
-      showVendors(result[vendorListName], allowedVendors);
-    }
-  });
-}
-
 function handleTCData(data, timestampTcDataLoaded) {
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
@@ -149,20 +134,7 @@ function handleTCData(data, timestampTcDataLoaded) {
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
-  if (document.getElementById('show_vendors')) {
-    const showVendorsButton = document.getElementById('show_vendors');
-    const vendorsContainerElement = document.getElementById('vendors_container');
-    showVendorsButton.onclick = () => {
-      if (vendorsContainerElement.classList.contains('hidden')) {
-        showHiddenElement('vendors_container');
-        loadVendors(data.vendorConsents);
-        showVendorsButton.innerText = 'Hide';
-      } else {
-        showVendorsButton.innerText = 'Show vendors';
-        hideElement('vendors_container');
-      }
-    };
-  }
+  handleVendors(data.vendorConsents, VENDOR_LIST_VERSION);
 }
 
 function getActiveTabStorage() {

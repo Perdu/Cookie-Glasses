@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* global chrome */
 /* global browser */
 /* eslint-disable guard-for-in */
@@ -8,11 +9,11 @@ if (chrome === undefined) {
   api = chrome;
 }
 
-export function findVendor(id, vendorList) {
+function findVendor(id, vendorList) {
   return vendorList.vendors[id];
 }
 
-export function showVendors(vendorList, allowedVendorIds) {
+function showVendors(vendorList, allowedVendorIds) {
   const vendorsListElement = document.getElementById('vendors_list');
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
@@ -36,7 +37,7 @@ export function showVendors(vendorList, allowedVendorIds) {
   });
 }
 
-export function fetchVendorList(vendorListVersion, allowedVendors) {
+function fetchVendorList(vendorListVersion, allowedVendors) {
   const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
     method: 'GET',
     headers: { Accept: 'application/json' },
@@ -53,4 +54,36 @@ export function fetchVendorList(vendorListVersion, allowedVendors) {
     console.log('Error fetching vendor list: ', error);
     // TODO: surface generic error message in pop-up
   });
+}
+
+function loadVendors(vendorConsents, vendorListVersion) {
+  const allowedVendors = vendorConsents.set_;
+  const vendorListName = `vendorList_${vendorListVersion}`;
+  api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
+    if (result[vendorListName] === undefined) {
+      // vendorList is not in localstorage, load it from IAB's website
+      document.getElementById('vendors_container').appendChild(document.createTextNode('Loading vendor list...'));
+      fetchVendorList(vendorListVersion, allowedVendors);
+    } else {
+      // vendorList is in locals storage
+      showVendors(result[vendorListName], allowedVendors);
+    }
+  });
+}
+
+export default function handleVendors(vendorConsents, vendorListVersion) {
+  if (document.getElementById('show_vendors')) {
+    const showVendorsButton = document.getElementById('show_vendors');
+    const vendorsContainerElement = document.getElementById('vendors_container');
+    showVendorsButton.onclick = () => {
+      if (vendorsContainerElement.classList.contains('hidden')) {
+        document.getElementById('vendors_container').classList.remove('hidden');
+        loadVendors(vendorConsents, vendorListVersion);
+        showVendorsButton.innerText = 'Hide';
+      } else {
+        showVendorsButton.innerText = 'Show vendors';
+        document.getElementById('vendors_container').classList.add('hidden');
+      }
+    };
+  }
 }
