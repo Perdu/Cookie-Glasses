@@ -1,6 +1,7 @@
 html, body {
   min-width: 500px;
   font-size: 14px;
+  margin: 0;
 }
 
 ol {
@@ -14,19 +15,42 @@ h2 {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-}
-
-h3 {
-  font-size: 14px;
-  color:rgb(59, 56, 56);
   font-weight: 600;
-  margin-top: 3px;
-  margin-bottom: 3px;
 }
 
 textarea {
   width: 480px;
   margin-bottom: 5px;
+}
+
+button {
+  padding: 4px;
+  border-radius: 5px;
+  border: 1px solid rgb(119, 119, 119);
+  background-color:rgb(241, 241, 241);
+}
+
+button:hover {
+  cursor: pointer;
+  background-color:rgb(226, 226, 226);
+}
+
+.main_content {
+  padding: 8px;
+}
+
+.header {
+  background-color:rgb(88, 88, 88);
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items:flex-end;
+}
+
+.cookie_glasses_title {
+  font-size: 14px;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .show_button {
@@ -106,18 +130,6 @@ textarea {
   display: none;
 }
 
-button {
-  padding: 4px;
-  border-radius: 5px;
-  border: 1px solid rgb(119, 119, 119);
-  background-color:rgb(241, 241, 241);
-}
-
-button:hover {
-  cursor: pointer;
-  background-color:rgb(226, 226, 226);
-}
-
 .button_hide {
   background-color:rgb(70, 70, 70);
   color: white;
@@ -127,10 +139,24 @@ button:hover {
   background-color:rgb(32, 32, 32);
 }
 
+.cmp_name_container {
+  display: flex;
+}
+
+.cmp_decorator {
+  border: 1px solid rgb(143, 143, 143);
+  border-radius: 3px;
+  padding: 3px;
+  color: rgb(102, 102, 102);
+  margin-right: 8px;
+  font-size: 10px;
+  max-height: 15px;
+  line-height: 15px;
+}
 
 .identified_cmp {
-  color: rgb(6, 103, 116);
-  font-size: 16px;
+  color: rgb(63, 63, 63);
+  font-size: 18px;
 }
 
 .bounded_container {
@@ -139,6 +165,10 @@ button:hover {
   overflow-y: auto;
   max-height: 200px;
   padding-top: 8px;
+}
+
+.icon {
+  width: 20px;
 }
 
 #vendors_list {
@@ -161,10 +191,6 @@ button:hover {
 
 #purposes {
     white-space: pre-line;
-}
-
-.icon {
-  width: 20px;
 }
 
 #version {
