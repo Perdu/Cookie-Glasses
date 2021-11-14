@@ -13,10 +13,11 @@ function findVendor(id, vendorList) {
   return vendorList.vendors[id];
 }
 
-function showVendors(vendorList, allowedVendorIds, forPurposes) {
+function showVendors(vendorList, allowedVendorIds, forPurposes, forceUpdate) {
   const vendorsListElement = document.getElementById(forPurposes ? 'purpose_vendors_list' : 'legitimate_interests_vendors_list');
-  if (vendorsListElement.children.length > 0) {
-    // we already populated the list of vendors
+  if (vendorsListElement.children.length > 0 && !forceUpdate) {
+    // we already populated the list of vendors, so no need to update
+    // unless we're forcing an update
     return;
   }
 
@@ -62,7 +63,7 @@ function fetchVendorList(vendorListVersion, allowedVendors) {
   });
 }
 
-function loadVendors(vendorConsents, vendorListVersion, forPurposes) {
+function loadVendors(vendorConsents, vendorListVersion, forPurposes, forceUpdate) {
   const allowedVendors = vendorConsents.set_;
   const vendorListName = `vendorList_${vendorListVersion}`;
   api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
@@ -72,12 +73,12 @@ function loadVendors(vendorConsents, vendorListVersion, forPurposes) {
       fetchVendorList(vendorListVersion, allowedVendors);
     } else {
       // vendorList is in locals storage
-      showVendors(result[vendorListName], allowedVendors, forPurposes);
+      showVendors(result[vendorListName], allowedVendors, forPurposes, forceUpdate);
     }
   });
 }
 
-export default function handleVendors(vendorConsents, vendorListVersion, forConsent) {
+export default function handleVendors(vendorConsents, vendorListVersion, forConsent, forceUpdate) {
   const buttonId = forConsent ? 'show_vendor_consents' : 'show_vendor_legitimate_interests';
   const containerId = forConsent ? 'consents_vendors_container' : 'legitimate_interests_vendors_container';
   const purposesListId = forConsent ? 'purposes_list' : 'legitimate_interests_list';
@@ -89,7 +90,7 @@ export default function handleVendors(vendorConsents, vendorListVersion, forCons
     showVendorsButton.onclick = () => {
       if (vendorsContainerElement.classList.contains('hidden')) {
         vendorsContainerElement.classList.remove('hidden');
-        loadVendors(vendorConsents, vendorListVersion, forConsent);
+        loadVendors(vendorConsents, vendorListVersion, forConsent, forceUpdate);
         showVendorsButton.innerText = 'Hide';
         showVendorsButton.classList.add('button_hide');
 

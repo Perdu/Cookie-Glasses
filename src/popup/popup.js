@@ -186,14 +186,16 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
 }
 
 function handleTCData(data, timestampTcDataLoaded) {
+  // TODO(@ctan): use a force update when user manually decodes consent string
+  const forceUpdate = false;
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
-  handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true);
-  handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false);
+  handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true, forceUpdate);
+  handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false, forceUpdate);
   handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
 }
 
