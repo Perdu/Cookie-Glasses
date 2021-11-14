@@ -14,7 +14,9 @@ import '../button/38.png';
 import './ucookie.css';
 import { TCString } from '@iabtcf/core';
 import cmpListFull from './IAB_CMP_list_full';
+import { fetchVendorList, showVendors } from '../js/vendorUtils';
 
+const vendorListVersion = 2;
 let api;
 if (chrome === undefined) {
   api = browser;
@@ -74,6 +76,7 @@ function showCmp(cmpId) {
     document.getElementById('cmp').textContent = `Unknown CMP ID ${cmpId}. Search for it on the cmp-list: `;
     const a = document.createElement('a');
     a.href = 'https://iabeurope.eu/cmp-list/';
+    a.target = '_blank';
     a.appendChild(document.createTextNode('https://iabeurope.eu/cmp-list/'));
     document.getElementById('cmp').appendChild(a);
   }
@@ -129,6 +132,36 @@ function handleTCData(data, timestampTcDataLoaded) {
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
+  // handle vendor buttons
+  if (document.getElementById('show_vendors')) {
+    const showVendorsButton = document.getElementById('show_vendors');
+    const vendorsContainerElement = document.getElementById('vendors_container');
+    showVendorsButton.onclick = () => {
+      if (vendorsContainerElement.classList.contains('hidden')) {
+        showHiddenElement('vendors_container');
+        loadVendors(data.vendorConsents);
+        showVendorsButton.innerText = 'Hide';
+      } else {
+        showVendorsButton.innerText = 'Show vendors';
+        hideElement('vendors_container');
+      }
+    };
+  }
+}
+
+function loadVendors(vendorConsents) {
+  const allowedVendors = vendorConsents.set_;
+  const vendorListName = `vendorList_${vendorListVersion}`;
+  api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
+    if (result[vendorListName] === undefined) {
+      // vendorList is not in localstorage, load it from IAB's website
+      document.getElementById('vendors-container').appendChild(document.createTextNode('Loading vendor list...'));
+      fetchVendorList(vendorListVersion, allowedVendors);
+    } else {
+      // vendorList is in locals storage
+      showVendors(result[vendorListName], allowedVendors);
+    }
+  });
 }
 
 function getActiveTabStorage() {
@@ -224,12 +257,33 @@ if (document.getElementById('show_purposes')) {
   };
 }
 
+<<<<<<< HEAD
 pruneTabStorage();
+=======
+// function fetchVendorList() {
+//   const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
+//     method: 'GET',
+//     headers: { Accept: 'application/json' },
+//     redirect: 'follow',
+//     referrer: 'client',
+//   });
+//   console.log('fetchVendorList', req);
+//   fetch(req).then((response) => response.json()).then((data) => {
+//     const a = {};
+//     a[`vendorList_${vendorListVersion}`] = data;
+//     api.storage.local.set(a);
+//     showVendors(data);
+//   }).catch((error) => {
+//     console.log('Error fetching vendor list: ', error);
+//     // TODO: surface generic error message in pop-up
+//   });
+// }
+
+>>>>>>> eacdad9 (add show vendors functionality)
 getActiveTabStorage();
 
 // ----------------------------- OLD LOGIC -----------------------------
 let cmpLocatorFound = false;
-let vendorListVersion = 2;
 let consentString = null;
 
 const descriptions = ['Information storage and access', 'Personalisation', 'Ad selection, delivery, reporting', 'Content selection, delivery, reporting', 'Measurement'];
@@ -352,7 +406,7 @@ function update_with_consent_string_data(consentString) {
     vendorListVersion = parseInt(consentString.vendorListVersion);
     if (document.title === 'Cookie Glasses') { // this part is unecessary if popup is not open
       if (consentString.allowedVendorIds.length === 0) {
-        document.getElementById('show_vendors').classList.add('hidden');
+        // document.getElementById('show_vendors').classList.add('hidden');
       }
       document.getElementById('cmplocator_found').classList.add('hidden');
       document.getElementById('nothing_found').classList.add('hidden');
@@ -401,81 +455,6 @@ function update_with_consent_string_data(consentString) {
     }
     throw e;
   }
-}
-
-function findVendor(id, vendorList) {
-  for (vendor in vendorList.vendors) {
-    if (vendorList.vendors[vendor].id == id) {
-      return vendorList.vendors[vendor];
-    }
-  }
-  return null;
-}
-
-function showVendors(vendorList) {
-  let vendors = '';
-  const vendorNames = [];
-  let id;
-  // eslint-disable-next-line no-restricted-syntax
-  for (id in consentString.allowedVendorIds) {
-    const vendor = findVendor(consentString.allowedVendorIds[id], vendorList);
-    let vendorName;
-    if (vendor == null) {
-      vendorName = `{Incorrect vendor, ID ${id}}`;
-    } else {
-      vendorName = vendor.name;
-      if (vendor.purposeIds.length === 0) {
-        vendorName += ' [*]';
-      }
-    }
-    vendorNames.push(vendorName);
-  }
-  vendors = '\r\nVendors ([*] indicates that vendors relies on legitimates interests only):\r\n';
-  let vendorName;
-  // eslint-disable-next-line no-restricted-syntax
-  for (vendorName in vendorNames.sort()) {
-    vendors += `${vendorNames[vendorName]}\r\n`;
-  }
-  document.getElementById('vendors').textContent = vendors;
-  document.getElementById('show_vendors').classList.add('hidden');
-}
-
-function fetchVendorList() {
-  const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
-    method: 'GET',
-    headers: { Accept: 'application/json' },
-    redirect: 'follow',
-    referrer: 'client',
-  });
-  console.log('fetchVendorList', req);
-  fetch(req).then((response) => response.json()).then((data) => {
-    const a = {};
-    a[`vendorList_${vendorListVersion}`] = data;
-    api.storage.local.set(a);
-    showVendors(data);
-  }).catch((error) => {
-    console.log('Error fetching vendor list: ', error);
-    // TODO: surface generic error message in pop-up
-  });
-}
-
-function loadVendors() {
-  const vendorListName = `vendorList_${vendorListVersion}`;
-  api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
-    // document.getElementById('vendors').classList.remove('hidden');
-    if (result[vendorListName] === undefined) {
-      // vendorList is not in localstorage, load it from IAB's website
-      document.getElementById('vendors').appendChild(document.createTextNode('Loading vendor list...'));
-      fetchVendorList();
-    } else {
-      // vendorList is in localsstorage
-      showVendors(result[vendorListName]);
-    }
-  });
-}
-
-if (document.getElementById('show_vendors')) {
-  document.getElementById('show_vendors').onclick = loadVendors;
 }
 
 if (document.getElementById('decode_cs')) {
