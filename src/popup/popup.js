@@ -127,11 +127,27 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
   document.getElementById('last_fetched').textContent = formatIntlDate(lastFetched);
 }
 
+function loadVendors(vendorConsents) {
+  const allowedVendors = vendorConsents.set_;
+  const vendorListName = `vendorList_${vendorListVersion}`;
+  api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
+    if (result[vendorListName] === undefined) {
+      // vendorList is not in localstorage, load it from IAB's website
+      document.getElementById('vendors_container').appendChild(document.createTextNode('Loading vendor list...'));
+      fetchVendorList(vendorListVersion, allowedVendors);
+    } else {
+      // vendorList is in locals storage
+      showVendors(result[vendorListName], allowedVendors);
+    }
+  });
+}
+
 function handleTCData(data, timestampTcDataLoaded) {
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
+
   // handle vendor buttons
   if (document.getElementById('show_vendors')) {
     const showVendorsButton = document.getElementById('show_vendors');
@@ -147,21 +163,6 @@ function handleTCData(data, timestampTcDataLoaded) {
       }
     };
   }
-}
-
-function loadVendors(vendorConsents) {
-  const allowedVendors = vendorConsents.set_;
-  const vendorListName = `vendorList_${vendorListVersion}`;
-  api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
-    if (result[vendorListName] === undefined) {
-      // vendorList is not in localstorage, load it from IAB's website
-      document.getElementById('vendors-container').appendChild(document.createTextNode('Loading vendor list...'));
-      fetchVendorList(vendorListVersion, allowedVendors);
-    } else {
-      // vendorList is in locals storage
-      showVendors(result[vendorListName], allowedVendors);
-    }
-  });
 }
 
 function getActiveTabStorage() {
