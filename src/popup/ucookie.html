@@ -38,12 +38,16 @@
           <span id='nb_vendors' class="total_nb"></span> total vendors consented to.
           <button id="show_vendors">Show vendors</button>
         </div>
+        <div id="vendors_container" class="hidden">
+          [*] indicates that vendors relies on legitimates interests only
+          <ul id="vendors_list"></ul>
+        </div>
       </div>
       <div class="content-container">
         <h2>Purposes</h2>
         <div class="total_nb_container">
           <span><span id='nb_purposes' class="total_nb"></span> / 10 purposes with consent</span>
-          <button id="show_purposes" class="show_button">Show purposes</button>
+          <button id="show_purposes">Show purposes</button>
         </div>
         
         <div class="hidden" id="purposes_list">
@@ -69,7 +73,6 @@
         TCF String Last Updated: <i><span id='last_updated'></span></i><br />
         TCF String Last Fetched: <i><span id='last_fetched'></span></i><br />
       </div>
-      <span id='vendors' class="hidden"></span>
     </div>
     <br />
     <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
