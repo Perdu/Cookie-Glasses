@@ -6,122 +6,133 @@
     <link rel="stylesheet" href="ucookie.css"/>
     <title>Cookie Glasses</title>
   </head>
-
   <body>
-    <div id="nothing_found">
-      <p>This webpage does not seem to implement IAB Europe's Transparency and Consent Framework (this extension only works for websites using IAB Europe's TCF).</p>
-    </div>
-    <div id="error_fetching_retry" class = "hidden">
-      <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Retrying...</p>
-    </div>
-    <div id="error_fetching" class = "hidden">
-      <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Please try again later.</p>
-    </div>
-    <div id="cmplocator_found" class="hidden">
-      <p>A CMP on this webpage implements IAB Europe's Transparency and Consent Framework.<br /><br />Waiting for an answer from CMP... (We may not get one before you close the cookie banner)</p>
-    </div>
-    <div id="gdpr_applies_false" class="hidden">
-      <p>
-        A CMP on this webpage implements IAB Europe's Transparency and Consent Framework. However, the CMP has determined that GDPR does not apply in this context. If you are not residing in the EU, try using a VPN.
-        <br/>
-        <br/>
-        Find more information <a target="_blank" href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean">here</a>.
-      </p>
-    </div>
-    <div id="cmp_content" class="hidden">
-      <div><i>The consent string registered by the CMP on this page contains the following information.</i></div>
-
-      <div class="content-container">CMP: <span id='cmp'></span><span id='cmpid'></span></div>
-      <div class="content-container">
-        <h2>Consents</h2>
-        <div class="counts_container">
-          <div class="total_nb_container total_nb_purposes_container">
-            <div><div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.</div>
-            <button id="show_consents" class="show_button">Show purposes</button>
-          </div>
-          <div class="total_nb_container total_nb_vendors_container">
-            <div><div id='nb_vendors' class="total_nb total_nb_vendors">n/a</div> total vendors allowed </div>
-            <button id="show_vendor_consents" class="show_button">Show vendors</button>
+    <header role="banner" class="header">
+      <div class="cookie_glasses_title">
+        <!-- <img src="../button/38.png" class="icon"> -->
+        Cookie Glasses &#127850; &#129400; 
+      </div>
+    </header>
+    <div class="main_content">
+      <div id="nothing_found">
+        <p>This webpage does not seem to implement IAB Europe's Transparency and Consent Framework (this extension only works for websites using IAB Europe's TCF).</p>
+      </div>
+      <div id="error_fetching_retry" class = "hidden">
+        <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Retrying...</p>
+      </div>
+      <div id="error_fetching" class = "hidden">
+        <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Please try again later.</p>
+      </div>
+      <div id="cmplocator_found" class="hidden">
+        <p>A CMP on this webpage implements IAB Europe's Transparency and Consent Framework.<br /><br />Waiting for an answer from CMP... (We may not get one before you close the cookie banner)</p>
+      </div>
+      <div id="gdpr_applies_false" class="hidden">
+        <p>
+          A CMP on this webpage implements IAB Europe's Transparency and Consent Framework. However, the CMP has determined that GDPR does not apply in this context. If you are not residing in the EU, try using a VPN.
+          <br/>
+          <br/>
+          Find more information <a target="_blank" href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean">here</a>.
+        </p>
+      </div>
+      <div id="cmp_content" class="hidden">
+        <!-- <div><i>The consent string registered by the CMP on this page contains the following information.</i></div> -->
+        <div class="content-container">
+          <div class="cmp_name_container">
+            <div class="cmp_decorator">CMP</div>
+            <div id='cmp'></span><span id='cmpid'></div>
           </div>
         </div>
-        <div class="hidden bounded_container" id="purposes_list">
-          <ol>
-            <li id='purpose-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
-            <li id='purpose-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
-            <li id='purpose-3'>&nbsp;[3] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
-            <li id='purpose-4'>&nbsp;[4] <strong>Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
-            <li id='purpose-5'>&nbsp;[5] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
-            <li id='purpose-6'>&nbsp;[6] <strong>Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
-            <li id='purpose-7'>&nbsp;[7] <strong>Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
-            <li id='purpose-8'>&nbsp;[8] <strong>Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
-            <li id='purpose-9'>&nbsp;[9] <strong>Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
-            <li id='purpose-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
-          </ol>
-          <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+        <div class="content-container">
+          <h2>Consents</h2>
+          <div class="counts_container">
+            <div class="total_nb_container total_nb_purposes_container">
+              <div><div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.</div>
+              <button id="show_consents" class="show_button">Show purposes</button>
+            </div>
+            <div class="total_nb_container total_nb_vendors_container">
+              <div><div id='nb_vendors' class="total_nb total_nb_vendors">n/a</div> total vendors allowed </div>
+              <button id="show_vendor_consents" class="show_button">Show vendors</button>
+            </div>
+          </div>
+          <div class="hidden bounded_container" id="purposes_list">
+            <ol>
+              <li id='purpose-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
+              <li id='purpose-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
+              <li id='purpose-3'>&nbsp;[3] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
+              <li id='purpose-4'>&nbsp;[4] <strong>Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
+              <li id='purpose-5'>&nbsp;[5] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
+              <li id='purpose-6'>&nbsp;[6] <strong>Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
+              <li id='purpose-7'>&nbsp;[7] <strong>Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
+              <li id='purpose-8'>&nbsp;[8] <strong>Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
+              <li id='purpose-9'>&nbsp;[9] <strong>Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
+              <li id='purpose-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
+            </ol>
+            <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+          </div>
+          <div id="consents_vendors_container" class="hidden bounded_container">
+            [*] indicates that vendors relies on only on legitimates interests
+            <ul id="purpose_vendors_list"></ul>
+          </div>
         </div>
-        <div id="consents_vendors_container" class="hidden bounded_container">
-          [*] indicates that vendors relies on only on legitimates interests
-          <ul id="purpose_vendors_list"></ul>
+        <div class="content-container">
+          <h2>Legitimate Interests</h2>
+          <div class="counts_container">
+            <div class="total_nb_container total_nb_purposes_container">
+              <div><div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).</div>
+              <button id="show_legitimate_interests" class="show_button">Show purposes</button>
+            </div>
+            <div class="total_nb_container total_nb_vendors_container">
+              <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing purposes on the basis of legitmate interest</div>
+              <button id="show_vendor_legitimate_interests" class="show_button">Show vendors</button>
+            </div>
+          </div>
+          <div class="hidden bounded_container" id="legitimate_interests_list">
+            <ol>
+              <li id='legit-interest-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
+              <li id='legit-interest-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
+              <li id='legit-interest-3'>&nbsp;[3] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
+              <li id='legit-interest-4'>&nbsp;[4] <strong>Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
+              <li id='legit-interest-5'>&nbsp;[5] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
+              <li id='legit-interest-6'>&nbsp;[6] <strong>Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
+              <li id='legit-interest-7'>&nbsp;[7] <strong>Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
+              <li id='legit-interest-8'>&nbsp;[8] <strong>Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
+              <li id='legit-interest-9'>&nbsp;[9] <strong>Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
+              <li id='legit-interest-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
+            </ol>
+            <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+          </div>
+          <div id="legitimate_interests_vendors_container" class="hidden bounded_container">
+            <ul id="legitimate_interests_vendors_list"></ul>
+          </div>
+        </div>
+        <div class="content-container">
+          <span id="manual_cs" class="hidden">User-provided consent string.<br /></span>
+          <span id="show_cs">Consent string stored by CMP:<br /><br /><textarea rows='5' id='consent_string'></textarea></span>
+          TCF String Created: <i><span id='created'></span></i><br />
+          TCF String Last Updated: <i><span id='last_updated'></span></i><br />
+          TCF String Last Fetched: <i><span id='last_fetched'></span></i><br />
         </div>
       </div>
-      <div class="content-container">
-        <h2>Legitimate Interests</h2>
-        <div class="counts_container">
-          <div class="total_nb_container total_nb_purposes_container">
-            <div><div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).</div>
-            <button id="show_legitimate_interests" class="show_button">Show purposes</button>
-          </div>
-          <div class="total_nb_container total_nb_vendors_container">
-            <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing purposes on the basis of legitmate interest</div>
-            <button id="show_vendor_legitimate_interests" class="show_button">Show vendors</button>
-          </div>
-        </div>
-        <div class="hidden bounded_container" id="legitimate_interests_list">
-          <ol>
-            <li id='legit-interest-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
-            <li id='legit-interest-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
-            <li id='legit-interest-3'>&nbsp;[3] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
-            <li id='legit-interest-4'>&nbsp;[4] <strong>Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
-            <li id='legit-interest-5'>&nbsp;[5] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
-            <li id='legit-interest-6'>&nbsp;[6] <strong>Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
-            <li id='legit-interest-7'>&nbsp;[7] <strong>Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
-            <li id='legit-interest-8'>&nbsp;[8] <strong>Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
-            <li id='legit-interest-9'>&nbsp;[9] <strong>Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
-            <li id='legit-interest-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
-          </ol>
-          <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
-        </div>
-        <div id="legitimate_interests_vendors_container" class="hidden bounded_container">
-          <ul id="legitimate_interests_vendors_list"></ul>
-        </div>
+      <br />
+      <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
+      <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
+      <div class="hidden" id="decoder">
+        Manually decode a consent string:
+        <input type="text" id="cs_to_decode" />
+        <button id="decode_cs">Decode</button>
+        <span id="decode_cs_error" class="hidden">Error: Invalid consent string</span>
       </div>
-      <div class="content-container">
-        <span id="manual_cs" class="hidden">User-provided consent string.<br /></span>
-        <span id="show_cs">Consent string stored by CMP:<br /><br /><textarea rows='5' id='consent_string'></textarea></span>
-        TCF String Created: <i><span id='created'></span></i><br />
-        TCF String Last Updated: <i><span id='last_updated'></span></i><br />
-        TCF String Last Fetched: <i><span id='last_fetched'></span></i><br />
+      <div class="hidden" id="details">
+        Icon color scheme:<br />
+        - Red indicates that consent is still set for at least one vendor and one purpose.<br />
+        - Green indicates that consent is completely refused.<br />
+        Vendors (advertisers) are supposed to check that <b>both</b> purposes and their vendor identifier is allowed to perform tracking.<br />
+        The number shown in the icon is the number of allowed purposes.
       </div>
-    </div>
-    <br />
-    <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
-    <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
-    <div class="hidden" id="decoder">
-      Manually decode a consent string:
-      <input type="text" id="cs_to_decode" />
-      <button id="decode_cs">Decode</button>
-      <span id="decode_cs_error" class="hidden">Error: Invalid consent string</span>
-    </div>
-    <div class="hidden" id="details">
-      Icon color scheme:<br />
-      - Red indicates that consent is still set for at least one vendor and one purpose.<br />
-      - Green indicates that consent is completely refused.<br />
-      Vendors (advertisers) are supposed to check that <b>both</b> purposes and their vendor identifier is allowed to perform tracking.<br />
-      The number shown in the icon is the number of allowed purposes.
-    </div>
-    <div id="version">
-      Cookie Glasses version: 1.1.10
-    </div>
+      <div id="version">
+        Cookie Glasses version: 1.1.10
+      </div>
+  </div>
     <!-- <script src="IAB_CMP_list_full.js"></script>
     <script src="lib.js"></script>
     <script src="popup.js"></script> -->
