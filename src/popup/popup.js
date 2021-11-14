@@ -234,14 +234,12 @@ pruneTabStorage();
 getActiveTabStorage();
 
 // ----------------------------- OLD LOGIC -----------------------------
-let consentString = null;
-
 if (document.getElementById('decode_cs')) {
   document.getElementById('decode_cs').onclick = function () {
     const raw_consent_string = document.getElementById('cs_to_decode').value;
     try {
-      consentString = decodeConsentString(raw_consent_string);
-      update_with_consent_string_data(consentString);
+      // const consentString = decodeConsentString(raw_consent_string);
+      // update_with_consent_string_data(consentString);
       document.getElementById('show_cs').classList.add('hidden');
       document.getElementById('manual_cs').classList.remove('hidden');
       document.getElementById('decode_cs_error').classList.add('hidden');
