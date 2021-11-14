@@ -121,8 +121,33 @@ function formatIntlDate(date) {
   }).format(date);
 }
 
-function handleLegitimateInterests(vendorLegitimateInterests) {
-  document.getElementById('nb_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
+function handleLegitimateInterests(purposeLegitimateInterests, vendorLegitimateInterests) {
+  document.getElementById('nb_vendor_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
+
+  // update legitimate interest consents
+  document.getElementById('nb_legitimate_interests').textContent = purposeLegitimateInterests.set_.size;
+  [...Array(10).keys()].map((id) => {
+    if (purposeLegitimateInterests.set_.has(id + 1)) {
+      document.getElementById(`legit-interest-${id + 1}`).classList.add('purpose-consented-item');
+      return true;
+    }
+    document.getElementById(`legit-interest-${id + 1}`).classList.add('purpose-not-consented-item');
+    return false;
+  });
+}
+
+const showLegitimateInterestsButton = document.getElementById('show_legitimate_interests');
+const legitimateInterestsList = document.getElementById('legitimate_interests_list');
+if (showLegitimateInterestsButton && legitimateInterestsList) {
+  showLegitimateInterestsButton.onclick = () => {
+    if (legitimateInterestsList.classList.contains('hidden')) {
+      showLegitimateInterestsButton.textContent = 'Hide';
+      showHiddenElement('legitimate_interests_list');
+    } else {
+      showLegitimateInterestsButton.textContent = 'Show legitimate interests';
+      hideElement('legitimate_interests_list');
+    }
+  };
 }
 
 function showTimestamps(createdAt, lastUpdated, lastFetched) {
@@ -140,7 +165,7 @@ function handleTCData(data, timestampTcDataLoaded) {
   // handle vendor buttons
   handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true);
   handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false);
-  handleLegitimateInterests(data.vendorLegitimateInterests);
+  handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
 }
 
 function getActiveTabStorage() {
@@ -189,6 +214,7 @@ function getActiveTabStorage() {
           console.log('decoded string', decodedString);
           handleTCData(decodedString, data.timestampTcDataLoaded);
         }
+        return true;
       });
       return true;
     });
