@@ -257,29 +257,7 @@ if (document.getElementById('show_purposes')) {
   };
 }
 
-<<<<<<< HEAD
 pruneTabStorage();
-=======
-// function fetchVendorList() {
-//   const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
-//     method: 'GET',
-//     headers: { Accept: 'application/json' },
-//     redirect: 'follow',
-//     referrer: 'client',
-//   });
-//   console.log('fetchVendorList', req);
-//   fetch(req).then((response) => response.json()).then((data) => {
-//     const a = {};
-//     a[`vendorList_${vendorListVersion}`] = data;
-//     api.storage.local.set(a);
-//     showVendors(data);
-//   }).catch((error) => {
-//     console.log('Error fetching vendor list: ', error);
-//     // TODO: surface generic error message in pop-up
-//   });
-// }
-
->>>>>>> eacdad9 (add show vendors functionality)
 getActiveTabStorage();
 
 // ----------------------------- OLD LOGIC -----------------------------
