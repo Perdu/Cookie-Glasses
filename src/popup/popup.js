@@ -78,7 +78,7 @@ function showCmp(cmpId) {
     cmpElement.href = cmp.url;
   } else {
     cmpElement.textContent = 'Unknown CMP';
-    document.getElementById('unknown_cmp_container').classList.remove('hidden');
+    hideElement('unknown_cmp_container');
   }
 }
 
