@@ -39,12 +39,19 @@
         </p>
       </div>
       <div id="cmp_content" class="hidden">
-        <!-- <div><i>The consent string registered by the CMP on this page contains the following information.</i></div> -->
         <div class="content-container">
           <div class="cmp_name_container">
             <div class="cmp_decorator">CMP</div>
-            <div id='cmp'></div>
-            <div id='cmpid'></div>
+            <div id='cmp' class="cmp_name"></div>
+            <span id='cmpid'></span>
+          </div>
+          <div id="unknown_cmp_container" class="hidden">
+            <div class="unknown_cmp_container">
+              <div id="alert_icon">&#128680;</div> 
+              <div id="unknown_cmp">
+                <strong>This CMP is either not registered or not compliant with TCF.</strong> See all compliant CMPs <a href="https://iabeurope.eu/cmp-list/" target="_blank">here</a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="content-container">

@@ -68,17 +68,14 @@ function showTCString(tcString) {
 }
 
 function showCmp(cmpId) {
+  const cmpElement = document.getElementById('cmp');
+  document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
   if (cmpId in cmpListFull) {
-    document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
-    document.getElementById('cmp').textContent = cmpListFull[cmpId];
-    document.getElementById('cmp').classList.add('identified_cmp');
+    cmpElement.textContent = cmpListFull[cmpId];
+    cmpElement.classList.add('identified_cmp');
   } else {
-    document.getElementById('cmp').textContent = `Unknown CMP ID ${cmpId}. Search for it on the cmp-list: `;
-    const a = document.createElement('a');
-    a.href = 'https://iabeurope.eu/cmp-list/';
-    a.target = '_blank';
-    a.appendChild(document.createTextNode('https://iabeurope.eu/cmp-list/'));
-    document.getElementById('cmp').appendChild(a);
+    cmpElement.textContent = 'Unknown CMP';
+    document.getElementById('unknown_cmp_container').classList.remove('hidden');
   }
 }
 
