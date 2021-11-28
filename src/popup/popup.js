@@ -293,11 +293,11 @@ if (document.getElementById('decode_cs')) {
       const decodedString = TCString.decode(rawConsentString);
       // update_with_consent_string_data(consentString);
       handleTCData(decodedString, undefined);
-      document.getElementById('show_cs').classList.add('hidden');
-      document.getElementById('manual_cs').classList.remove('hidden');
-      document.getElementById('decode_cs_error').classList.add('hidden');
+      hideElement('show_cs');
+      hideElement('decode_cs_error');
+      showHiddenElement('warning_header');
     } catch {
-      document.getElementById('decode_cs_error').classList.remove('hidden');
+      showHiddenElement('decode_cs_error');
     }
   };
 }
