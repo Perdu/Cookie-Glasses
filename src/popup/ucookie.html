@@ -39,7 +39,8 @@
         <div class="content-container">
           <div class="cmp_name_container">
             <div class="cmp_decorator">CMP</div>
-            <div id='cmp'></span><span id='cmpid'></div>
+            <div id='cmp'></div>
+            <div id='cmpid'></div>
           </div>
         </div>
         <div class="content-container">
@@ -70,7 +71,7 @@
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
           </div>
           <div id="consents_vendors_container" class="hidden bounded_container">
-            [*] indicates that vendors relies on only on legitimates interests
+            [*] indicates that vendors relies only on legitimates interests
             <ul id="purpose_vendors_list"></ul>
           </div>
         </div>
@@ -117,10 +118,10 @@
       <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
       <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
       <div class="hidden" id="decoder">
-        Manually decode a consent string:
+        Manually decode a consent string:<br />
         <input type="text" id="cs_to_decode" />
-        <button id="decode_cs">Decode</button>
-        <span id="decode_cs_error" class="hidden">Error: Invalid consent string</span>
+        <button id="decode_cs">Decode</button><br />
+        <i><span id="decode_cs_error" class="hidden">Error: Invalid consent string</span></i>
       </div>
       <div class="hidden" id="details">
         Icon color scheme:<br />

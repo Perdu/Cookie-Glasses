@@ -44,7 +44,7 @@ function showVendors(vendorList, allowedVendorIds, forPurposes, forceUpdate) {
   });
 }
 
-function fetchVendorList(vendorListVersion, allowedVendors) {
+function fetchVendorList(vendorListVersion, allowedVendors, forPurposes, forceUpdate) {
   const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
     method: 'GET',
     headers: { Accept: 'application/json' },
@@ -56,23 +56,25 @@ function fetchVendorList(vendorListVersion, allowedVendors) {
     const a = {};
     a[`vendorList_${vendorListVersion}`] = data;
     api.storage.local.set(a);
-    showVendors(data, allowedVendors);
+    showVendors(data, allowedVendors, forPurposes, forceUpdate);
   }).catch((error) => {
     console.log('Error fetching vendor list: ', error);
     // TODO: surface generic error message in pop-up
   });
 }
 
-function loadVendors(vendorConsents, vendorListVersion, forPurposes, forceUpdate) {
+function loadVendors(
+  vendorConsents, vendorListVersion, vendorsContainerElement, forPurposes, forceUpdate,
+) {
   const allowedVendors = vendorConsents.set_;
   const vendorListName = `vendorList_${vendorListVersion}`;
   api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
     if (result[vendorListName] === undefined) {
       // vendorList is not in localstorage, load it from IAB's website
-      document.getElementById('vendors_container').appendChild(document.createTextNode('Loading vendor list...'));
-      fetchVendorList(vendorListVersion, allowedVendors);
+      vendorsContainerElement.appendChild(document.createTextNode('Loading vendor list...'));
+      fetchVendorList(vendorListVersion, allowedVendors, forPurposes, forceUpdate);
     } else {
-      // vendorList is in locals storage
+      // vendorList is in local storage
       showVendors(result[vendorListName], allowedVendors, forPurposes, forceUpdate);
     }
   });
@@ -90,7 +92,8 @@ export default function handleVendors(vendorConsents, vendorListVersion, forCons
     showVendorsButton.onclick = () => {
       if (vendorsContainerElement.classList.contains('hidden')) {
         vendorsContainerElement.classList.remove('hidden');
-        loadVendors(vendorConsents, vendorListVersion, forConsent, forceUpdate);
+        loadVendors(vendorConsents, vendorListVersion, vendorsContainerElement,
+          forConsent, forceUpdate);
         showVendorsButton.innerText = 'Hide';
         showVendorsButton.classList.add('button_hide');
 
