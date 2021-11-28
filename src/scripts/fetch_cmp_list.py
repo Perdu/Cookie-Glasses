@@ -7,6 +7,11 @@ CMP_LIST_URL = 'https://iabeurope.eu/cmp-list/'
 CMP_OUT_FILE = 'cmp_list_full.json'
 __location__ = path.realpath(path.join(getcwd(), path.dirname(__file__)))
 
+def get_cmp_url(cmp_url_column):
+    for child in cmp_url_column.contents:
+        if child.name == 'a':
+            return child['href']
+
 def get_cmp_info(row):
     for child in row.contents:
         if child.name == 'td':
@@ -15,7 +20,7 @@ def get_cmp_info(row):
             elif child['class'][0] == 'column-2':
                 name = child.text.strip()
             elif child['class'][0] == 'column-3':
-                url = child.text.strip()
+                url = get_cmp_url(child).strip()
             elif child['class'][0] == 'column-4':
                 subdomain = child.text.strip()
     return id, name, url, subdomain

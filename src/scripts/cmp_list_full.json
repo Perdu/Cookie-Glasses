@@ -1,7 +1,7 @@
 {
     "9": {
         "name": "Admiral",
-        "url": "getadmiral.com",
+        "url": "https://getadmiral.com",
         "subdomain": "admiral.mgr.consensu.org"
     },
     "235": {
@@ -16,7 +16,7 @@
     },
     "63": {
         "name": "ALZ Software Ltd (trading as Clickio)",
-        "url": "gdpr.clickio.com",
+        "url": "https://gdpr.clickio.com",
         "subdomain": "clickio.mgr.consensu.org"
     },
     "2": {
@@ -66,7 +66,7 @@
     },
     "90": {
         "name": "Commanders Act",
-        "url": "www.commandersact.com",
+        "url": "https://www.commandersact.com",
         "subdomain": "CommandersAct.mgr.consensu.org"
     },
     "332": {
@@ -81,7 +81,7 @@
     },
     "31": {
         "name": "consentmanager.net",
-        "url": "consentmanager.net",
+        "url": "https://consentmanager.net",
         "subdomain": "consentmanager.mgr.consensu.org"
     },
     "23": {
@@ -96,7 +96,7 @@
     },
     "134": {
         "name": "Cookiebot",
-        "url": "www.cookiebot.com",
+        "url": "https://www.cookiebot.com",
         "subdomain": "cookiebot.mgr.consensu.org"
     },
     "304": {
@@ -126,7 +126,7 @@
     },
     "18": {
         "name": "Evidon, Inc",
-        "url": "evidon.com",
+        "url": "https://evidon.com",
         "subdomain": "evidon.mgr.consensu.org"
     },
     "299": {
@@ -136,7 +136,7 @@
     },
     "104": {
         "name": "Gemius SA",
-        "url": "www.gemius.com",
+        "url": "https://www.gemius.com",
         "subdomain": "gemius.mgr.consensu.org"
     },
     "242": {
@@ -156,7 +156,7 @@
     },
     "123": {
         "name": "iubenda",
-        "url": "www.iubenda.com",
+        "url": "https://www.iubenda.com",
         "subdomain": "iubenda.mgr.consensu.org"
     },
     "297": {
@@ -221,12 +221,12 @@
     },
     "65": {
         "name": "OneTag Ltd",
-        "url": "onetag.net",
+        "url": "https://onetag.net",
         "subdomain": "OneTag.mgr.consensu.org"
     },
     "28": {
         "name": "OneTrust LLC",
-        "url": "onetrust.com",
+        "url": "https://onetrust.com",
         "subdomain": "onetrust.mgr.consensu.org"
     },
     "305": {
@@ -246,7 +246,7 @@
     },
     "185": {
         "name": "Playwire LLC",
-        "url": "https://playwire.com/",
+        "url": "https://www.webads.nl/",
         "subdomain": "playwire.mgr.consensu.org"
     },
     "322": {
@@ -256,7 +256,7 @@
     },
     "10": {
         "name": "Quantcast International Limited",
-        "url": "quantcast.com",
+        "url": "https://quantcast.com",
         "subdomain": "quantcast.mgr.consensu.org"
     },
     "218": {
@@ -266,7 +266,7 @@
     },
     "30": {
         "name": "Rich Audience International SL",
-        "url": "richaudience.com",
+        "url": "https://richaudience.com",
         "subdomain": "richaudience.mgr.consensu.org"
     },
     "280": {
@@ -296,12 +296,12 @@
     },
     "25": {
         "name": "ShareThis, Inc.",
-        "url": "sharethis.com",
+        "url": "https://sharethis.com",
         "subdomain": "sharethis.mgr.consensu.org"
     },
     "96": {
         "name": "ShinyStat S.p.a.",
-        "url": "www.shinystat.com",
+        "url": "https://www.shinystat.com",
         "subdomain": "shinystat.mgr.consensu.org"
     },
     "76": {
@@ -316,7 +316,7 @@
     },
     "92": {
         "name": "SIRDATA",
-        "url": "www.sirdata.com",
+        "url": "https://www.sirdata.com",
         "subdomain": "sddan.mgr.consensu.org"
     },
     "229": {
@@ -326,7 +326,7 @@
     },
     "6": {
         "name": "Sourcepoint Technologies, Inc.",
-        "url": "sourcepoint.com",
+        "url": "https://sourcepoint.com",
         "subdomain": "sourcepoint.mgr.consensu.org"
     },
     "352": {
@@ -336,7 +336,7 @@
     },
     "77": {
         "name": "Teaching Aids, LLC",
-        "url": "admetricspro.com",
+        "url": "https://admetricspro.com",
         "subdomain": "cmp.mgr.consensu.org"
     },
     "373": {
@@ -346,12 +346,12 @@
     },
     "21": {
         "name": "Traffective GmbH",
-        "url": "traffective.com",
+        "url": "https://traffective.com",
         "subdomain": "traffective.mgr.consensu.org"
     },
     "68": {
         "name": "Transfon Ltd",
-        "url": "uniconsent.com",
+        "url": "https://uniconsent.com",
         "subdomain": "uniconsent.mgr.consensu.org"
     },
     "47": {
@@ -371,7 +371,7 @@
     },
     "5": {
         "name": "Usercentrics GmbH",
-        "url": "usercentrics.com",
+        "url": "https://usercentrics.com",
         "subdomain": "usercentrics.mgr.consensu.org"
     },
     "236": {
@@ -456,7 +456,7 @@
     },
     "84": {
         "name": "Alma Media",
-        "url": "www.almamedia.fi<",
+        "url": "https://www.almamedia.fi",
         "subdomain": "almamedia.mgr.consensu.org"
     },
     "237": {
@@ -496,7 +496,7 @@
     },
     "105": {
         "name": "DAILYMOTION SA",
-        "url": "www.dailymotion.com",
+        "url": "https://www.dailymotion.com",
         "subdomain": "dailymotion.mgr.consensu.org"
     },
     "59": {
@@ -506,7 +506,7 @@
     },
     "125": {
         "name": "eBay Inc",
-        "url": "www.ebay.com",
+        "url": "https://www.ebay.com",
         "subdomain": "ebay.mgr.consensu.org"
     },
     "277": {
@@ -521,7 +521,7 @@
     },
     "50": {
         "name": "ETARGET SE",
-        "url": "www.etarget.eu",
+        "url": "https://www.etarget.eu",
         "subdomain": "etarget.mgr.consensu.org"
     },
     "282": {
@@ -666,7 +666,7 @@
     },
     "72": {
         "name": "Wirtualna Polska Media S.A.",
-        "url": "onas.wp.pl/poufnosc.html",
+        "url": "https://onas.wp.pl/poufnosc.html",
         "subdomain": "wpm.mgr.consensu.org"
     }
 }

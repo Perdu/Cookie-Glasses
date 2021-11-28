@@ -13,8 +13,9 @@ import '../button/38_red.png';
 import '../button/38.png';
 import './ucookie.css';
 import { TCString } from '@iabtcf/core';
-import cmpListFull from './IAB_CMP_list_full';
 import handleVendors from '../js/vendorUtils';
+
+const cmpListFull = require('../scripts/cmp_list_full.json');
 
 const VENDOR_LIST_VERSION = 2;
 let api;
@@ -68,17 +69,16 @@ function showTCString(tcString) {
 }
 
 function showCmp(cmpId) {
+  const cmpElement = document.getElementById('cmp');
+  const cmp = cmpListFull[String(cmpId)];
+  document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
   if (cmpId in cmpListFull) {
-    document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
-    document.getElementById('cmp').textContent = cmpListFull[cmpId];
-    document.getElementById('cmp').classList.add('identified_cmp');
+    cmpElement.textContent = cmp.name;
+    cmpElement.classList.add('identified_cmp');
+    cmpElement.href = cmp.url;
   } else {
-    document.getElementById('cmp').textContent = `Unknown CMP ID ${cmpId}. Search for it on the cmp-list: `;
-    const a = document.createElement('a');
-    a.href = 'https://iabeurope.eu/cmp-list/';
-    a.target = '_blank';
-    a.appendChild(document.createTextNode('https://iabeurope.eu/cmp-list/'));
-    document.getElementById('cmp').appendChild(a);
+    cmpElement.textContent = 'Unknown CMP';
+    hideElement('unknown_cmp_container');
   }
 }
 
