@@ -15,7 +15,7 @@ import './ucookie.css';
 import { TCString } from '@iabtcf/core';
 import handleVendors from '../js/vendorUtils';
 
-const cmpListFullJson = require('../scripts/cmp_list_full.json');
+const cmpListFull = require('../scripts/cmp_list_full.json');
 
 const VENDOR_LIST_VERSION = 2;
 let api;
@@ -70,7 +70,6 @@ function showTCString(tcString) {
 
 function showCmp(cmpId) {
   const cmpElement = document.getElementById('cmp');
-  const cmpListFull = cmpListFullJson;
   const cmp = cmpListFull[String(cmpId)];
   document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
   if (cmpId in cmpListFull) {
