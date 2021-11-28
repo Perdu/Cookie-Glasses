@@ -13,8 +13,9 @@ import '../button/38_red.png';
 import '../button/38.png';
 import './ucookie.css';
 import { TCString } from '@iabtcf/core';
-import cmpListFull from './IAB_CMP_list_full';
 import handleVendors from '../js/vendorUtils';
+
+const cmpListFullJson = require('../scripts/cmp_list_full.json');
 
 const VENDOR_LIST_VERSION = 2;
 let api;
@@ -69,10 +70,13 @@ function showTCString(tcString) {
 
 function showCmp(cmpId) {
   const cmpElement = document.getElementById('cmp');
+  const cmpListFull = cmpListFullJson;
+  const cmp = cmpListFull[String(cmpId)];
   document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
   if (cmpId in cmpListFull) {
-    cmpElement.textContent = cmpListFull[cmpId];
+    cmpElement.textContent = cmp.name;
     cmpElement.classList.add('identified_cmp');
+    cmpElement.href = cmp.url;
   } else {
     cmpElement.textContent = 'Unknown CMP';
     document.getElementById('unknown_cmp_container').classList.remove('hidden');
