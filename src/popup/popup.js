@@ -182,12 +182,15 @@ if (showLegitimateInterestsButton && legitimateInterestsList) {
 function showTimestamps(createdAt, lastUpdated, lastFetched) {
   document.getElementById('created').textContent = formatDate(createdAt);
   document.getElementById('last_updated').textContent = formatDate(lastUpdated);
-  document.getElementById('last_fetched').textContent = formatIntlDate(lastFetched);
+  if (lastFetched !== undefined) {
+    document.getElementById('last_fetched').textContent = formatIntlDate(lastFetched);
+  } else {
+    document.getElementById('last_fetched').textContent = 'N/A';
+  }
 }
 
 function handleTCData(data, timestampTcDataLoaded) {
-  // TODO(@ctan): use a force update when user manually decodes consent string
-  const forceUpdate = false;
+  const forceUpdate = timestampTcDataLoaded === undefined;
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
   showPurposes(data.purposeConsents);
@@ -212,13 +215,13 @@ function getActiveTabStorage() {
         console.log('data from storage', data);
         if (data === undefined) {
           if (count <= CHECK_TAB_STORAGE_RETRIES) {
-            document.getElementById('nothing_found').classList.add('hidden');
-            document.getElementById('error_fetching_retry').classList.remove('hidden');
+            hideElement('nothing_found');
+            showHiddenElement('error_fetching_retry');
             setTimeout(() => { console.log(`Could not find TCF data in local storage, try ${count}/${CHECK_TAB_STORAGE_RETRIES}`); loop(); }, 1000);
           } else {
-            document.getElementById('nothing_found').classList.add('hidden');
-            document.getElementById('error_fetching_retry').classList.add('hidden');
-            document.getElementById('error_fetching').classList.remove('hidden');
+            hideElement('nothing_found');
+            hideElement('error_fetching_retry');
+            showHiddenElement('error_fetching');
             return false;
           }
         }
@@ -236,7 +239,10 @@ function getActiveTabStorage() {
 
         // tcfapiLocator has been found & received tcString
         if (data.tcfapiLocatorFound === true && data.tcString !== undefined) {
-        // no longer need to show found message
+          // no longer need to show found message or any fetching messages
+          hideElement('nothing_found');
+          hideElement('error_fetching');
+          hideElement('error_fetching_retry');
           hideElement('cmplocator_found');
           showHiddenElement('cmp_content');
           showTCString(data.tcString);
@@ -279,54 +285,54 @@ function pruneTabStorage() {
   });
 }
 
-pruneTabStorage();
-getActiveTabStorage();
-
-// ----------------------------- OLD LOGIC -----------------------------
 if (document.getElementById('decode_cs')) {
   document.getElementById('decode_cs').onclick = function () {
-    const raw_consent_string = document.getElementById('cs_to_decode').value;
+    const rawConsentString = document.getElementById('cs_to_decode').value;
     try {
-      // const consentString = decodeConsentString(raw_consent_string);
+      const decodedString = TCString.decode(rawConsentString);
       // update_with_consent_string_data(consentString);
-      document.getElementById('show_cs').classList.add('hidden');
-      document.getElementById('manual_cs').classList.remove('hidden');
-      document.getElementById('decode_cs_error').classList.add('hidden');
+      handleTCData(decodedString, undefined);
+      hideElement('show_cs');
+      hideElement('decode_cs_error');
+      showHiddenElement('warning_header');
     } catch {
-      document.getElementById('decode_cs_error').classList.remove('hidden');
+      showHiddenElement('decode_cs_error');
     }
   };
 }
 
 if (document.getElementById('open_decoder')) {
-  document.getElementById('open_decoder').onclick = function (e) {
+  document.getElementById('open_decoder').onclick = (e) => {
     e.preventDefault();
-    const decoder = document.getElementById('decoder');
-    if (decoder.classList.contains('hidden')) {
-      decoder.classList.remove('hidden');
-      document.getElementById('details').classList.add('hidden');
+    if (document.getElementById('decoder').classList.contains('hidden')) {
+      showHiddenElement('decoder');
+      hideElement('details');
     } else {
-      decoder.classList.add('hidden');
+      hideElement('decoder');
     }
   };
 }
 
 if (document.getElementById('open_details')) {
-  document.getElementById('open_details').onclick = function (e) {
+  document.getElementById('open_details').onclick = (e) => {
     e.preventDefault();
-    const details = document.getElementById('details');
-    if (details.classList.contains('hidden')) {
-      details.classList.remove('hidden');
-      document.getElementById('decoder').classList.add('hidden');
+    if (document.getElementById('details').classList.contains('hidden')) {
+      showHiddenElement('details');
+      hideElement('decoder');
     } else {
-      details.classList.add('hidden');
+      hideElement('details');
     }
   };
 }
 
+pruneTabStorage();
+getActiveTabStorage();
+
+// ----------------------------- OLD LOGIC -----------------------------
+
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1425829#c12
 async function firefoxWorkaroundForBlankPanel() {
-  if (chrome != undefined || browser === undefined) {
+  if (chrome !== undefined || browser === undefined) {
     return;
   }
   const { id, width, height } = await browser.windows.getCurrent();

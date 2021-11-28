@@ -47,6 +47,13 @@ button:hover {
   align-items:flex-end;
 }
 
+.warning_header {
+  color: rgb(8, 7, 7);
+  padding: 10px;
+  display: flex;
+  align-items:flex-end;
+}
+
 .cookie_glasses_title {
   font-size: 14px;
   margin-right: 0;
