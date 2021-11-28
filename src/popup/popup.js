@@ -190,7 +190,6 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
 }
 
 function handleTCData(data, timestampTcDataLoaded) {
-  // TODO(@ctan): use a force update when user manually decodes consent string
   const forceUpdate = timestampTcDataLoaded === undefined;
   showCmp(data.cmpId_);
   showNumVendors(data.vendorConsents);
@@ -302,36 +301,34 @@ if (document.getElementById('decode_cs')) {
   };
 }
 
-pruneTabStorage();
-getActiveTabStorage();
-
-// ----------------------------- OLD LOGIC -----------------------------
-
 if (document.getElementById('open_decoder')) {
-  document.getElementById('open_decoder').onclick = function (e) {
+  document.getElementById('open_decoder').onclick = (e) => {
     e.preventDefault();
-    const decoder = document.getElementById('decoder');
-    if (decoder.classList.contains('hidden')) {
-      decoder.classList.remove('hidden');
-      document.getElementById('details').classList.add('hidden');
+    if (document.getElementById('decoder').classList.contains('hidden')) {
+      showHiddenElement('decoder');
+      hideElement('details');
     } else {
-      decoder.classList.add('hidden');
+      hideElement('decoder');
     }
   };
 }
 
 if (document.getElementById('open_details')) {
-  document.getElementById('open_details').onclick = function (e) {
+  document.getElementById('open_details').onclick = (e) => {
     e.preventDefault();
-    const details = document.getElementById('details');
-    if (details.classList.contains('hidden')) {
-      details.classList.remove('hidden');
-      document.getElementById('decoder').classList.add('hidden');
+    if (document.getElementById('details').classList.contains('hidden')) {
+      showHiddenElement('details');
+      hideElement('decoder');
     } else {
-      details.classList.add('hidden');
+      hideElement('details');
     }
   };
 }
+
+pruneTabStorage();
+getActiveTabStorage();
+
+// ----------------------------- OLD LOGIC -----------------------------
 
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1425829#c12
 async function firefoxWorkaroundForBlankPanel() {
