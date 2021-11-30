@@ -3,16 +3,16 @@
 /* eslint-disable guard-for-in */
 /* global chrome */
 /* global browser */
+import { TCString } from '@iabtcf/core';
 import './img/Octicons-tools.png';
 import './img/question_mark.svg';
-import '../button/19_green.png';
-import '../button/19_red.png';
+import green19 from '../button/19_green.png';
+import green38 from '../button/38_green.png';
+import red19 from '../button/19_red.png';
+import red38 from '../button/38_red.png';
 import '../button/19.png';
-import '../button/38_green.png';
-import '../button/38_red.png';
 import '../button/38.png';
 import './ucookie.css';
-import { TCString } from '@iabtcf/core';
 import handleVendors from '../js/vendorUtils';
 
 const cmpListFull = require('../scripts/cmp_list_full.json');
@@ -82,12 +82,36 @@ function showCmp(cmpId) {
   }
 }
 
-function showNumVendors(vendorConsents) {
-  document.getElementById('nb_vendors').textContent = vendorConsents.set_.size;
+function setIcon(numPurposeConsents, numPurposeVendors, tabId) {
+  if (numPurposeVendors * numPurposeConsents === 0) {
+    api.browserAction.setIcon({
+      tabId,
+      path: {
+        19: green19,
+        38: green38,
+      },
+    });
+  } else {
+    api.browserAction.setIcon({
+      tabId,
+      path: {
+        19: red19,
+        38: red38,
+      },
+    });
+
+    api.browserAction.setBadgeText({
+      tabId,
+      text: (numPurposeConsents + numPurposeVendors).toString(),
+    });
+  }
 }
 
-function showPurposes(purposeConsents) {
+function handleConsents(purposeConsents, vendorConsents) {
+  // update totals
+  document.getElementById('nb_consent_vendors').textContent = vendorConsents.set_.size;
   document.getElementById('nb_purposes').textContent = purposeConsents.set_.size;
+
   [...Array(10).keys()].map((id) => {
     if (purposeConsents.set_.has(id + 1)) {
       document.getElementById(`purpose-${id + 1}`).classList.add('purpose-consented-item');
@@ -189,17 +213,23 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
   }
 }
 
-function handleTCData(data, timestampTcDataLoaded) {
+function handleTCData(data, timestampTcDataLoaded, tabId) {
   const forceUpdate = timestampTcDataLoaded === undefined;
   showCmp(data.cmpId_);
-  showNumVendors(data.vendorConsents);
-  showPurposes(data.purposeConsents);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
   handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true, forceUpdate);
   handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false, forceUpdate);
+
+  // show consents
+  handleConsents(data.purposeConsents, data.vendorConsents);
+
+  // show legitimate interests
   handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
+
+  // set icon based on number of purposes
+  setIcon(data.purposeConsents.set_.size, data.purposeLegitimateInterests.set_.size, tabId);
 }
 
 function getActiveTabStorage() {
@@ -249,7 +279,7 @@ function getActiveTabStorage() {
 
           const decodedString = TCString.decode(data.tcString);
           console.log('decoded string', decodedString);
-          handleTCData(decodedString, data.timestampTcDataLoaded);
+          handleTCData(decodedString, data.timestampTcDataLoaded, activeTabId);
         }
         return true;
       });
