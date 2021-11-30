@@ -82,8 +82,15 @@ function showCmp(cmpId) {
   }
 }
 
-function setIcon(numPurposeConsents, numPurposeVendors, tabId) {
-  if (numPurposeVendors * numPurposeConsents === 0) {
+function setIcon(
+  numConsentPurposes,
+  numConsentVendors,
+  numLegitimateInterestPurposes,
+  numLegitimateInterestVendors,
+  tabId,
+) {
+  if (numConsentPurposes * numConsentVendors === 0
+    && numLegitimateInterestPurposes * numLegitimateInterestVendors === 0) {
     api.browserAction.setIcon({
       tabId,
       path: {
@@ -102,7 +109,7 @@ function setIcon(numPurposeConsents, numPurposeVendors, tabId) {
 
     api.browserAction.setBadgeText({
       tabId,
-      text: (numPurposeConsents + numPurposeVendors).toString(),
+      text: (numConsentPurposes + numLegitimateInterestPurposes).toString(),
     });
   }
 }
@@ -229,7 +236,13 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
   handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
 
   // set icon based on number of purposes
-  setIcon(data.purposeConsents.set_.size, data.purposeLegitimateInterests.set_.size, tabId);
+  setIcon(
+    data.purposeConsents.set_.size,
+    data.vendorConsents.set_.size,
+    data.purposeLegitimateInterests.set_.size,
+    data.vendorLegitimateInterests.set_.size,
+    tabId,
+  );
 }
 
 function getActiveTabStorage() {
