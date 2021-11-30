@@ -106,12 +106,12 @@ function setIcon(
         38: redIcon38,
       },
     });
-
-    api.browserAction.setBadgeText({
-      tabId,
-      text: (numConsentPurposes + numLegitimateInterestPurposes).toString(),
-    });
   }
+
+  api.browserAction.setBadgeText({
+    tabId,
+    text: (numConsentPurposes + numLegitimateInterestPurposes).toString(),
+  });
 }
 
 function handleConsents(purposeConsents, vendorConsents) {
