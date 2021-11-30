@@ -6,13 +6,13 @@
 import { TCString } from '@iabtcf/core';
 import './img/Octicons-tools.png';
 import './img/question_mark.svg';
-import green19 from '../button/19_green.png';
-import green38 from '../button/38_green.png';
-import red19 from '../button/19_red.png';
-import red38 from '../button/38_red.png';
-import '../button/19.png';
-import '../button/38.png';
 import './ucookie.css';
+import greenIcon19 from '../button/19_green.png';
+import greenIcon38 from '../button/38_green.png';
+import redIcon19 from '../button/19_red.png';
+import redIcon38 from '../button/38_red.png';
+import neutralIcon19 from '../button/19.png';
+import neutralIcon38 from '../button/38.png';
 import handleVendors from '../js/vendorUtils';
 
 const cmpListFull = require('../scripts/cmp_list_full.json');
@@ -94,16 +94,16 @@ function setIcon(
     api.browserAction.setIcon({
       tabId,
       path: {
-        19: green19,
-        38: green38,
+        19: greenIcon19,
+        38: greenIcon38,
       },
     });
   } else {
     api.browserAction.setIcon({
       tabId,
       path: {
-        19: red19,
-        38: red38,
+        19: redIcon19,
+        38: redIcon38,
       },
     });
 
@@ -252,6 +252,13 @@ function getActiveTabStorage() {
     api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const activeTabId = tabs[0].id;
       console.log('active tab id', tabs[0].id);
+      api.browserAction.setIcon({
+        tabId: activeTabId,
+        path: {
+          19: neutralIcon19,
+          38: neutralIcon38,
+        },
+      });
 
       api.storage.local.get([String(activeTabId)], (result) => {
         const data = result[activeTabId];
