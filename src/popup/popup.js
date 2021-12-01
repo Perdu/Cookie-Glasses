@@ -122,7 +122,7 @@ function handleConsents(purposeConsents, vendorConsents) {
   });
 
   if (document.getElementById('show_consents')) {
-    const purposesList = document.getElementById('purposes_list');
+    const purposesList = document.getElementById('consent_purposes_list');
     const showPurposeConsentsButton = document.getElementById('show_consents');
     showPurposeConsentsButton.onclick = () => {
       if (isElementHidden(purposesList)) {
@@ -130,10 +130,10 @@ function handleConsents(purposeConsents, vendorConsents) {
         showPurposeConsentsButton.classList.add('button_hide');
         purposesList.classList.remove('hidden');
 
-        // hide vendors list
-        hideElement('consents_vendors_container');
-        document.getElementById('show_vendor_consents').innerText = 'Show vendors';
-        document.getElementById('show_vendor_consents').classList.remove('button_hide');
+        // hide legit interest purpose list
+        hideElement('legitimate_interests_list');
+        document.getElementById('show_legitimate_interests').innerText = 'Show purposes';
+        document.getElementById('show_legitimate_interests').classList.remove('button_hide');
       } else {
         showPurposeConsentsButton.innerText = 'Show purposes';
         purposesList.classList.add('hidden');
@@ -181,23 +181,23 @@ function handleLegitimateInterests(purposeLegitimateInterests, vendorLegitimateI
   });
 }
 
-const showLegitimateInterestsButton = document.getElementById('show_legitimate_interests');
-const showVendorLegitimateInterestsButton = document.getElementById('show_vendor_legitimate_interests');
+const showLegIntPurposesButton = document.getElementById('show_legitimate_interests');
+const showConsentPurposesButton = document.getElementById('show_consents');
 const legitimateInterestsList = document.getElementById('legitimate_interests_list');
-if (showLegitimateInterestsButton && legitimateInterestsList) {
-  showLegitimateInterestsButton.onclick = () => {
+if (showLegIntPurposesButton && legitimateInterestsList) {
+  showLegIntPurposesButton.onclick = () => {
     if (isElementHidden(legitimateInterestsList)) {
-      showLegitimateInterestsButton.textContent = 'Hide';
-      showLegitimateInterestsButton.classList.add('button_hide');
+      showLegIntPurposesButton.textContent = 'Hide';
+      showLegIntPurposesButton.classList.add('button_hide');
       showHiddenElement('legitimate_interests_list');
-      hideElement('legitimate_interests_vendors_container');
 
-      // update vendors button
-      showVendorLegitimateInterestsButton.textContent = 'Show vendors';
-      showVendorLegitimateInterestsButton.classList.remove('button_hide');
+      // update consents button, hide consent purposes list
+      hideElement('consent_purposes_list');
+      showConsentPurposesButton.textContent = 'Show purposes';
+      showConsentPurposesButton.classList.remove('button_hide');
     } else {
-      showLegitimateInterestsButton.textContent = 'Show purposes';
-      showLegitimateInterestsButton.classList.remove('button_hide');
+      showLegIntPurposesButton.textContent = 'Show purposes';
+      showLegIntPurposesButton.classList.remove('button_hide');
       hideElement('legitimate_interests_list');
     }
   };

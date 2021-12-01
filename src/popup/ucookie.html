@@ -55,25 +55,28 @@
           </div>
         </div>
         <div class="content-container">
-          <h2>Consents</h2>
+          <h2>Purposes</h2>
           <div class="counts_container">
             <div class="total_nb_container total_nb_purposes_container">
-              <div><div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.</div>
-              <button id="show_consents" class="show_button">Show purposes</button>
+              <div class="total_nb_title_container">
+                <div>
+                  <h3>consents</h3>
+                  <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.
+                </div>
+                <button id="show_consents" class="show_button">Show purposes</button>
+              </div>
             </div>
-            <div class="total_nb_container total_nb_vendors_container">
-              <div class="nb_vendor_details">
-                <div id='nb_consent_vendors' class="total_nb total_nb_vendors">n/a</div> 
-                <div class="nb_vendor_description">total vendors with consent to process data.</div>
+            <div class="total_nb_container total_nb_purposes_container">
+              <div class="total_nb_title_container">
+                <div>
+                  <h3>legitimate interests</h3>
+                  <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).
+                </div>
+                <button id="show_legitimate_interests" class="show_button">Show purposes</button>
               </div>
-              <div class="nb_vendor_details nb_active_vendors">
-                <div id='nb_vendors_processing' class="total_nb total_nb_vendors">n/a</div> 
-                <div class="nb_vendor_description">total vendors processing your data based on consented purposes.</div>
-              </div>
-              <button id="show_vendor_consents" class="show_button">Show active vendors</button>
             </div>
           </div>
-          <div class="hidden bounded_container" id="purposes_list">
+          <div class="hidden bounded_container" id="consent_purposes_list">
             <ol>
               <li id='purpose-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
               <li id='purpose-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
@@ -87,23 +90,6 @@
               <li id='purpose-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
             </ol>
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
-          </div>
-          <div id="consents_vendors_container" class="hidden bounded_container">
-            <table id="purpose_vendors_list" class="styled-table">
-            </table>
-          </div>
-        </div>
-        <div class="content-container">
-          <h2>Legitimate Interests</h2>
-          <div class="counts_container">
-            <div class="total_nb_container total_nb_purposes_container">
-              <div><div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).</div>
-              <button id="show_legitimate_interests" class="show_button">Show purposes</button>
-            </div>
-            <div class="total_nb_container total_nb_vendors_container">
-              <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing your data for allowed purposes.</div>
-              <button id="show_vendor_legitimate_interests" class="show_button">Show vendors</button>
-            </div>
           </div>
           <div class="hidden bounded_container" id="legitimate_interests_list">
             <ol>
@@ -119,6 +105,30 @@
               <li id='legit-interest-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
             </ol>
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+          </div>
+          <div id="consents_vendors_container" class="hidden bounded_container">
+            <table id="purpose_vendors_list" class="styled-table">
+            </table>
+          </div>
+        </div>
+        <div class="content-container">
+          <h2>Legitimate Interests</h2>
+          <div class="counts_container">
+            <div class="total_nb_container total_nb_vendors_container">
+              <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing your data for allowed purposes.</div>
+              <button id="show_vendor_legitimate_interests" class="show_button">Show vendors</button>
+            </div>
+            <div class="total_nb_container total_nb_vendors_container">
+              <div class="nb_vendor_details">
+                <div id='nb_consent_vendors' class="total_nb total_nb_vendors">n/a</div> 
+                <div class="nb_vendor_description">total vendors with consent to process data.</div>
+              </div>
+              <div class="nb_vendor_details nb_active_vendors">
+                <div id='nb_vendors_processing' class="total_nb total_nb_vendors">n/a</div> 
+                <div class="nb_vendor_description">total vendors processing your data based on consented purposes.</div>
+              </div>
+              <button id="show_vendor_consents" class="show_button">Show active vendors</button>
+            </div>
           </div>
           <div id="legitimate_interests_vendors_container" class="hidden bounded_container">
             <table id="legitimate_interests_vendors_list" class="styled-table">

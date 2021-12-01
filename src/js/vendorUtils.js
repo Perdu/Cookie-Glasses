@@ -157,7 +157,7 @@ function loadVendors(tcData, vendorListVersion, forPurposes, forceUpdate) {
 export default function handleVendors(tcData, vendorListVersion, forConsent, forceUpdate) {
   const buttonId = forConsent ? 'show_vendor_consents' : 'show_vendor_legitimate_interests';
   const containerId = forConsent ? 'consents_vendors_container' : 'legitimate_interests_vendors_container';
-  const purposesListId = forConsent ? 'purposes_list' : 'legitimate_interests_list';
+  const purposesListId = forConsent ? 'consent_purposes_list' : 'legitimate_interests_list';
   const showPurposesButtonId = forConsent ? 'show_consents' : 'show_legitimate_interests';
 
   if (document.getElementById(buttonId)) {
