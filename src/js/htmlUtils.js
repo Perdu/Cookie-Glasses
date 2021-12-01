@@ -1,5 +1,5 @@
 export function isElementHidden(element) {
-  element.classList.contains('hidden');
+  return element.classList.contains('hidden');
 }
 
 export function hideElement(elementId) {

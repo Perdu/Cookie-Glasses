@@ -347,7 +347,7 @@ if (document.getElementById('decode_cs')) {
 if (document.getElementById('open_decoder')) {
   document.getElementById('open_decoder').onclick = (e) => {
     e.preventDefault();
-    if (isElementHidden(document.getElementById('decoder')) {
+    if (isElementHidden(document.getElementById('decoder'))) {
       showHiddenElement('decoder');
       hideElement('details');
     } else {
