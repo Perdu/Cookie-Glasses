@@ -217,4 +217,25 @@ button:hover {
 
 #version {
     font-size: 0.8em;
+    margin-top: 8px;
+    text-align: right;
+}
+
+#details {
+  margin-top: 5px;
+  padding: 8px;
+}
+
+#cs_to_decode {
+  margin-top: 8px;
+}
+
+#decoder {
+  margin-top: 5px;
+  padding: 8px;
+}
+
+#decode_cs_error {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

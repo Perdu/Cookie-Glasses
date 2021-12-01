@@ -62,7 +62,7 @@
               <button id="show_consents" class="show_button">Show purposes</button>
             </div>
             <div class="total_nb_container total_nb_vendors_container">
-              <div><div id='nb_vendors' class="total_nb total_nb_vendors">n/a</div> total vendors allowed </div>
+              <div><div id='nb_consent_vendors' class="total_nb total_nb_vendors">n/a</div> total vendors allowed </div>
               <button id="show_vendor_consents" class="show_button">Show vendors</button>
             </div>
           </div>
@@ -127,26 +127,25 @@
       <br />
       <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
       <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
-      <div class="hidden" id="decoder">
-        Manually decode a consent string:<br />
+      <div class="hidden bounded_container" id="decoder">
+        <div id="decoder_title">Manually decode a consent string:</div>
+        <div id="decode_cs_error" class="hidden">&#128680; <i><b>Error:</b> Invalid consent string</i></div>
         <input type="text" id="cs_to_decode" />
         <button id="decode_cs">Decode</button><br />
-        <i><span id="decode_cs_error" class="hidden">Error: Invalid consent string</span></i>
       </div>
-      <div class="hidden" id="details">
-        Icon color scheme:<br />
-        - Red indicates that consent is still set for at least one vendor and one purpose.<br />
-        - Green indicates that consent is completely refused.<br />
-        Vendors (advertisers) are supposed to check that <b>both</b> purposes and their vendor identifier is allowed to perform tracking.<br />
-        The number shown in the icon is the number of allowed purposes.
+      <div class="hidden bounded_container" id="details">
+        <strong>Icon details</strong>
+        <ul>
+          <li>Red indicates that consent is still set for at least one vendor and one purpose.</li>
+          <li>Green indicates that consent is completely refused.</li>
+          <li>The number shown in the icon is the number of allowed purposes for both Consent and Legitimate Interests.</li>
+        </ul>
+        <strong>Note:</strong> Vendors (advertisers) are supposed to check that <i>both</i> purposes and their Vendor ID is allowed to perform tracking.
       </div>
       <div id="version">
         Cookie Glasses version: 1.1.10
       </div>
   </div>
-    <!-- <script src="IAB_CMP_list_full.js"></script>
-    <script src="lib.js"></script>
-    <script src="popup.js"></script> -->
   </body>
 
 </html>
