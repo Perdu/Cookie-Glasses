@@ -41,6 +41,10 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
       Array.from(publisherRestrictions.keys()).forEach((key) => {
         const publisherResVendor = publisherRestrictions.get(key);
         if (id in publisherResVendor) {
+          // restrictionType meaning:
+          // 0 Purpose Flatly Not Allowed by Publisher (regardless of Vendor declarations)
+          // 1 Require Consent (if Vendor has declared the Purpose IDs legal basis as Legitimate Interest and flexible)
+          // 2 Require Legitimate Interest (if Vendor has declared the Purpose IDs legal basis as Consent and flexible)
           const restrictionType = publisherResVendor.get(id);
           if (restrictionType === 0) {
             vendorPurposes = vendorPurposes.filter((val) => val !== key);
