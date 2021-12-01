@@ -197,8 +197,8 @@ function handleTCData(data, timestampTcDataLoaded) {
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
-  handleVendors(data.vendorConsents, VENDOR_LIST_VERSION, true, forceUpdate);
-  handleVendors(data.vendorLegitimateInterests, VENDOR_LIST_VERSION, false, forceUpdate);
+  handleVendors(data, VENDOR_LIST_VERSION, true, forceUpdate);
+  handleVendors(data, VENDOR_LIST_VERSION, false, forceUpdate);
   handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
 }
 
