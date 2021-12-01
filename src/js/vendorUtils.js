@@ -4,6 +4,10 @@
 /* global chrome */
 /* global browser */
 /* eslint-disable guard-for-in */
+import {
+  createColumnWithChild, createLink, createColumnWithTextContent, isElementHidden,
+} from './htmlUtils';
+
 let api;
 if (chrome === undefined) {
   api = browser;
@@ -13,6 +17,32 @@ if (chrome === undefined) {
 
 function findVendor(id, vendorList) {
   return vendorList.vendors[id];
+}
+
+function getHeaderColumn(textContent) {
+  const headerColumn = document.createElement('th');
+  headerColumn.textContent = textContent;
+  return headerColumn;
+}
+
+function addHeaders(vendorsListElement) {
+  const theadElement = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+
+  headerRow.appendChild(getHeaderColumn('Vendor name'));
+  headerRow.appendChild(getHeaderColumn('Consent purposes'));
+  headerRow.appendChild(getHeaderColumn('Leg. int. purposes'));
+  headerRow.appendChild(getHeaderColumn('Uses cookies'));
+  headerRow.appendChild(getHeaderColumn('Special purposes'));
+  theadElement.appendChild(headerRow);
+
+  vendorsListElement.appendChild(theadElement);
+}
+
+function getPurposesColumn(purposes, allowedPurposes) {
+  const purposesColumn = document.createElement('td');
+  purposesColumn.textContent = purposes.filter((purpose) => allowedPurposes.includes(purpose));
+  return purposesColumn;
 }
 
 function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forPurposes, forceUpdate) {
@@ -25,6 +55,10 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
   console.log('purposeConsents', purposeConsents);
   console.log('purposeLegitimateInterests', purposeLegitimateInterests);
   console.log('publisherRestrictions', publisherRestrictions);
+
+  addHeaders(vendorsListElement);
+  const tbodyElement = document.createElement('tbody');
+
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
     console.log('vendor: ', vendor);
@@ -35,8 +69,6 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
       let vendorPurposes = vendor.purposes;
       let vendorLegIntPurposes = vendor.legIntPurposes;
       const vendorFlexiblePurposes = vendor.flexiblePurposes;
-      const vendorSpecialPurposes = vendor.specialPurposes;
-      const vendorUsesCookies = vendor.usesCookies;
 
       Array.from(publisherRestrictions.keys()).forEach((key) => {
         const publisherResVendor = publisherRestrictions.get(key);
@@ -62,18 +94,20 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
         }
       });
 
-      const validPurposes = [...purposeConsents].filter((value) => vendorPurposes.includes(value));
+      const validConsentPurposes = [...purposeConsents].filter((value) => vendorPurposes.includes(value));
       const validLegIntPurposes = [...purposeLegitimateInterests].filter((value) => vendorLegIntPurposes.includes(value));
-      const listItem = document.createElement('li');
-      const vendorLink = document.createElement('a');
-      vendorLink.href = vendor.policyUrl;
-      vendorLink.target = '_blank';
-      vendorLink.innerText = vendorName;
+      const rowItem = document.createElement('tr');
+      const vendorLink = createLink(vendor.policyUrl, vendorName);
 
-      listItem.appendChild(vendorLink);
-      vendorsListElement.appendChild(listItem);
+      rowItem.appendChild(createColumnWithChild(vendorLink));
+      rowItem.appendChild(getPurposesColumn(vendor.purposes, validConsentPurposes));
+      rowItem.appendChild(getPurposesColumn(vendor.legIntPurposes, validLegIntPurposes));
+      rowItem.appendChild(createColumnWithTextContent(vendor.usesCookies));
+      rowItem.appendChild(createColumnWithChild(vendor.specialPurposes));
+      tbodyElement.appendChild(rowItem);
     }
   });
+  vendorsListElement.appendChild(tbodyElement);
 }
 
 function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forPurposes, forceUpdate) {
@@ -103,9 +137,7 @@ function setUnion(setA, setB) {
   return _union;
 }
 
-function loadVendors(
-  tcData, vendorListVersion, vendorsContainerElement, forPurposes, forceUpdate,
-) {
+function loadVendors(tcData, vendorListVersion, forPurposes, forceUpdate) {
   const allowedVendors = setUnion(tcData.vendorConsents.set_, tcData.vendorLegitimateInterests.set_);
   const purposeConsents = tcData.purposeConsents.set_;
   const purposeLegitimateInterests = tcData.purposeLegitimateInterests.set_;
@@ -132,10 +164,9 @@ export default function handleVendors(tcData, vendorListVersion, forConsent, for
     const showVendorsButton = document.getElementById(buttonId);
     const vendorsContainerElement = document.getElementById(containerId);
     showVendorsButton.onclick = () => {
-      if (vendorsContainerElement.classList.contains('hidden')) {
+      if (isElementHidden(vendorsContainerElement)) {
         vendorsContainerElement.classList.remove('hidden');
-        loadVendors(tcData, vendorListVersion, vendorsContainerElement,
-          forConsent, forceUpdate);
+        loadVendors(tcData, vendorListVersion, forConsent, forceUpdate);
         showVendorsButton.innerText = 'Hide';
         showVendorsButton.classList.add('button_hide');
 

@@ -62,8 +62,15 @@
               <button id="show_consents" class="show_button">Show purposes</button>
             </div>
             <div class="total_nb_container total_nb_vendors_container">
-              <div><div id='nb_consent_vendors' class="total_nb total_nb_vendors">n/a</div> total vendors allowed </div>
-              <button id="show_vendor_consents" class="show_button">Show vendors</button>
+              <div class="nb_vendor_details">
+                <div id='nb_consent_vendors' class="total_nb total_nb_vendors">n/a</div> 
+                <div class="nb_vendor_description">total vendors with consent to process data.</div>
+              </div>
+              <div class="nb_vendor_details nb_active_vendors">
+                <div id='nb_vendors_processing' class="total_nb total_nb_vendors">n/a</div> 
+                <div class="nb_vendor_description">total vendors processing your data based on consented purposes.</div>
+              </div>
+              <button id="show_vendor_consents" class="show_button">Show active vendors</button>
             </div>
           </div>
           <div class="hidden bounded_container" id="purposes_list">
@@ -82,7 +89,8 @@
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
           </div>
           <div id="consents_vendors_container" class="hidden bounded_container">
-            <ul id="purpose_vendors_list"></ul>
+            <table id="purpose_vendors_list" class="styled-table">
+            </table>
           </div>
         </div>
         <div class="content-container">
@@ -93,7 +101,7 @@
               <button id="show_legitimate_interests" class="show_button">Show purposes</button>
             </div>
             <div class="total_nb_container total_nb_vendors_container">
-              <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing purposes on the basis of legitmate interest</div>
+              <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing your data for allowed purposes.</div>
               <button id="show_vendor_legitimate_interests" class="show_button">Show vendors</button>
             </div>
           </div>
@@ -113,7 +121,9 @@
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
           </div>
           <div id="legitimate_interests_vendors_container" class="hidden bounded_container">
-            <ul id="legitimate_interests_vendors_list"></ul>
+            <table id="legitimate_interests_vendors_list" class="styled-table">
+
+            </table>
           </div>
         </div>
         <div class="content-container">

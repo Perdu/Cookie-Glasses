@@ -9,6 +9,36 @@ ol {
   padding-inline-start: 20px
 }
 
+.styled-table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
+}
+
+.styled-table thead tr {
+  font-weight: bold;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 10px 12px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  /* border-bottom: 2px solid #009879; */
+}
+
 h2 {
   color:rgb(59, 56, 56);
   font-size: 18px;
@@ -62,7 +92,7 @@ button:hover {
 
 .show_button {
   margin-top: 10px;
-  width: 50%;
+  min-width: 50%;
 }
 
 .counts_container {
@@ -144,6 +174,19 @@ button:hover {
 
 .button_hide:hover {
   background-color:rgb(32, 32, 32);
+}
+
+.nb_vendor_details {
+  display: flex;
+}
+
+.nb_vendor_description {
+  width: 70%;
+  margin-left: 8px;
+}
+
+.nb_active_vendors {
+  margin-top: 10px;
 }
 
 .cmp_name_container {

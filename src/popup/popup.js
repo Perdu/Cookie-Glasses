@@ -14,6 +14,7 @@ import redIcon38 from '../button/38_red.png';
 import neutralIcon19 from '../button/19.png';
 import neutralIcon38 from '../button/38.png';
 import handleVendors from '../js/vendorUtils';
+import { hideElement, showHiddenElement, isElementHidden } from '../js/htmlUtils';
 
 const cmpListFull = require('../scripts/cmp_list_full.json');
 
@@ -27,14 +28,6 @@ if (chrome === undefined) {
 
 const tz = Intl.DateTimeFormat().resolvedOptions().locale;
 const CHECK_TAB_STORAGE_RETRIES = 3;
-
-function hideElement(elementId) {
-  document.getElementById(elementId).classList.add('hidden');
-}
-
-function showHiddenElement(elementId) {
-  document.getElementById(elementId).classList.remove('hidden');
-}
 
 function handleCmpLocatorFound(cmpLocatorFound) {
   try {
@@ -132,7 +125,7 @@ function handleConsents(purposeConsents, vendorConsents) {
     const purposesList = document.getElementById('purposes_list');
     const showPurposeConsentsButton = document.getElementById('show_consents');
     showPurposeConsentsButton.onclick = () => {
-      if (purposesList.classList.contains('hidden')) {
+      if (isElementHidden(purposesList)) {
         showPurposeConsentsButton.innerText = 'Hide';
         showPurposeConsentsButton.classList.add('button_hide');
         purposesList.classList.remove('hidden');
@@ -193,7 +186,7 @@ const showVendorLegitimateInterestsButton = document.getElementById('show_vendor
 const legitimateInterestsList = document.getElementById('legitimate_interests_list');
 if (showLegitimateInterestsButton && legitimateInterestsList) {
   showLegitimateInterestsButton.onclick = () => {
-    if (legitimateInterestsList.classList.contains('hidden')) {
+    if (isElementHidden(legitimateInterestsList)) {
       showLegitimateInterestsButton.textContent = 'Hide';
       showLegitimateInterestsButton.classList.add('button_hide');
       showHiddenElement('legitimate_interests_list');
@@ -354,7 +347,7 @@ if (document.getElementById('decode_cs')) {
 if (document.getElementById('open_decoder')) {
   document.getElementById('open_decoder').onclick = (e) => {
     e.preventDefault();
-    if (document.getElementById('decoder').classList.contains('hidden')) {
+    if (isElementHidden(document.getElementById('decoder')) {
       showHiddenElement('decoder');
       hideElement('details');
     } else {
@@ -366,7 +359,7 @@ if (document.getElementById('open_decoder')) {
 if (document.getElementById('open_details')) {
   document.getElementById('open_details').onclick = (e) => {
     e.preventDefault();
-    if (document.getElementById('details').classList.contains('hidden')) {
+    if (isElementHidden(document.getElementById('details'))) {
       showHiddenElement('details');
       hideElement('decoder');
     } else {
