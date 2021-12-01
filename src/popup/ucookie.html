@@ -57,7 +57,7 @@
         <div class="content-container">
           <h2>Purposes</h2>
           <div class="counts_container">
-            <div class="total_nb_container total_nb_purposes_container">
+            <div class="total_nb_container">
               <div class="total_nb_title_container">
                 <div>
                   <h3>consents</h3>
@@ -66,7 +66,7 @@
                 <button id="show_consents" class="show_button">Show purposes</button>
               </div>
             </div>
-            <div class="total_nb_container total_nb_purposes_container">
+            <div class="total_nb_container">
               <div class="total_nb_title_container">
                 <div>
                   <h3>legitimate interests</h3>
@@ -106,33 +106,35 @@
             </ol>
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
           </div>
-          <div id="consents_vendors_container" class="hidden bounded_container">
-            <table id="purpose_vendors_list" class="styled-table">
-            </table>
-          </div>
         </div>
         <div class="content-container">
-          <h2>Legitimate Interests</h2>
+          <h2>Vendors</h2>
           <div class="counts_container">
-            <div class="total_nb_container total_nb_vendors_container">
-              <div><div id='nb_vendor_legitimate_interests' class="total_nb total_nb_vendors">n/a</div> total vendors processing your data for allowed purposes.</div>
-              <button id="show_vendor_legitimate_interests" class="show_button">Show vendors</button>
-            </div>
-            <div class="total_nb_container total_nb_vendors_container">
-              <div class="nb_vendor_details">
-                <div id='nb_consent_vendors' class="total_nb total_nb_vendors">n/a</div> 
-                <div class="nb_vendor_description">total vendors with consent to process data.</div>
+            <div class="total_nb_container">
+              <div class="vendors_container">
+                <div class="total_nb_vendors_container">
+                  <div class="nb_vendor_details">
+                    <div id='nb_active_vendors' class="total_nb total_nb_vendors">n/a</div> 
+                    <div class="nb_vendor_description">total <b>active</b> vendors processing your data based on allowed purposes.</div>
+                  </div>
+                  <button id="show_active_vendors" class="show_button">Show active vendors</button>
+                </div>
+                <div class="total_nb_vendors_container">
+                  <div class="nb_vendor_details">
+                    <div id='nb_inactive_vendors' class="total_nb total_nb_vendors">n/a</div> 
+                    <div class="nb_vendor_description">total inactive vendors allowed to process data.</div>
+                  </div>
+                  <button id="show_inactive_vendors" class="show_button">Show inactive vendors</button>
+                </div>
               </div>
-              <div class="nb_vendor_details nb_active_vendors">
-                <div id='nb_vendors_processing' class="total_nb total_nb_vendors">n/a</div> 
-                <div class="nb_vendor_description">total vendors processing your data based on consented purposes.</div>
-              </div>
-              <button id="show_vendor_consents" class="show_button">Show active vendors</button>
             </div>
           </div>
-          <div id="legitimate_interests_vendors_container" class="hidden bounded_container">
-            <table id="legitimate_interests_vendors_list" class="styled-table">
-
+          <div id="active_vendors_container" class="hidden bounded_container">
+            <table id="active_vendors_list" class="styled-table">
+            </table>
+          </div>
+          <div id="inactive_vendors_container" class="hidden bounded_container">
+            <table id="inactive_vendors_list" class="styled-table">
             </table>
           </div>
         </div>

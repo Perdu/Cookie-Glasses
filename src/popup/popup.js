@@ -107,9 +107,8 @@ function setIcon(
   });
 }
 
-function handleConsents(purposeConsents, vendorConsents) {
+function handleConsents(purposeConsents) {
   // update totals
-  document.getElementById('nb_consent_vendors').textContent = vendorConsents.set_.size;
   document.getElementById('nb_purposes').textContent = purposeConsents.set_.size;
 
   [...Array(10).keys()].map((id) => {
@@ -166,9 +165,7 @@ function formatIntlDate(date) {
   }).format(date);
 }
 
-function handleLegitimateInterests(purposeLegitimateInterests, vendorLegitimateInterests) {
-  document.getElementById('nb_vendor_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
-
+function handleLegitimateInterests(purposeLegitimateInterests) {
   // update legitimate interest consents
   document.getElementById('nb_legitimate_interests').textContent = purposeLegitimateInterests.set_.size;
   [...Array(10).keys()].map((id) => {
@@ -223,10 +220,10 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
   handleVendors(data, VENDOR_LIST_VERSION, false, forceUpdate);
 
   // show consents
-  handleConsents(data.purposeConsents, data.vendorConsents);
+  handleConsents(data.purposeConsents);
 
   // show legitimate interests
-  handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
+  handleLegitimateInterests(data.purposeLegitimateInterests);
 
   // set icon based on number of purposes
   setIcon(
