@@ -216,8 +216,7 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
-  handleVendors(data, VENDOR_LIST_VERSION, true, forceUpdate);
-  handleVendors(data, VENDOR_LIST_VERSION, false, forceUpdate);
+  handleVendors(data, VENDOR_LIST_VERSION, forceUpdate);
 
   // show consents
   handleConsents(data.purposeConsents);

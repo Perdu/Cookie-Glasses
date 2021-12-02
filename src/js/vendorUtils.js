@@ -25,7 +25,7 @@ function getHeaderColumn(textContent) {
   return headerColumn;
 }
 
-function addHeaders(vendorsListElement, forActiveVendors) {
+function addHeaders(vendorsListElement) {
   const theadElement = document.createElement('thead');
   const headerRow = document.createElement('tr');
 
@@ -33,7 +33,6 @@ function addHeaders(vendorsListElement, forActiveVendors) {
   headerRow.appendChild(getHeaderColumn('Consent purposes'));
   headerRow.appendChild(getHeaderColumn('Leg. int. purposes'));
   headerRow.appendChild(getHeaderColumn('Special purposes'));
-  headerRow.appendChild(getHeaderColumn('Uses cookies'));
   theadElement.appendChild(headerRow);
 
   vendorsListElement.appendChild(theadElement);
@@ -46,11 +45,9 @@ function getPurposesColumn(purposes, allowedPurposes) {
   return purposesColumn;
 }
 
-function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forActiveVendors, forceUpdate) {
-  const activeVendorListElement = document.getElementById('active_vendors_list');
-  const inactiveVendorListElement = document.getElementById('inactive_vendors_list');
-  if ((forActiveVendors && activeVendorListElement.children.length > 0 && !forceUpdate)
-    || (!forActiveVendors && inactiveVendorListElement.children.length > 0 && !forceUpdate)) {
+function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forceUpdate) {
+  const vendorListElement = document.getElementById('active_vendors_list');
+  if (vendorListElement.children.length > 0 && !forceUpdate) {
     // we already populated the list of vendors, so no need to update
     // unless we're forcing an update
     return;
@@ -59,15 +56,12 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
   console.log('purposeLegitimateInterests', purposeLegitimateInterests);
   console.log('publisherRestrictions', publisherRestrictions);
 
-  addHeaders(activeVendorListElement, true);
-  addHeaders(inactiveVendorListElement, false);
+  addHeaders(vendorListElement);
   const activeTBodyElement = document.createElement('tbody');
-  const inactiveTBodyElement = document.createElement('tbody');
   let numActive = 0;
   let numInactive = 0;
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
-    console.log('vendor: ', vendor);
     if (vendor === undefined) {
       console.log(`{Incorrect vendor, ID ${id}}`);
     } else {
@@ -100,30 +94,27 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
           }
         }
       });
-
       const validConsentPurposes = [...purposeConsents].filter((value) => vendorPurposes.includes(value));
       const validLegIntPurposes = [...purposeLegitimateInterests].filter((value) => vendorLegIntPurposes.includes(value));
-      const rowItem = document.createElement('tr');
-      const vendorLink = createLink(vendor.policyUrl, vendorName);
       const isInactive = validConsentPurposes.length === 0 && validLegIntPurposes.length === 0 && vendorSpecialPurposes.length === 0;
+      const rowItem = document.createElement('tr');
+      const vendorLink = createLink(vendor.policyUrl, isInactive ? `😴 ${vendorName}` : vendorName);
 
       rowItem.appendChild(createColumnWithChild(vendorLink));
       rowItem.appendChild(getPurposesColumn(vendor.purposes, validConsentPurposes));
       rowItem.appendChild(getPurposesColumn(vendor.legIntPurposes, validLegIntPurposes));
       rowItem.appendChild(createColumnWithTextContent(vendorSpecialPurposes.length > 0 ? vendorSpecialPurposes : 'none'));
-      rowItem.appendChild(createColumnWithTextContent(vendor.usesCookies));
+      activeTBodyElement.appendChild(rowItem);
 
       if (isInactive) {
         numInactive += 1;
-        inactiveTBodyElement.appendChild(rowItem);
       } else {
         numActive += 1;
-        activeTBodyElement.appendChild(rowItem);
       }
     }
   });
-  activeVendorListElement.appendChild(activeTBodyElement);
-  inactiveVendorListElement.appendChild(inactiveTBodyElement);
+  vendorListElement.appendChild(activeTBodyElement);
+  console.log('ooo active_vendors_list', vendorListElement);
 
   // update totals
   console.log('ooo numInactive', numInactive);
@@ -131,7 +122,7 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
   document.getElementById('nb_inactive_vendors').textContent = numInactive;
 }
 
-function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forActiveVendors, forceUpdate) {
+function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forceUpdate) {
   const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
     method: 'GET',
     headers: { Accept: 'application/json' },
@@ -143,7 +134,7 @@ function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateIn
     const a = {};
     a[`vendorList_${vendorListVersion}`] = data;
     api.storage.local.set(a);
-    showVendors(data, allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forActiveVendors, forceUpdate);
+    showVendors(data, allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forceUpdate);
   }).catch((error) => {
     console.log('Error fetching vendor list: ', error);
     // TODO: surface generic error message in pop-up
@@ -158,7 +149,7 @@ function setUnion(setA, setB) {
   return _union;
 }
 
-function loadVendors(tcData, vendorListVersion, forActiveVendors, forceUpdate) {
+function loadVendors(tcData, vendorListVersion, forceUpdate) {
   const allowedVendors = setUnion(tcData.vendorConsents.set_, tcData.vendorLegitimateInterests.set_);
   const purposeConsents = tcData.purposeConsents.set_;
   const purposeLegitimateInterests = tcData.purposeLegitimateInterests.set_;
@@ -167,38 +158,49 @@ function loadVendors(tcData, vendorListVersion, forActiveVendors, forceUpdate) {
   api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
     if (result[vendorListName] === undefined) {
       // vendorList is not in localstorage, load it from IAB's website
-      fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forActiveVendors, forceUpdate);
+      fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forceUpdate);
     } else {
       // vendorList is in local storage
-      showVendors(result[vendorListName], allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forActiveVendors, forceUpdate);
+      showVendors(result[vendorListName], allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forceUpdate);
     }
   });
 }
 
-export default function handleVendors(tcData, vendorListVersion, forActiveVendors, forceUpdate) {
-  const buttonId = forActiveVendors ? 'show_active_vendors' : 'show_inactive_vendors';
-  const containerId = forActiveVendors ? 'active_vendors_container' : 'inactive_vendors_container';
-  const otherContainerId = forActiveVendors ? 'inactive_vendors_container' : 'active_vendors_container';
+function setUpFeatureButtons(buttonId, featureListId) {
+  const showButton = document.getElementById(buttonId);
+  const listElement = document.getElementById(featureListId);
 
-  if (document.getElementById(buttonId)) {
-    const showVendorsButton = document.getElementById(buttonId);
-    const vendorsContainerElement = document.getElementById(containerId);
-    showVendorsButton.onclick = () => {
-      if (isElementHidden(vendorsContainerElement)) {
-        vendorsContainerElement.classList.remove('hidden');
-        loadVendors(tcData, vendorListVersion, forActiveVendors, forceUpdate);
-        showVendorsButton.innerText = 'Hide';
-        showVendorsButton.classList.add('button_hide');
+  showButton.onclick = () => {
+    if (isElementHidden(listElement)) {
+      listElement.classList.remove('hidden');
+      showButton.innerText = '▵';
+    } else {
+      listElement.classList.add('hidden');
+      showButton.innerText = '▽';
+    }
+  };
+}
 
-        // hide other vendor list
-        document.getElementById(otherContainerId).classList.add('hidden');
-        document.getElementById(buttonId).innerText = 'Show vendors';
-        document.getElementById(buttonId).classList.remove('button_hide');
-      } else {
-        showVendorsButton.innerText = 'Show vendors';
-        vendorsContainerElement.classList.add('hidden');
-        showVendorsButton.classList.remove('button_hide');
-      }
-    };
-  }
+export default function handleVendors(tcData, vendorListVersion, forceUpdate) {
+  const buttonId = 'show_vendors';
+  const containerId = 'active_vendors_container';
+  loadVendors(tcData, vendorListVersion, forceUpdate);
+
+  const showVendorsButton = document.getElementById(buttonId);
+  const vendorsContainerElement = document.getElementById(containerId);
+  showVendorsButton.onclick = () => {
+    if (isElementHidden(vendorsContainerElement)) {
+      vendorsContainerElement.classList.remove('hidden');
+      showVendorsButton.innerText = 'Hide';
+      showVendorsButton.classList.add('button_hide');
+    } else {
+      showVendorsButton.innerText = 'Show vendors';
+      vendorsContainerElement.classList.add('hidden');
+      showVendorsButton.classList.remove('button_hide');
+    }
+  };
+
+  // set up feature b uttons
+  setUpFeatureButtons('show_feature_button', 'feature_list');
+  setUpFeatureButtons('show_special_feature_button', 'special_feature_list');
 }

@@ -60,7 +60,7 @@
             <div class="total_nb_container">
               <div class="total_nb_title_container">
                 <div>
-                  <h3>consents</h3>
+                  <h3>Consents</h3>
                   <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.
                 </div>
                 <button id="show_consents" class="show_button">Show purposes</button>
@@ -69,7 +69,7 @@
             <div class="total_nb_container">
               <div class="total_nb_title_container">
                 <div>
-                  <h3>legitimate interests</h3>
+                  <h3>Legitimate Interests</h3>
                   <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).
                 </div>
                 <button id="show_legitimate_interests" class="show_button">Show purposes</button>
@@ -117,24 +117,41 @@
                     <div id='nb_active_vendors' class="total_nb total_nb_vendors">n/a</div> 
                     <div class="nb_vendor_description">total <b>active</b> vendors processing your data based on allowed purposes.</div>
                   </div>
-                  <button id="show_active_vendors" class="show_button">Show active vendors</button>
                 </div>
                 <div class="total_nb_vendors_container">
                   <div class="nb_vendor_details">
                     <div id='nb_inactive_vendors' class="total_nb total_nb_vendors">n/a</div> 
                     <div class="nb_vendor_description">total inactive vendors allowed to process data.</div>
                   </div>
-                  <button id="show_inactive_vendors" class="show_button">Show inactive vendors</button>
                 </div>
+            </div>
+            <div class="features_container">
+              <div class="features_title_container">
+                <h3>Features</h3>
+                <button id="show_feature_button" class="feature_button">▽</button>
               </div>
+              <ol id="feature_list" class="feature_list hidden">
+                <li class="feature-list-item"><span class="nb_vendors_feature">10</span> vendors combining your online data with your offline data.</li>
+                <li class="feature-list-item"><span class="nb_vendors_feature">10</span> vendors can determine if different devices belong to you or your household.</li>
+                <li class="feature-list-item"><span><span class="nb_vendors_feature">10</span> vendors are using information about your device that is automatically sent, such as IP address or browser type.</span></li>
+              </ol>
+            </div>
+            <div class="features_container">
+              <div class="features_title_container">
+                <h3>Special features</h3>
+                <button id="show_special_feature_button" class="feature_button">▽</button>
+              </div>
+              <ol id="special_feature_list" class="feature_list hidden">
+                <li class="feature-list-item"><span class="nb_vendors_feature">10</span> vendors combining your online data with your offline data.</li>
+                <li class="feature-list-item"><span class="nb_vendors_feature">10</span> vendors can determine if different devices belong to you or your household.</li>
+              </ol>
+              <button id="show_vendors" class="show_button">Show vendors</button>
             </div>
           </div>
-          <div id="active_vendors_container" class="hidden bounded_container">
-            <table id="active_vendors_list" class="styled-table">
-            </table>
           </div>
-          <div id="inactive_vendors_container" class="hidden bounded_container">
-            <table id="inactive_vendors_list" class="styled-table">
+          <div id="active_vendors_container" class="hidden bounded_container">
+            <div id="inactive_vendor_description">😴 = inactive vendor</div>
+            <table id="active_vendors_list" class="styled-table">
             </table>
           </div>
         </div>

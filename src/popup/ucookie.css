@@ -100,6 +100,10 @@ button:hover {
   margin-left: auto;
 }
 
+.feature-list-item {
+  margin-bottom: 8px;
+}
+
 .show_button {
   margin-top: 10px;
   min-width: 50%;
@@ -135,8 +139,8 @@ button:hover {
 }
 
 .total_nb_purposes {
-  border: 1px solid rgb(7, 125, 141);
-  background-color: rgb(7, 125, 141);
+  border: 1px solid rgb(4, 137, 155);
+  background-color: rgb(4, 137, 155);
 }
 
 .total_nb_vendors {
@@ -157,6 +161,7 @@ button:hover {
   margin: 3px;
   margin-left: 'auto';
   margin-right: 'auto';
+  margin-top: 10px;
 }
 
 .content-container {
@@ -200,10 +205,6 @@ button:hover {
   margin-bottom: auto;
 }
 
-.nb_active_vendors {
-  /* margin-top: 10px; */
-}
-
 .cmp_name_container {
   display: flex;
 }
@@ -237,6 +238,25 @@ button:hover {
   width: 20px;
 }
 
+.features_container {
+  margin-top: 8px;
+}
+
+.features_title_container {
+  margin-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(160, 160, 160);
+}
+
+.feature_button {
+  border: none;
+}
+
+.feature_list {
+  margin-top: 8px;
+}
+
 .unknown_cmp_container {
   margin-top: 8px;
   border: 1px solid rgb(204, 83, 83);
@@ -244,6 +264,35 @@ button:hover {
   border-radius: 5px;
   padding: 8px;
   display: flex;
+}
+
+.nb_vendors_feature {
+  color: rgb(179, 104, 61);
+  font-size: 14px;
+  
+  font-weight: bold;
+}
+
+.features {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left: 8px;
+}
+
+#inactive_vendor_description {
+  margin-left: 10px;
+}
+
+ol {
+  counter-reset: item;
+  list-style-type: none;
+}
+
+li::before {
+  display: inline-block;
+  content: "[" counter(item) "]";
+  counter-increment: item;
+  margin-right: 3px;
 }
 
 #vendors_list {
@@ -296,4 +345,8 @@ button:hover {
 #decode_cs_error {
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+#show_vendors {
+  margin-top: 25px;
 }
