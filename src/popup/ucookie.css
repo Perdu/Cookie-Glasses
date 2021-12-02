@@ -24,7 +24,6 @@ h3 {
   font-size: 0.9em;
   font-family: sans-serif;
   min-width: 400px;
-  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
 }
 
 .styled-table thead tr {
@@ -34,7 +33,7 @@ h3 {
 
 .styled-table th,
 .styled-table td {
-    padding: 10px 12px;
+    padding: 10px 10px;
 }
 
 .styled-table tbody tr {
@@ -45,8 +44,8 @@ h3 {
   background-color: #f3f3f3;
 }
 
-.styled-table tbody tr:last-of-type {
-  /* border-bottom: 2px solid #009879; */
+.purpose-column {
+  text-align: center;
 }
 
 h2 {
@@ -269,7 +268,6 @@ button:hover {
 .nb_vendors_feature {
   color: rgb(179, 104, 61);
   font-size: 14px;
-  
   font-weight: bold;
 }
 

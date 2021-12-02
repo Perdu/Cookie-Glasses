@@ -16,9 +16,10 @@ export function createColumnWithChild(child) {
   return column;
 }
 
-export function createColumnWithTextContent(textContent) {
+export function createColumnWithTextContent(textContent, className) {
   const column = document.createElement('td');
   column.textContent = textContent;
+  column.classList.add(className);
   return column;
 }
 

@@ -76,6 +76,23 @@
               </div>
             </div>
           </div>
+          <button id="show_purposes_button" class="show_button">Show purposes</button>
+          <div id="purposes_list_container" class="hidden bounded_container">
+            <table id="consent_purposes_list" class="styled-table">
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Purpose</td>
+                  <td>Description</td>
+                  <td>Consent?</td>
+                  <td>Legit. Interest?</td>
+                </tr>
+                <tbody id="purpose_list_body">
+                </tbody>
+              </thead>
+            </table>
+            <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+          </div>
           <div class="hidden bounded_container" id="consent_purposes_list">
             <ol>
               <li id='purpose-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
