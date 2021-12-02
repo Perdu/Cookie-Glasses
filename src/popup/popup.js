@@ -14,6 +14,7 @@ import redIcon38 from '../button/38_red.png';
 import neutralIcon19 from '../button/19.png';
 import neutralIcon38 from '../button/38.png';
 import handleVendors from '../js/vendorUtils';
+import { hideElement, showHiddenElement, isElementHidden } from '../js/htmlUtils';
 
 const cmpListFull = require('../scripts/cmp_list_full.json');
 
@@ -27,14 +28,6 @@ if (chrome === undefined) {
 
 const tz = Intl.DateTimeFormat().resolvedOptions().locale;
 const CHECK_TAB_STORAGE_RETRIES = 3;
-
-function hideElement(elementId) {
-  document.getElementById(elementId).classList.add('hidden');
-}
-
-function showHiddenElement(elementId) {
-  document.getElementById(elementId).classList.remove('hidden');
-}
 
 function handleCmpLocatorFound(cmpLocatorFound) {
   try {
@@ -114,9 +107,8 @@ function setIcon(
   });
 }
 
-function handleConsents(purposeConsents, vendorConsents) {
+function handleConsents(purposeConsents) {
   // update totals
-  document.getElementById('nb_consent_vendors').textContent = vendorConsents.set_.size;
   document.getElementById('nb_purposes').textContent = purposeConsents.set_.size;
 
   [...Array(10).keys()].map((id) => {
@@ -129,18 +121,18 @@ function handleConsents(purposeConsents, vendorConsents) {
   });
 
   if (document.getElementById('show_consents')) {
-    const purposesList = document.getElementById('purposes_list');
+    const purposesList = document.getElementById('consent_purposes_list');
     const showPurposeConsentsButton = document.getElementById('show_consents');
     showPurposeConsentsButton.onclick = () => {
-      if (purposesList.classList.contains('hidden')) {
+      if (isElementHidden(purposesList)) {
         showPurposeConsentsButton.innerText = 'Hide';
         showPurposeConsentsButton.classList.add('button_hide');
         purposesList.classList.remove('hidden');
 
-        // hide vendors list
-        hideElement('consents_vendors_container');
-        document.getElementById('show_vendor_consents').innerText = 'Show vendors';
-        document.getElementById('show_vendor_consents').classList.remove('button_hide');
+        // hide legit interest purpose list
+        hideElement('legitimate_interests_list');
+        document.getElementById('show_legitimate_interests').innerText = 'Show purposes';
+        document.getElementById('show_legitimate_interests').classList.remove('button_hide');
       } else {
         showPurposeConsentsButton.innerText = 'Show purposes';
         purposesList.classList.add('hidden');
@@ -173,9 +165,7 @@ function formatIntlDate(date) {
   }).format(date);
 }
 
-function handleLegitimateInterests(purposeLegitimateInterests, vendorLegitimateInterests) {
-  document.getElementById('nb_vendor_legitimate_interests').textContent = vendorLegitimateInterests.set_.size;
-
+function handleLegitimateInterests(purposeLegitimateInterests) {
   // update legitimate interest consents
   document.getElementById('nb_legitimate_interests').textContent = purposeLegitimateInterests.set_.size;
   [...Array(10).keys()].map((id) => {
@@ -188,23 +178,23 @@ function handleLegitimateInterests(purposeLegitimateInterests, vendorLegitimateI
   });
 }
 
-const showLegitimateInterestsButton = document.getElementById('show_legitimate_interests');
-const showVendorLegitimateInterestsButton = document.getElementById('show_vendor_legitimate_interests');
+const showLegIntPurposesButton = document.getElementById('show_legitimate_interests');
+const showConsentPurposesButton = document.getElementById('show_consents');
 const legitimateInterestsList = document.getElementById('legitimate_interests_list');
-if (showLegitimateInterestsButton && legitimateInterestsList) {
-  showLegitimateInterestsButton.onclick = () => {
-    if (legitimateInterestsList.classList.contains('hidden')) {
-      showLegitimateInterestsButton.textContent = 'Hide';
-      showLegitimateInterestsButton.classList.add('button_hide');
+if (showLegIntPurposesButton && legitimateInterestsList) {
+  showLegIntPurposesButton.onclick = () => {
+    if (isElementHidden(legitimateInterestsList)) {
+      showLegIntPurposesButton.textContent = 'Hide';
+      showLegIntPurposesButton.classList.add('button_hide');
       showHiddenElement('legitimate_interests_list');
-      hideElement('legitimate_interests_vendors_container');
 
-      // update vendors button
-      showVendorLegitimateInterestsButton.textContent = 'Show vendors';
-      showVendorLegitimateInterestsButton.classList.remove('button_hide');
+      // update consents button, hide consent purposes list
+      hideElement('consent_purposes_list');
+      showConsentPurposesButton.textContent = 'Show purposes';
+      showConsentPurposesButton.classList.remove('button_hide');
     } else {
-      showLegitimateInterestsButton.textContent = 'Show purposes';
-      showLegitimateInterestsButton.classList.remove('button_hide');
+      showLegIntPurposesButton.textContent = 'Show purposes';
+      showLegIntPurposesButton.classList.remove('button_hide');
       hideElement('legitimate_interests_list');
     }
   };
@@ -226,14 +216,13 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
   // handle vendor buttons
-  handleVendors(data, VENDOR_LIST_VERSION, true, forceUpdate);
-  handleVendors(data, VENDOR_LIST_VERSION, false, forceUpdate);
+  handleVendors(data, VENDOR_LIST_VERSION, forceUpdate);
 
   // show consents
-  handleConsents(data.purposeConsents, data.vendorConsents);
+  handleConsents(data.purposeConsents);
 
   // show legitimate interests
-  handleLegitimateInterests(data.purposeLegitimateInterests, data.vendorLegitimateInterests);
+  handleLegitimateInterests(data.purposeLegitimateInterests);
 
   // set icon based on number of purposes
   setIcon(
@@ -354,7 +343,7 @@ if (document.getElementById('decode_cs')) {
 if (document.getElementById('open_decoder')) {
   document.getElementById('open_decoder').onclick = (e) => {
     e.preventDefault();
-    if (document.getElementById('decoder').classList.contains('hidden')) {
+    if (isElementHidden(document.getElementById('decoder'))) {
       showHiddenElement('decoder');
       hideElement('details');
     } else {
@@ -366,7 +355,7 @@ if (document.getElementById('open_decoder')) {
 if (document.getElementById('open_details')) {
   document.getElementById('open_details').onclick = (e) => {
     e.preventDefault();
-    if (document.getElementById('details').classList.contains('hidden')) {
+    if (isElementHidden(document.getElementById('details'))) {
       showHiddenElement('details');
       hideElement('decoder');
     } else {
