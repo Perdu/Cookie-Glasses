@@ -44,7 +44,7 @@ function handleMessageFromUCookie(message, port, activeTabId) {
       case FOUND_MSG:
         // uCookie found the tcfapiLocator frame
         // send a message back asking for the TC Data
-        port.postMessage({ message: API_MSG, api: GET_TC_DATA_CALL, manual: true });
+        port.postMessage({ message: API_MSG, api: GET_TC_DATA_CALL, manual: false });
         break;
       case GET_TC_DATA_CALL:
         console.log('received tcData!', message);
