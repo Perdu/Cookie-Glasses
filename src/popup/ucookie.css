@@ -285,14 +285,8 @@ button:hover {
 
 ol {
   counter-reset: item;
-  list-style-type: none;
-}
-
-li::before {
-  display: inline-block;
-  content: "[" counter(item) "]";
-  counter-increment: item;
-  margin-right: 3px;
+  list-style-position: outside;
+  margin-left: 12px;
 }
 
 #vendors_list {

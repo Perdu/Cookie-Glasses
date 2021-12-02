@@ -60,8 +60,14 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
   const activeTBodyElement = document.createElement('tbody');
   let numActive = 0;
   let numInactive = 0;
+  let numFeature1 = 0;
+  let numFeature2 = 0;
+  let numFeature3 = 0;
+  let numSpecialFeature1 = 0;
+  let numSpecialFeature2 = 0;
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
+    console.log('vendor:', vendor);
     if (vendor === undefined) {
       console.log(`{Incorrect vendor, ID ${id}}`);
     } else {
@@ -94,6 +100,23 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
           }
         }
       });
+
+      // check features
+      if (vendor.features.includes(1)) {
+        numFeature1 += 1;
+      } else if (vendor.features.includes(2)) {
+        numFeature2 += 1;
+      } else if (vendor.features.includes(3)) {
+        numFeature3 += 1;
+      }
+
+      // check special features
+      if (vendor.specialFeatures.includes(1)) {
+        numSpecialFeature1 += 1;
+      } else if (vendor.specialFeatures.includes(2)) {
+        numSpecialFeature2 += 1;
+      }
+
       const validConsentPurposes = [...purposeConsents].filter((value) => vendorPurposes.includes(value));
       const validLegIntPurposes = [...purposeLegitimateInterests].filter((value) => vendorLegIntPurposes.includes(value));
       const isInactive = validConsentPurposes.length === 0 && validLegIntPurposes.length === 0 && vendorSpecialPurposes.length === 0;
@@ -114,12 +137,15 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
     }
   });
   vendorListElement.appendChild(activeTBodyElement);
-  console.log('ooo active_vendors_list', vendorListElement);
 
   // update totals
-  console.log('ooo numInactive', numInactive);
   document.getElementById('nb_active_vendors').textContent = numActive;
   document.getElementById('nb_inactive_vendors').textContent = numInactive;
+  document.getElementById('nb_vendors_feature_1').textContent = numFeature1;
+  document.getElementById('nb_vendors_feature_2').textContent = numFeature2;
+  document.getElementById('nb_vendors_feature_3').textContent = numFeature3;
+  document.getElementById('nb_vendors_special_feature_1').textContent = numSpecialFeature1;
+  document.getElementById('nb_vendors_special_feature_2').textContent = numSpecialFeature2;
 }
 
 function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forceUpdate) {
