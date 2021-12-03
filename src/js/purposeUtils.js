@@ -46,6 +46,17 @@ const PURPOSES = {
   },
 };
 
+const SPECIAL_PURPOSES = {
+  1: {
+    title: 'Ensure security, prevent fraud, and debug',
+    description: 'Your data can be used to monitor for and prevent fraudulent activity, and ensure systems and processes work properly and securely.',
+  },
+  2: {
+    title: 'Technically deliver ads or content',
+    description: 'Your device can receive and send information that allows you to see and interact with ads and content',
+  },
+};
+
 function updatePurposes(tcData) {
   const purposeListBodyElement = document.getElementById('purpose_list_body');
 
@@ -63,6 +74,20 @@ function updatePurposes(tcData) {
     row.appendChild(createColumnWithTextContent(purpose.description));
     row.appendChild(createColumnWithTextContent(purposeConsents.set_.has(purposeId) ? '✅' : '❌', 'purpose-column'));
     row.appendChild(createColumnWithTextContent(purposeLegitInt.set_.has(purposeId) ? '✅' : '❌', 'purpose-column'));
+
+    purposeListBodyElement.appendChild(row);
+    return true;
+  });
+
+  Object.entries(SPECIAL_PURPOSES).map((p) => {
+    const row = document.createElement('tr');
+    const purposeId = parseInt(p[0], 10);
+    const purpose = p[1];
+    row.appendChild(createColumnWithTextContent(`${purposeId}⭐`));
+    row.appendChild(createColumnWithTextContent(purpose.title));
+    row.appendChild(createColumnWithTextContent(purpose.description));
+    row.appendChild(createColumnWithTextContent('n/a', 'purpose-column'));
+    row.appendChild(createColumnWithTextContent('✅', 'purpose-column'));
 
     purposeListBodyElement.appendChild(row);
     return true;
