@@ -5,8 +5,8 @@ html, body {
 }
 
 ol {
-  margin: 0;
-  padding-inline-start: 20px
+  counter-reset: item;
+  list-style-position: outside;
 }
 
 h3 {
@@ -24,7 +24,6 @@ h3 {
   font-size: 0.9em;
   font-family: sans-serif;
   min-width: 400px;
-  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
 }
 
 .styled-table thead tr {
@@ -34,7 +33,7 @@ h3 {
 
 .styled-table th,
 .styled-table td {
-    padding: 10px 12px;
+    padding: 10px 10px;
 }
 
 .styled-table tbody tr {
@@ -45,8 +44,8 @@ h3 {
   background-color: #f3f3f3;
 }
 
-.styled-table tbody tr:last-of-type {
-  /* border-bottom: 2px solid #009879; */
+.purpose-column {
+  text-align: center;
 }
 
 h2 {
@@ -113,7 +112,7 @@ button:hover {
   display: flex;
 }
 
-.total_nb_container {
+.section_container {
   margin-top: 14px;
   margin-bottom: 14px;
   margin-right: 10px;
@@ -123,17 +122,15 @@ button:hover {
   background:rgb(241, 241, 241)
 }
 
-.vendors_container {
+.summary_container {
   display: flex;
 }
 
-.total_nb_title_container {
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+.purpose_container {
+  width: 50%;
 }
 
-.total_nb_vendors_container {
+.total_nb_summary_container {
   padding-left: 8px;
   width: 50%;
 }
@@ -168,7 +165,6 @@ button:hover {
   padding-bottom: 8px;
   padding-top: 8px;
   padding-left: 8px;
-  /* border-bottom: 1px solid rgb(204, 203, 203); */
 }
 
 .purpose-consented-item {
@@ -230,8 +226,9 @@ button:hover {
   border: 1px solid rgb(218, 218, 218);
   border-radius: 5px;
   overflow-y: auto;
-  max-height: 200px;
+  max-height: 230px;
   padding-top: 8px;
+  margin-right: 8px;
 }
 
 .icon {
@@ -269,7 +266,6 @@ button:hover {
 .nb_vendors_feature {
   color: rgb(179, 104, 61);
   font-size: 14px;
-  
   font-weight: bold;
 }
 
@@ -279,14 +275,8 @@ button:hover {
   margin-left: 8px;
 }
 
-#inactive_vendor_description {
+.table_description {
   margin-left: 10px;
-}
-
-ol {
-  counter-reset: item;
-  list-style-position: outside;
-  margin-left: 12px;
 }
 
 #vendors_list {
@@ -343,4 +333,8 @@ ol {
 
 #show_vendors {
   margin-top: 25px;
+}
+
+#show_purposes_button {
+  width: 100%;
 }

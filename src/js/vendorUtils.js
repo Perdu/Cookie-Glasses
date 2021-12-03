@@ -67,7 +67,7 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
   let numSpecialFeature2 = 0;
   allowedVendorIds.forEach((id) => {
     const vendor = findVendor(id, vendorList);
-    console.log('vendor:', vendor);
+    // console.log('vendor:', vendor);
     if (vendor === undefined) {
       console.log(`{Incorrect vendor, ID ${id}}`);
     } else {

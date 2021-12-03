@@ -15,6 +15,7 @@ import neutralIcon19 from '../button/19.png';
 import neutralIcon38 from '../button/38.png';
 import handleVendors from '../js/vendorUtils';
 import { hideElement, showHiddenElement, isElementHidden } from '../js/htmlUtils';
+import handlePurposes from '../js/purposeUtils';
 
 const cmpListFull = require('../scripts/cmp_list_full.json');
 
@@ -217,6 +218,8 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
 
   // handle vendor buttons
   handleVendors(data, VENDOR_LIST_VERSION, forceUpdate);
+  // handle purpose buttons
+  handlePurposes(data, forceUpdate);
 
   // show consents
   handleConsents(data.purposeConsents);
@@ -329,7 +332,6 @@ if (document.getElementById('decode_cs')) {
     const rawConsentString = document.getElementById('cs_to_decode').value;
     try {
       const decodedString = TCString.decode(rawConsentString);
-      // update_with_consent_string_data(consentString);
       handleTCData(decodedString, undefined);
       hideElement('show_cs');
       hideElement('decode_cs_error');

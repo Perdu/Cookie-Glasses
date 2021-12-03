@@ -57,68 +57,50 @@
         <div class="content-container">
           <h2>Purposes</h2>
           <div class="counts_container">
-            <div class="total_nb_container">
-              <div class="total_nb_title_container">
-                <div>
+            <div class="section_container">
+              <div class="summary_container">
+                <div class="total_nb_summary_container">
                   <h3>Consents</h3>
                   <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.
                 </div>
-                <button id="show_consents" class="show_button">Show purposes</button>
-              </div>
-            </div>
-            <div class="total_nb_container">
-              <div class="total_nb_title_container">
-                <div>
+                <div class="total_nb_summary_container">
                   <h3>Legitimate Interests</h3>
                   <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).
                 </div>
-                <button id="show_legitimate_interests" class="show_button">Show purposes</button>
               </div>
+              <button id="show_purposes_button" class="show_button">Show purposes</button>
             </div>
           </div>
-          <div class="hidden bounded_container" id="consent_purposes_list">
-            <ol>
-              <li id='purpose-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
-              <li id='purpose-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
-              <li id='purpose-3'>&nbsp;[3] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
-              <li id='purpose-4'>&nbsp;[4] <strong>Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
-              <li id='purpose-5'>&nbsp;[5] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
-              <li id='purpose-6'>&nbsp;[6] <strong>Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
-              <li id='purpose-7'>&nbsp;[7] <strong>Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
-              <li id='purpose-8'>&nbsp;[8] <strong>Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
-              <li id='purpose-9'>&nbsp;[9] <strong>Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
-              <li id='purpose-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
-            </ol>
-            <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
-          </div>
-          <div class="hidden bounded_container" id="legitimate_interests_list">
-            <ol>
-              <li id='legit-interest-1'>&nbsp;[1] <strong>Store and/or access information on a device:</strong> Cookies, device identifiers, or other information can be stored or accessed on your device for the purposes presented to you.</li>
-              <li id='legit-interest-2'>&nbsp;[2] <strong>Select basic ads:</strong> Ads can be shown to you based on the content you’re viewing, the app you’re using, your approximate location, or your device type.</li>
-              <li id='legit-interest-3'>&nbsp;[3] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised ads that are relevant to you.</li>
-              <li id='legit-interest-4'>&nbsp;[4] <strong>Select personalised ads:</strong> Personalised ads can be shown to you based on a profile about you ads that are relevant to you.</li>
-              <li id='legit-interest-5'>&nbsp;[5] <strong>Create a personalised content profile:</strong> A profile can be built about you and your interests to show you personalised content that is relevant to you.</li>
-              <li id='legit-interest-6'>&nbsp;[6] <strong>Select personalised content:</strong> Personalised content can be shown to you based on a profile about you.</li>
-              <li id='legit-interest-7'>&nbsp;[7] <strong>Measure ad performance:</strong> The performance and effectiveness of ads that you see or interact with can be measured.</li>
-              <li id='legit-interest-8'>&nbsp;[8] <strong>Measure content performance:</strong> The performance and effectiveness of content that you see or interact with can be measured. be measured.</li>
-              <li id='legit-interest-9'>&nbsp;[9] <strong>Apply market research to generate audience insights:</strong> Market research can be used to learn more about the audiences who visit sites/apps and view ads.</li>
-              <li id='legit-interest-10'>&nbsp;[10] <strong>Develop and improve products:</strong> Your data can be used to improve existing systems and software, and to develop new products.</li>
-            </ol>
+          <div id="purposes_list_container" class="hidden bounded_container">
+            <div class="table_description">⭐ = special purpose (no right to opt-out)</div>
+            <table id="consent_purposes_list" class="styled-table">
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Purpose</td>
+                  <td>Description</td>
+                  <td>Consent?</td>
+                  <td>Legit. Interest?</td>
+                </tr>
+                <tbody id="purpose_list_body">
+                </tbody>
+              </thead>
+            </table>
             <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
           </div>
         </div>
         <div class="content-container">
           <h2>Vendors</h2>
           <div class="counts_container">
-            <div class="total_nb_container">
-              <div class="vendors_container">
-                <div class="total_nb_vendors_container">
+            <div class="section_container">
+              <div class="summary_container">
+                <div class="total_nb_summary_container">
                   <div class="nb_vendor_details">
                     <div id='nb_active_vendors' class="total_nb total_nb_vendors">n/a</div> 
                     <div class="nb_vendor_description">total <b>active</b> vendors processing your data based on allowed purposes.</div>
                   </div>
                 </div>
-                <div class="total_nb_vendors_container">
+                <div class="total_nb_summary_container">
                   <div class="nb_vendor_details">
                     <div id='nb_inactive_vendors' class="total_nb total_nb_vendors">n/a</div> 
                     <div class="nb_vendor_description">total inactive vendors allowed to process data.</div>
@@ -150,8 +132,8 @@
           </div>
           </div>
           <div id="active_vendors_container" class="hidden bounded_container">
-            <div id="inactive_vendor_description">😴 = inactive vendor</div>
-            <div id="inactive_vendor_description">Purpose/feature numbers correspond to purpose/feature numbers above</div>
+            <div class="table_description">Purpose/feature numbers correspond to purpose/feature numbers above</div>
+            <div class="table_description">😴 = inactive vendor</div>
             <table id="active_vendors_list" class="styled-table">
             </table>
           </div>
