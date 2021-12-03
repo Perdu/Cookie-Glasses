@@ -19,6 +19,40 @@ h3 {
   font-style: italic;
 }
 
+h2 {
+  color:rgb(59, 56, 56);
+  font-size: 18px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+  font-weight: 600;
+}
+
+textarea {
+  width: 480px;
+  margin-bottom: 5px;
+}
+
+button {
+  padding: 4px;
+  border-radius: 5px;
+  border: 1px solid rgb(119, 119, 119);
+  background-color:rgb(241, 241, 241);
+}
+
+button:hover {
+  cursor: pointer;
+  background-color:rgb(226, 226, 226);
+}
+
+a {
+  color: rgb(45, 55, 192);
+}
+
+a:visited {
+  color: rgb(87, 84, 84);
+}
+
 .styled-table {
   border-collapse: collapse;
   font-size: 0.9em;
@@ -46,32 +80,6 @@ h3 {
 
 .purpose-column {
   text-align: center;
-}
-
-h2 {
-  color:rgb(59, 56, 56);
-  font-size: 18px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 0px;
-  font-weight: 600;
-}
-
-textarea {
-  width: 480px;
-  margin-bottom: 5px;
-}
-
-button {
-  padding: 4px;
-  border-radius: 5px;
-  border: 1px solid rgb(119, 119, 119);
-  background-color:rgb(241, 241, 241);
-}
-
-button:hover {
-  cursor: pointer;
-  background-color:rgb(226, 226, 226);
 }
 
 .main_content {

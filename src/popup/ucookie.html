@@ -19,22 +19,30 @@
     </div>
     <div class="main_content">
       <div id="nothing_found">
-        <p>This webpage does not seem to implement IAB Europe's Transparency and Consent Framework (this extension only works for websites using IAB Europe's TCF).</p>
+        <h2>&#9888; No CMP found.</h2>
+        <p>This webpage does not implement IAB Europe's <a href="https://iabeurope.eu/tcf-2-0/" target="_blank">Transparency and Consent Framework.</a></p>
       </div>
       <div id="error_fetching_retry" class = "hidden">
-        <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Retrying...</p>
+        <h2>&#9888; Error</h2>
+        <p>We were not able to check if this webpage implements the TCF.</p>
+        <p>Retrying...</p>
       </div>
       <div id="error_fetching" class = "hidden">
-        <p>There has been some issue with the TCF Framework. We were not able to check this webpage. Please try again later.</p>
+        <h2>&#9888; Error</h2>
+        <p>We were not able to check if this webpage implements the TCF.</p>
+        <p>Please try again later, or try refreshing the page.</p>
       </div>
       <div id="cmplocator_found" class="hidden">
         <p>A CMP on this webpage implements IAB Europe's Transparency and Consent Framework.<br /><br />Waiting for an answer from CMP... (We may not get one before you close the cookie banner)</p>
       </div>
       <div id="gdpr_applies_false" class="hidden">
+        <h2>&#x1f61e; GDPR does not apply.</h2>
         <p>
-          A CMP on this webpage implements IAB Europe's Transparency and Consent Framework. However, the CMP has determined that GDPR does not apply in this context. If you are not residing in the EU, try using a VPN.
+          The CMP on this webpage implements IAB Europe's Transparency and Consent Framework, but the CMP has determined that GDPR does not apply in this context.
           <br/>
           <br/>
+          If you are not residing in the EU, try using a <a href="https://en.wikipedia.org/wiki/Virtual_private_network" target="_blank">VPN</a>.
+          <br/><br/>
           Find more information <a target="_blank" href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean">here</a>.
         </p>
       </div>

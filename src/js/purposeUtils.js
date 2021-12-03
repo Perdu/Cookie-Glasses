@@ -97,6 +97,10 @@ function updatePurposes(tcData) {
 export default function handlePurposes(tcData) {
   const buttonId = 'show_purposes_button';
   const containerId = 'purposes_list_container';
+
+  // update totals
+  document.getElementById('nb_purposes').textContent = tcData.purposeConsents.set_.size;
+  document.getElementById('nb_legitimate_interests').textContent = tcData.purposeLegitimateInterests.set_.size;
   updatePurposes(tcData);
 
   const showVendorsButton = document.getElementById(buttonId);
