@@ -107,7 +107,7 @@ export default function handlePurposes(tcData) {
       showVendorsButton.innerText = 'Hide';
       showVendorsButton.classList.add('button_hide');
     } else {
-      showVendorsButton.innerText = 'Show vendors';
+      showVendorsButton.innerText = 'Show purposes';
       vendorsContainerElement.classList.add('hidden');
       showVendorsButton.classList.remove('button_hide');
     }
