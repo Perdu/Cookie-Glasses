@@ -69,32 +69,36 @@
               <div class="summary_container">
                 <div class="total_nb_summary_container">
                   <h3>Consents</h3>
-                  <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.
+                  <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> 
+                  <div class='purpose_description'>out of 10 purposes for data processing allowed on the legal basis of your consent.</div>
                 </div>
                 <div class="total_nb_summary_container">
                   <h3>Legitimate Interests</h3>
-                  <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).
+                  <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> 
+                  <div class='purpose_description'>out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).</div>
                 </div>
               </div>
               <button id="show_purposes_button" class="show_button">Show purposes</button>
             </div>
           </div>
-          <div id="purposes_list_container" class="hidden bounded_container">
+          <div id="purposes_list_container" class="hidden">
             <div class="table_description">⭐ = special purpose (no right to opt-out)</div>
-            <table id="consent_purposes_list" class="styled-table">
-              <thead>
-                <tr>
-                  <td>ID</td>
-                  <td>Purpose</td>
-                  <td>Description</td>
-                  <td>Consent?</td>
-                  <td>Legit. Interest?</td>
-                </tr>
-                <tbody id="purpose_list_body">
-                </tbody>
-              </thead>
-            </table>
-            <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+            <div class="bounded_container">
+              <table id="consent_purposes_list" class="styled-table">
+                <thead>
+                  <tr>
+                    <td>ID</td>
+                    <td>Purpose</td>
+                    <td>Description</td>
+                    <td>Consent?</td>
+                    <td>Legit. Interest?</td>
+                  </tr>
+                  <tbody id="purpose_list_body">
+                  </tbody>
+                </thead>
+              </table>
+              <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+            </div>
           </div>
         </div>
         <div class="content-container">
@@ -139,23 +143,25 @@
             </div>
           </div>
           </div>
-          <div id="active_vendors_container" class="hidden bounded_container">
+          <div id="active_vendors_container" class="hidden">
             <div class="table_description">Purpose/feature numbers correspond to purpose/feature numbers above</div>
             <div class="table_description">😴 = inactive vendor</div>
-            <table id="active_vendors_list" class="styled-table">
-              <thead>
-                <tr>
-                  <th>Vendor name</th>
-                  <th>Consent purposes</th>
-                  <th>Leg. int. purposes</th>
-                  <th>Special purposes</th>
-                  <th>Features</th>
-                  <th>Special features</th>
-                </tr>
-              </thead>
-              <tbody id="vendor_list_body">
-              </tbody>
-            </table>
+            <div class="bounded_container">
+              <table id="active_vendors_list" class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Vendor name</th>
+                    <th>Consent purposes</th>
+                    <th>Leg. int. purposes</th>
+                    <th>Special purposes</th>
+                    <th>Features</th>
+                    <th>Special features</th>
+                  </tr>
+                </thead>
+                <tbody id="vendor_list_body">
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div class="content-container">

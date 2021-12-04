@@ -15,7 +15,7 @@ h3 {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  font-weight: 600;
+  font-weight: 400;
   font-style: italic;
 }
 
@@ -25,12 +25,15 @@ h2 {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  font-weight: 600;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
 }
 
 textarea {
   width: 480px;
   margin-bottom: 5px;
+  border-color: rgb(182, 170, 132);
 }
 
 button {
@@ -38,6 +41,7 @@ button {
   border-radius: 5px;
   border: 1px solid rgb(119, 119, 119);
   background-color:rgb(241, 241, 241);
+  letter-spacing: .01rem;
 }
 
 button:hover {
@@ -51,6 +55,10 @@ a {
 
 a:visited {
   color: rgb(87, 84, 84);
+}
+
+thead {
+  border-bottom: 1px solid rgb(182, 170, 132);
 }
 
 .styled-table {
@@ -88,7 +96,7 @@ a:visited {
 }
 
 .header {
-  background-color:rgb(88, 88, 88);
+  background-color:rgb(54, 67, 85);
   color: white;
   padding: 10px;
   display: flex;
@@ -113,8 +121,12 @@ a:visited {
 }
 
 .show_button {
-  margin-top: 10px;
-  width: 100%;
+  margin-top: 18px;
+  width: 40%;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: white;
+  border-color: rgb(182, 170, 132);
 }
 
 .counts_container {
@@ -144,13 +156,13 @@ a:visited {
 }
 
 .total_nb_purposes {
-  border: 1px solid rgb(4, 137, 155);
-  background-color: rgb(4, 137, 155);
+  border: 1px solid rgb(170, 94, 94);
+  background-color: rgb(170, 94, 94);
 }
 
 .total_nb_vendors {
-  border: 1px solid rgb(179, 104, 61);
-  background-color: rgb(179, 104, 61);
+  border: 1px solid rgb(143, 57, 57);
+  background-color: rgb(143, 57, 57);
 }
 
 .total_nb {
@@ -188,12 +200,12 @@ a:visited {
 }
 
 .button_hide {
-  background-color:rgb(70, 70, 70);
+  background-color:rgb(92, 92, 92);
   color: white;
 }
 
 .button_hide:hover {
-  background-color:rgb(32, 32, 32);
+  background-color:rgb(54, 54, 54);
 }
 
 .nb_vendor_details {
@@ -209,6 +221,10 @@ a:visited {
 
 .cmp_name_container {
   display: flex;
+}
+
+.purpose_description {
+  margin-top: 10px;
 }
 
 .cmp_decorator {
@@ -229,11 +245,10 @@ a:visited {
 }
 
 .bounded_container {
-  border: 1px solid rgb(218, 218, 218);
-  border-radius: 5px;
+  border: 1px solid rgb(211, 201, 167);
+  border-radius: 3px;
   overflow-y: auto;
   max-height: 230px;
-  padding-top: 8px;
   max-width: 484px; /* width of body is 500px, content-container has 8px padding */
 }
 
@@ -249,7 +264,7 @@ a:visited {
   margin-left: 10px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(160, 160, 160);
+  border-bottom: 1px solid rgb(182, 170, 132);
 }
 
 .feature_button {
@@ -270,7 +285,7 @@ a:visited {
 }
 
 .nb_vendors_feature {
-  color: rgb(179, 104, 61);
+  color: rgb(143, 57, 57);
   font-size: 14px;
   font-weight: bold;
 }
@@ -283,6 +298,7 @@ a:visited {
 
 .table_description {
   margin-left: 10px;
+  margin-bottom: 8px;
 }
 
 #vendors_list {
@@ -297,10 +313,7 @@ a:visited {
 
 #cmpid {
   margin-left: 5px;
-}
-
-#consent_purposes_list {
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 #vendors {
@@ -339,4 +352,11 @@ a:visited {
 
 #show_vendors {
   margin-top: 25px;
+}
+
+#cmp {
+  font-weight: 350;
+  letter-spacing: .02em;
+  color: black;
+  font-family: Helvetica, sans-serif;
 }
