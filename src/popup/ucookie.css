@@ -30,10 +30,15 @@ h2 {
   letter-spacing: .1rem;
 }
 
+input {
+  height: 48px;
+  width: 70%;
+}
+
 textarea {
   width: 480px;
   margin-bottom: 5px;
-  border-color: rgb(182, 170, 132);
+  border-color: rgb(138, 129, 100);
 }
 
 button {
@@ -95,12 +100,22 @@ thead {
   padding: 8px;
 }
 
+.banner {
+  
+  display: flex;
+  justify-content: flex-end;
+}
+
 .header {
   background-color:rgb(54, 67, 85);
   color: white;
   padding: 10px;
-  display: flex;
-  align-items:flex-end;
+}
+
+.footer {
+  background-color:rgb(90, 106, 129);
+  color: white;
+  padding: 5px;
 }
 
 .warning_header {
@@ -124,9 +139,6 @@ thead {
   margin-top: 18px;
   width: 40%;
   padding: 8px;
-  border-radius: 5px;
-  background-color: white;
-  border-color: rgb(182, 170, 132);
 }
 
 .counts_container {
@@ -134,7 +146,7 @@ thead {
 }
 
 .section_container {
-  margin-top: 14px;
+  margin-top: 8px;
   margin-bottom: 14px;
   width: 100%;
   border-radius: 5px;
@@ -326,14 +338,14 @@ thead {
 }
 
 #version {
-    font-size: 0.8em;
-    margin-top: 8px;
-    text-align: right;
+  font-size: 0.8em;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 #details {
-  margin-top: 5px;
-  padding: 8px;
+  margin-top: 8px;
+  padding: 2px 10px 10px;
 }
 
 #cs_to_decode {
@@ -350,6 +362,11 @@ thead {
   margin-bottom: 5px;
 }
 
+#decode_cs {
+  margin: 10px 0;
+  width: 30%;
+}
+
 #show_vendors {
   margin-top: 25px;
 }
@@ -359,4 +376,14 @@ thead {
   letter-spacing: .02em;
   color: black;
   font-family: Helvetica, sans-serif;
+}
+
+#consent_string_details {
+  margin-bottom: 12px;
+  margin-top: 8px;
+  padding-left: 20px;
+}
+
+#extras_container {
+  margin-top: 28px;
 }
