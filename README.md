@@ -1,23 +1,25 @@
 # Cookie Glasses
-This browser extension shows you whether consent registered by cookie banners of IAB Europe's Transparency &amp; Consent Framework corresponds to your choice
-
-Update September 2020: CMPs switched to TCFv2 in August 2020. This extension only handles TCFv1 and is therefore obsolete unless it's adapted to the new TCF version (contact me if interested).
+CookieGlasses is a browser extension that displays information registered by cookie banners implemented according to the IAB's [Transparency &amp; Consent Framework (TCF)](https://iabeurope.eu/transparency-consent-framework/).
 
 ## Introduction
 
 In the paper [Do Cookie Banners Respect my Choice? Measuring Legal Compliance of Banners from IAB Europe's Transparency and Consent Framework](https://arxiv.org/abs/1911.09964), we show that Consent Management Providers (CMPs) of IAB Europe's Transparency & Consent Framework (TCF) do not always respect user's choice. This extension allows you to verify that your consent is stored appropriately.
 
-This extension for Firefox and Chrome queries CMPs of IAB Europe's TCF in the same position as a third-party advertiser, making it possible to see consent set by CMPs in real time.
-In other words, you can see whether consent registered by cookie banners is actually the consent you gave.
-Will only work with cookie banners of IAB Europe's TCF.
+This extension for Firefox and Chrome queries CMPs of IAB Europe's TCF in the same position as a third-party advertiser, making it possible to see consent set by CMPs in real time. In other words, you can see whether consent registered by cookie banners is actually the consent you gave.
+This extension only works with cookie banners of IAB Europe's TCF.
 
-![User interface of the extension](extension_popup.png?raw=true "User interface")
+<img width="512" alt="Screen Shot 2021-12-04 at 1 41 32 AM" src="https://user-images.githubusercontent.com/16495787/144700617-de120d8e-9c75-4ea2-826d-9aa7242ae54e.png">
 
-We also added a functionality to manually decode a so-called "consent string" of the framework.
+The extension obtains its information via the TCF Consent String (TCString), obtained from IAB's public API's.
+
+Other features:
+- Functionality to manually decode a so-called "consent string" of the framework
+- Communicates if the current webpage does not implement the TCF
 
 Author: Célestin Matte (Université Côte d'Azur, Inria, France)
+Contributors: Katie Ta, Charles Tan (Providence, RI, USA)
 
-This is a research project made at Inria. Stage: complete. TCFv2 support might be added later.
+This is a research project made at Inria. Stage: complete.
 
 ## Install
 
