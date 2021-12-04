@@ -7,7 +7,7 @@
     <title>Cookie Glasses</title>
   </head>
   <body>
-    <header role="banner" class="header">
+    <header role="banner" class="banner header">
       <div class="cookie_glasses_title">
         Cookie Glasses &#127850; &#129400; 
       </div>
@@ -69,32 +69,36 @@
               <div class="summary_container">
                 <div class="total_nb_summary_container">
                   <h3>Consents</h3>
-                  <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of your consent.
+                  <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> 
+                  <div class='purpose_description'>out of 10 purposes for data processing allowed on the legal basis of your consent.</div>
                 </div>
                 <div class="total_nb_summary_container">
                   <h3>Legitimate Interests</h3>
-                  <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).
+                  <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> 
+                  <div class='purpose_description'>out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).</div>
                 </div>
               </div>
               <button id="show_purposes_button" class="show_button">Show purposes</button>
             </div>
           </div>
-          <div id="purposes_list_container" class="hidden bounded_container">
+          <div id="purposes_list_container" class="hidden">
             <div class="table_description">⭐ = special purpose (no right to opt-out)</div>
-            <table id="consent_purposes_list" class="styled-table">
-              <thead>
-                <tr>
-                  <td>ID</td>
-                  <td>Purpose</td>
-                  <td>Description</td>
-                  <td>Consent?</td>
-                  <td>Legit. Interest?</td>
-                </tr>
-                <tbody id="purpose_list_body">
-                </tbody>
-              </thead>
-            </table>
-            <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+            <div class="bounded_container">
+              <table id="consent_purposes_list" class="styled-table">
+                <thead>
+                  <tr>
+                    <td>ID</td>
+                    <td>Purpose</td>
+                    <td>Description</td>
+                    <td>Consent?</td>
+                    <td>Legit. Interest?</td>
+                  </tr>
+                  <tbody id="purpose_list_body">
+                  </tbody>
+                </thead>
+              </table>
+              <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+            </div>
           </div>
         </div>
         <div class="content-container">
@@ -139,54 +143,62 @@
             </div>
           </div>
           </div>
-          <div id="active_vendors_container" class="hidden bounded_container">
+          <div id="active_vendors_container" class="hidden">
             <div class="table_description">Purpose/feature numbers correspond to purpose/feature numbers above</div>
             <div class="table_description">😴 = inactive vendor</div>
-            <table id="active_vendors_list" class="styled-table">
-              <thead>
-                <tr>
-                  <th>Vendor name</th>
-                  <th>Consent purposes</th>
-                  <th>Leg. int. purposes</th>
-                  <th>Special purposes</th>
-                  <th>Features</th>
-                  <th>Special features</th>
-                </tr>
-              </thead>
-              <tbody id="vendor_list_body">
-              </tbody>
-            </table>
+            <div class="bounded_container">
+              <table id="active_vendors_list" class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Vendor name</th>
+                    <th>Consent purposes</th>
+                    <th>Leg. int. purposes</th>
+                    <th>Special purposes</th>
+                    <th>Features</th>
+                    <th>Special features</th>
+                  </tr>
+                </thead>
+                <tbody id="vendor_list_body">
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div class="content-container">
-          <span id="show_cs">Consent string stored by CMP:<br /><br /><textarea rows='5' id='consent_string'></textarea></span>
-          TCF String Created: <i><span id='created'></span></i><br />
-          TCF String Last Updated: <i><span id='last_updated'></span></i><br />
-          TCF String Last Fetched: <i><span id='last_fetched'></span></i><br />
+          <h2>Consent string</h2>
+          <ul id="consent_string_details">
+            <li><i>Created: </i><span id='created'></span></li>
+            <li><i>Last Updated: </i><span id='last_updated'></span></li>
+            <li><i>Last Fetched: </i><span id='last_fetched'></span></li>
+          </ul>
+          <textarea rows='5' id='consent_string'></textarea>
         </div>
       </div>
-      <br />
-      <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
-      <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
-      <div class="hidden bounded_container" id="decoder">
-        <div id="decoder_title">Manually decode a consent string:</div>
-        <div id="decode_cs_error" class="hidden">&#128680; <i><b>Error:</b> Invalid consent string</i></div>
-        <input type="text" id="cs_to_decode" />
-        <button id="decode_cs">Decode</button><br />
+      <div id="extras_container">
+        <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
+        <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
+        <div class="hidden bounded_container" id="decoder">
+          <div id="decoder_title">Manually decode a consent string:</div>
+          <div id="decode_cs_error" class="hidden">&#128680; <i><b>Error:</b> Invalid consent string</i></div>
+          <textarea rows='2' type="text" id="cs_to_decode"></textarea>
+          <div><strong>Note:</strong> this will override the existing information on the extension.</div>
+          <button id="decode_cs">Decode</button>
+        </div>
+        <div class="hidden bounded_container" id="details">
+          <h3>Icon details</h3>
+          <ul>
+            <li>Red indicates that consent is still set for at least one vendor and one purpose.</li>
+            <li>Green indicates that consent is completely refused.</li>
+            <li>The number shown in the icon is the number of allowed purposes for both Consent and Legitimate Interests.</li>
+          </ul>
+          <strong>Note:</strong> Vendors (advertisers) are supposed to check that <i>both</i> purposes and their Vendor ID is allowed to perform tracking.
+        </div>
       </div>
-      <div class="hidden bounded_container" id="details">
-        <strong>Icon details</strong>
-        <ul>
-          <li>Red indicates that consent is still set for at least one vendor and one purpose.</li>
-          <li>Green indicates that consent is completely refused.</li>
-          <li>The number shown in the icon is the number of allowed purposes for both Consent and Legitimate Interests.</li>
-        </ul>
-        <strong>Note:</strong> Vendors (advertisers) are supposed to check that <i>both</i> purposes and their Vendor ID is allowed to perform tracking.
-      </div>
+    </div>
+    <div role="banner" class="banner footer">
       <div id="version">
         Cookie Glasses version: 1.1.10
       </div>
-  </div>
+    </div>
   </body>
-
 </html>
