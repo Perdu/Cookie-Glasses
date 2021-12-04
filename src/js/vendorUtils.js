@@ -19,25 +19,6 @@ function findVendor(id, vendorList) {
   return vendorList.vendors[id];
 }
 
-function getHeaderColumn(textContent) {
-  const headerColumn = document.createElement('th');
-  headerColumn.textContent = textContent;
-  return headerColumn;
-}
-
-function addHeaders(vendorsListElement) {
-  const theadElement = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-
-  headerRow.appendChild(getHeaderColumn('Vendor name'));
-  headerRow.appendChild(getHeaderColumn('Consent purposes'));
-  headerRow.appendChild(getHeaderColumn('Leg. int. purposes'));
-  headerRow.appendChild(getHeaderColumn('Special purposes'));
-  theadElement.appendChild(headerRow);
-
-  vendorsListElement.appendChild(theadElement);
-}
-
 function getPurposesColumn(purposes, allowedPurposes) {
   const purposesColumn = document.createElement('td');
   const purposeList = purposes.filter((purpose) => allowedPurposes.includes(purpose));
@@ -45,19 +26,27 @@ function getPurposesColumn(purposes, allowedPurposes) {
   return purposesColumn;
 }
 
-function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forceUpdate) {
-  const vendorListElement = document.getElementById('active_vendors_list');
+function getFeaturesColumn(features) {
+  const featuresColumn = document.createElement('td');
+  featuresColumn.textContent = features.length > 0 ? features : 'none';
+  return featuresColumn;
+}
+
+function getSpecialFeaturesColumn(specialFeatures, specialFeatureOptIns) {
+  const specialFeaturesColumn = document.createElement('td');
+  const specialFeaturesList = specialFeatures.filter((purpose) => specialFeatureOptIns.has(purpose));
+  specialFeaturesColumn.textContent = specialFeaturesList.length > 0 ? specialFeaturesList : 'none';
+  return specialFeaturesColumn;
+}
+
+function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegitimateInterests, publisherRestrictions, specialFeatureOptIns, forceUpdate) {
+  const vendorListElement = document.getElementById('vendor_list_body');
   if (vendorListElement.children.length > 0 && !forceUpdate) {
     // we already populated the list of vendors, so no need to update
     // unless we're forcing an update
     return;
   }
-  console.log('purposeConsents', purposeConsents);
-  console.log('purposeLegitimateInterests', purposeLegitimateInterests);
-  console.log('publisherRestrictions', publisherRestrictions);
 
-  addHeaders(vendorListElement);
-  const activeTBodyElement = document.createElement('tbody');
   let numActive = 0;
   let numInactive = 0;
   let numFeature1 = 0;
@@ -111,9 +100,9 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
       }
 
       // check special features
-      if (vendor.specialFeatures.includes(1)) {
+      if (specialFeatureOptIns.has(1) && vendor.specialFeatures.includes(1)) {
         numSpecialFeature1 += 1;
-      } else if (vendor.specialFeatures.includes(2)) {
+      } else if (specialFeatureOptIns.has(2) && vendor.specialFeatures.includes(2)) {
         numSpecialFeature2 += 1;
       }
 
@@ -127,7 +116,9 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
       rowItem.appendChild(getPurposesColumn(vendor.purposes, validConsentPurposes));
       rowItem.appendChild(getPurposesColumn(vendor.legIntPurposes, validLegIntPurposes));
       rowItem.appendChild(createColumnWithTextContent(vendorSpecialPurposes.length > 0 ? vendorSpecialPurposes : 'none'));
-      activeTBodyElement.appendChild(rowItem);
+      rowItem.appendChild(getFeaturesColumn(vendor.features));
+      rowItem.appendChild(getSpecialFeaturesColumn(vendor.specialFeatures, specialFeatureOptIns));
+      vendorListElement.appendChild(rowItem);
 
       if (isInactive) {
         numInactive += 1;
@@ -136,7 +127,6 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
       }
     }
   });
-  vendorListElement.appendChild(activeTBodyElement);
 
   // update totals
   document.getElementById('nb_active_vendors').textContent = numActive;
@@ -148,7 +138,7 @@ function showVendors(vendorList, allowedVendorIds, purposeConsents, purposeLegit
   document.getElementById('nb_vendors_special_feature_2').textContent = numSpecialFeature2;
 }
 
-function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forceUpdate) {
+function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, specialFeatureOptIns, forceUpdate) {
   const req = new Request(`https://vendor-list.consensu.org/v${vendorListVersion}/vendor-list.json`, {
     method: 'GET',
     headers: { Accept: 'application/json' },
@@ -160,7 +150,7 @@ function fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateIn
     const a = {};
     a[`vendorList_${vendorListVersion}`] = data;
     api.storage.local.set(a);
-    showVendors(data, allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forceUpdate);
+    showVendors(data, allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, specialFeatureOptIns, forceUpdate);
   }).catch((error) => {
     console.log('Error fetching vendor list: ', error);
     // TODO: surface generic error message in pop-up
@@ -180,14 +170,15 @@ function loadVendors(tcData, vendorListVersion, forceUpdate) {
   const purposeConsents = tcData.purposeConsents.set_;
   const purposeLegitimateInterests = tcData.purposeLegitimateInterests.set_;
   const publisherRestrictions = tcData.publisherRestrictions.map;
+  const specialFeatureOptIns = tcData.specialFeatureOptins.set_;
   const vendorListName = `vendorList_${vendorListVersion}`;
   api.storage.local.get([`vendorList_${vendorListVersion}`], (result) => {
     if (result[vendorListName] === undefined) {
       // vendorList is not in localstorage, load it from IAB's website
-      fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, allowedVendors, forceUpdate);
+      fetchVendorList(vendorListVersion, purposeConsents, purposeLegitimateInterests, publisherRestrictions, specialFeatureOptIns, allowedVendors, forceUpdate);
     } else {
       // vendorList is in local storage
-      showVendors(result[vendorListName], allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, forceUpdate);
+      showVendors(result[vendorListName], allowedVendors, purposeConsents, purposeLegitimateInterests, publisherRestrictions, specialFeatureOptIns, forceUpdate);
     }
   });
 }
