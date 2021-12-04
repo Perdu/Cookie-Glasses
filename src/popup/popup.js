@@ -49,9 +49,15 @@ function handleGdprApplies(gdprApplies) {
     if (gdprApplies === true) {
       hideElement('gdpr_applies_false');
       showHiddenElement('cmplocator_found');
+      hideElement('error_fetching_retry');
+      hideElement('error_fetching');
+      hideElement('nothing_found');
     } else {
       showHiddenElement('gdpr_applies_false');
       hideElement('cmplocator_found');
+      hideElement('error_fetching_retry');
+      hideElement('error_fetching');
+      hideElement('nothing_found');
     }
   } catch {
     // popup not open
@@ -108,41 +114,6 @@ function setIcon(
   });
 }
 
-function handleConsents(purposeConsents) {
-  // update totals
-  document.getElementById('nb_purposes').textContent = purposeConsents.set_.size;
-
-  [...Array(10).keys()].map((id) => {
-    if (purposeConsents.set_.has(id + 1)) {
-      document.getElementById(`purpose-${id + 1}`).classList.add('purpose-consented-item');
-      return true;
-    }
-    document.getElementById(`purpose-${id + 1}`).classList.add('purpose-not-consented-item');
-    return false;
-  });
-
-  if (document.getElementById('show_consents')) {
-    const purposesList = document.getElementById('consent_purposes_list');
-    const showPurposeConsentsButton = document.getElementById('show_consents');
-    showPurposeConsentsButton.onclick = () => {
-      if (isElementHidden(purposesList)) {
-        showPurposeConsentsButton.innerText = 'Hide';
-        showPurposeConsentsButton.classList.add('button_hide');
-        purposesList.classList.remove('hidden');
-
-        // hide legit interest purpose list
-        hideElement('legitimate_interests_list');
-        document.getElementById('show_legitimate_interests').innerText = 'Show purposes';
-        document.getElementById('show_legitimate_interests').classList.remove('button_hide');
-      } else {
-        showPurposeConsentsButton.innerText = 'Show purposes';
-        purposesList.classList.add('hidden');
-        showPurposeConsentsButton.classList.remove('button_hide');
-      }
-    };
-  }
-}
-
 function formatDate(date) {
   return date.toLocaleString(undefined, {
     day: 'numeric',
@@ -164,19 +135,6 @@ function formatIntlDate(date) {
     second: '2-digit',
     hour12: true,
   }).format(date);
-}
-
-function handleLegitimateInterests(purposeLegitimateInterests) {
-  // update legitimate interest consents
-  document.getElementById('nb_legitimate_interests').textContent = purposeLegitimateInterests.set_.size;
-  [...Array(10).keys()].map((id) => {
-    if (purposeLegitimateInterests.set_.has(id + 1)) {
-      document.getElementById(`legit-interest-${id + 1}`).classList.add('purpose-consented-item');
-      return true;
-    }
-    document.getElementById(`legit-interest-${id + 1}`).classList.add('purpose-not-consented-item');
-    return false;
-  });
 }
 
 const showLegIntPurposesButton = document.getElementById('show_legitimate_interests');
@@ -216,16 +174,10 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
   showCmp(data.cmpId_);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
 
-  // handle vendor buttons
+  // handle vendors section
   handleVendors(data, VENDOR_LIST_VERSION, forceUpdate);
-  // handle purpose buttons
+  // handle purposes section
   handlePurposes(data, forceUpdate);
-
-  // show consents
-  handleConsents(data.purposeConsents);
-
-  // show legitimate interests
-  handleLegitimateInterests(data.purposeLegitimateInterests);
 
   // set icon based on number of purposes
   setIcon(
