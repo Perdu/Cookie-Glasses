@@ -196,12 +196,18 @@ function getActiveTabStorage() {
     api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const activeTabId = tabs[0].id;
       console.log('active tab id', tabs[0].id);
+
+      // reset icon
       api.browserAction.setIcon({
         tabId: activeTabId,
         path: {
           19: neutralIcon19,
           38: neutralIcon38,
         },
+      });
+      api.browserAction.setBadgeText({
+        tabId: activeTabId,
+        text: '0',
       });
 
       api.storage.local.get([String(activeTabId)], (result) => {
@@ -285,7 +291,6 @@ if (document.getElementById('decode_cs')) {
     try {
       const decodedString = TCString.decode(rawConsentString);
       handleTCData(decodedString, undefined);
-      hideElement('show_cs');
       hideElement('decode_cs_error');
       showHiddenElement('warning_header');
     } catch {
