@@ -3,19 +3,17 @@ CookieGlasses is a browser extension that displays information registered by coo
 
 ## Introduction
 
-In the paper [Do Cookie Banners Respect my Choice? Measuring Legal Compliance of Banners from IAB Europe's Transparency and Consent Framework](https://arxiv.org/abs/1911.09964), we show that Consent Management Providers (CMPs) of IAB Europe's Transparency & Consent Framework (TCF) do not always respect user's choice. This extension allows you to verify that your consent is stored appropriately.
+In the paper [Do Cookie Banners Respect my Choice? Measuring Legal Compliance of Banners from IAB Europe's Transparency and Consent Framework](https://arxiv.org/abs/1911.09964), it is shown that Consent Management Providers (CMPs) of IAB Europe's Transparency & Consent Framework (TCF) do not always respect user's choice. This extension allows you to verify that your consent is stored appropriately.
 
 This extension for Firefox and Chrome queries CMPs of IAB Europe's TCF in the same position as a third-party advertiser, making it possible to see consent set by CMPs in real time. In other words, you can see whether consent registered by cookie banners is actually the consent you gave.
-This extension only works with cookie banners of IAB Europe's TCF.
+This extension only works with cookie banners of [IAB Europe's TCF](https://iabeurope.eu/transparency-consent-framework/).
 
 <img width="512" alt="Screen Shot 2021-12-04 at 1 41 32 AM" src="https://user-images.githubusercontent.com/16495787/144700617-de120d8e-9c75-4ea2-826d-9aa7242ae54e.png">
 
-The extension obtains its information via the TCF Consent String (TCString), obtained from IAB's public API's.
+The extension obtains its information via the TCF Consent String (TCString), obtained from [IAB's public API's](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md).
 
 Author: Célestin Matte (Université Côte d'Azur, Inria, France)
 Contributors: Katie Ta, Charles Tan (Providence, RI, USA)
-
-This is a research project made at Inria. Stage: complete.
 
 ## Features
 
@@ -39,6 +37,10 @@ Other features:
 Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up to date CMP list information. According to the website, the list can change on a daily basis but in practive, we've observed it changes less frequently than that.
 
 `python3 Cookie-Glasses/src/scripts/fetch_cmp_list.py`
+
+It's important to make sure our CMP list is up to date to ensure that Cookie Glasses shows the correct CMP information to the user. The information at https://iabeurope.eu/cmp-list/ shows all the CMPs who have been approved by the IAB, and occassionally CMPs are added or removed from the list. If a website uses a CMP that is not included in that list, then the CMP has not been approved by the IAB and users should be wary of how vendors are processing the user's data. Below is the message shown when the CMP a website uses is not in the list.
+
+<img src="unknown_cmp.png" alt="no_cmp" width="350"/>
 
 ## Install
 

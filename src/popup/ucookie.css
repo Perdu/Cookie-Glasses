@@ -250,7 +250,7 @@ thead {
   line-height: 15px;
 }
 
-.identified_cmp {
+.cmp_name {
   color: rgb(63, 63, 63);
   font-size: 18px;
   font-weight: bold;
