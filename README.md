@@ -31,8 +31,8 @@ Other features:
 - Functionality to manually decode a so-called "consent string" of the framework
 - Communicates if the current webpage does not implement the TCF
 
-![User interface of the no CMP](no_cmp_found.png?raw=true "No CMP")
-![User interface of the manual decoder](manually_decode_tcstring.png?raw=true "Manually Decode")
+<img src="no_cmp_found.png" alt="no_cmp" width="350"/>
+<img src="manual_decode_tcstring.png" alt="manual_decode" width="350"/>
 
 ## Update the CMP list
 
