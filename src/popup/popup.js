@@ -74,7 +74,6 @@ function showCmp(cmpId) {
   document.getElementById('cmpid').textContent = ` (ID: ${cmpId})`;
   if (cmpId in cmpListFull) {
     cmpElement.textContent = cmp.name;
-    cmpElement.classList.add('identified_cmp');
     cmpElement.href = cmp.url;
     hideElement('unknown_cmp_container');
   } else {
