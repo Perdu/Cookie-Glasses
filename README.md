@@ -36,7 +36,9 @@ Other features:
 
 #### Update the CMP list
 
-Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up to date CMP list information. According to the website, the list can change on a daily basis but in practive, we've observed it changes less frequently than that.
+Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up-to-date CMP list information. According to the website, the list can change daily but in practice, we've observed it changes less frequently.
+
+It's important to refetch the CMP list, since the list on IAB's website reflects all CMP's that are currently registered _and_ compliant with the TCF.
 
 `python3 Cookie-Glasses/src/scripts/fetch_cmp_list.py`
 
