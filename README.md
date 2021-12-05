@@ -22,8 +22,8 @@ Based on the TC string from the CMP, we decode and show the following informatio
 - List of all the vendors who are allowed to process your data and a list of the data processing purposes and features for each vendor
 - Several aggregate values including the number of active and inactive vendors (inactive means they are allowed to process your data but you've rejected all of the purposes for which they would process your data)
 
-![User interface of the purposes](purposes_vid_SparkVideo.gif?raw=true "Purposes")
-![User interface of the features](features_vid_SparkVideo.gif?raw=true "Features")
+![User interface of the purposes](cookie-glasses-purposes.gif?raw=true "Purposes")
+![User interface of the features](cookie-glasses-features.gif?raw=true "Features")
 
 Other features:
 - Functionality to manually decode a so-called "consent string" of the framework
