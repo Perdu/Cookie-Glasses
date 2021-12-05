@@ -639,11 +639,6 @@
         "url": "https://rc.tvp.info/#",
         "subdomain": "TVP.mgr.consensu.org"
     },
-    "14": {
-        "name": "Verizon Media EMEA limited",
-        "url": "https://www.oath.com/insights/oath-and-gdpr/",
-        "subdomain": "oath.mgr.consensu.org"
-    },
     "171": {
         "name": "Viber Media sarl",
         "url": "https://viber.com/",
@@ -668,5 +663,10 @@
         "name": "Wirtualna Polska Media S.A.",
         "url": "https://onas.wp.pl/poufnosc.html",
         "subdomain": "wpm.mgr.consensu.org"
+    },
+    "14": {
+        "name": "Yahoo EMEA Limited",
+        "url": "https://www.adtech.yahooinc.com/insights",
+        "subdomain": "oath.mgr.consensu.org"
     }
 }
