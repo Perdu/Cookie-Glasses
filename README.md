@@ -29,8 +29,8 @@ Other features:
 - Functionality to manually decode a so-called "consent string" of the framework
 - Communicates if the current webpage does not implement the TCF
 
-<img src="manual_decode_tcstring.png" alt="manual_decode" width="350"/>
-<img src="no_cmp_found.png" alt="no_cmp" width="350"/>
+<img src="manual_decode_tcstring.png" alt="manual_decode" width="512"/>
+<img src="no_cmp_found.png" alt="no_cmp" width="512"/>
 
 #### Update the CMP list
 
@@ -42,7 +42,7 @@ It's important to refetch the CMP list, since the list on IAB's website reflects
 
 It's important to make sure our CMP list is up to date to ensure that Cookie Glasses shows the correct CMP information to the user. The information at https://iabeurope.eu/cmp-list/ shows all the CMPs who have been approved by the IAB, and occassionally CMPs are added or removed from the list. If a website uses a CMP that is not included in that list, then the CMP has not been approved by the IAB and users should be wary of how vendors are processing the user's data. Below is the message shown when the CMP a website uses is not in the list.
 
-<img src="unknown_cmp.png" alt="no_cmp" width="350"/>
+<img src="unknown_cmp.png" alt="no_cmp" width="512"/>
 
 ## Install
 
