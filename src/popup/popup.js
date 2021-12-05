@@ -76,9 +76,10 @@ function showCmp(cmpId) {
     cmpElement.textContent = cmp.name;
     cmpElement.classList.add('identified_cmp');
     cmpElement.href = cmp.url;
+    hideElement('unknown_cmp_container');
   } else {
     cmpElement.textContent = 'Unknown CMP';
-    hideElement('unknown_cmp_container');
+    showHiddenElement('unknown_cmp_container');
   }
 }
 
