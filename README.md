@@ -34,7 +34,9 @@ Other features:
 
 #### Update the CMP list
 
-Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up to date CMP list information. According to the website, the list can change on a daily basis but in practive, we've observed it changes less frequently than that.
+Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up-to-date CMP list information. According to the website, the list can change daily but in practice, we've observed it changes less frequently.
+
+It's important to refetch the CMP list, since the list on IAB's website reflects all CMP's that are currently registered _and_ compliant with the TCF.
 
 `python3 Cookie-Glasses/src/scripts/fetch_cmp_list.py`
 
@@ -96,8 +98,9 @@ Because of the security mechanisms of browsers extensions, Cookie Glasses can on
 
 If you want to see consent on the remaining 21% of websites, here's a manual workaround:
 1. Open the developer console (ctrl+maj+i)
-2. Run the following code: `__tcfapi("getTCData", 2, function(v, success) { console.log(v); });`
-3. If you obtain a response, copy the string in the "tcString" field and paste that string in the Cookie Glasses' popup's "decode consent string" field and click on "decode".
+2. Run the following snippet in the console of the webpage in question: 
+```__tcfapi("getTCData", 2, function(v, success) { console.log(v); });```
+3. If you obtain a response, copy the string in the "tcString" field and decode it in the "Manually decode Consent String" section of the extension. You can find this section by clicking on the Tool icon at the bottom of the extension.
 
 For now, the extension does not display the global shared cookie (which is a cookie storing consent, readable and writable by all CMPs of the framework).
 
