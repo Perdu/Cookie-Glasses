@@ -46,7 +46,7 @@ It's important to make sure our CMP list is up to date to ensure that Cookie Gla
 
 ## Install
 
-For this version of CookieGlasses, you have to manually install it from source since it's not available on the Chrome Webstore or the Firefox addons.
+This version of Cookie Glasses is not available on the Chrome Webstore of Firefox Addons, so it must be manually installed from source.
 
 ### Chrome / Chromium
 
@@ -58,8 +58,8 @@ For this version of CookieGlasses, you have to manually install it from source s
 5. Enable Developer mode in the top right.
 6. Choose "Load unpacked"
 7. Choose the `build` folder generated in Step 3.
-8. Visit websites implementing the Transparency & Consent Framework
-9. Enjoy detecting violations!
+8. Visit websites implementing the Transparency & Consent Framework (note that you may need a VPN for some sites if you are not residing in the EU) 
+10. Enjoy detecting violations!
 
 ### Firefox
 
@@ -67,14 +67,15 @@ For this version of CookieGlasses, you have to manually install it from source s
 
 On Firefox, out-of-store addons can only be loaded for the duration of the session (you will have to redo these steps if you close your browser).
 
-1. Download the ZIP file of Cookie Glasses on your computer.
+1. Download the ZIP file of Cookie Glasses.
 ![Location of the zip file](https://camo.githubusercontent.com/71c8e3ec5ddbd2cac3b1d6469311f6bbf26c6465/68747470733a2f2f692e696d6775722e636f6d2f47784f6d6a46682e706e67)
-2. Unzip the ZIP file you just downloaded on your computer.
-3. Open Firefox and enter the following URL in your tab bar: about:debugging#/runtime/this-firefox
-4. Click "Load temporary addon"
-5. Choose the `manifest.json` file in the `Cookie-Glasse-master` folder on your computer.
-6. Visit websites implementing the Transparency & Consent Framework
-7. Enjoy detecting violations!
+2. Unpack the ZIP file.
+3. In the `Cookie-Glasses` directory, run `yarn run build`. This should produce a new `build` folder.
+4. Open Firefox and visit: about:debugging#/runtime/this-firefox
+5. Click `Load Temporary Add-on...`
+6. Choose any file in the `build` folder generated in Step 3.
+8. Visit websites implementing the Transparency & Consent Framework (note that you may need a VPN for some sites if you are not residing in the EU) 
+10. Enjoy detecting violations!
 
 ## Limitations
 
