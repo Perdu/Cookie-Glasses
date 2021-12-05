@@ -93,6 +93,14 @@ If you want to see consent on the remaining 21% of websites, here's a manual wor
 
 For now, the extension does not display the global shared cookie (which is a cookie storing consent, readable and writable by all CMPs of the framework).
 
+## Run in developer mode
+Follow the same instructions for both Chrome and Firefox as above, but instead of building the extension via `yarn build`, start the hot-reloading script with:
+```
+yarn run start
+```
+
+This will pick up any local changes made and automatically upload them to the unpacked extension in your browser.
+
 ## Privacy Policy
 Cookie Glasses does not handle any personal information.
 Cookie Glasses only processes consent information from IAB Europe's Transparency and Consent Framework (TCF) locally, and does not send any information to a distant server.
