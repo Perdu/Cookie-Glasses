@@ -1,7 +1,9 @@
 html, body {
   min-width: 500px;
+  max-width: 550px;
   font-size: 14px;
   margin: 0;
+  font-family: sans-serif;
 }
 
 ol {
