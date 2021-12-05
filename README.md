@@ -63,8 +63,6 @@ This version of Cookie Glasses is not available on the Chrome Webstore of Firefo
 
 ### Firefox
 
-⚠️ CookieGlasses for TCFv2 on Firefox has not been extensively tested
-
 On Firefox, out-of-store addons can only be loaded for the duration of the session (you will have to redo these steps if you close your browser).
 
 1. Download the ZIP file of Cookie Glasses.
