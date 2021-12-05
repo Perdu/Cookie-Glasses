@@ -31,10 +31,10 @@ Other features:
 - Functionality to manually decode a so-called "consent string" of the framework
 - Communicates if the current webpage does not implement the TCF
 
-<img src="no_cmp_found.png" alt="no_cmp" width="350"/>
 <img src="manual_decode_tcstring.png" alt="manual_decode" width="350"/>
+<img src="no_cmp_found.png" alt="no_cmp" width="350"/>
 
-## Update the CMP list
+#### Update the CMP list
 
 Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up to date CMP list information. According to the website, the list can change on a daily basis but in practive, we've observed it changes less frequently than that.
 
@@ -49,7 +49,8 @@ You can either install the extension from browsers' addon stores (simple, easy),
 Chrome / Chromium : https://chrome.google.com/webstore/detail/cookie-glasses/gncnjghkclkhpkfhghcbobednpchjifk
 
 
-* Warning! CookieGlasses for TCFv2 on Firefox has not been extensively tested
+Warning! CookieGlasses for TCFv2 on Firefox has not been extensively tested
+
 Firefox: https://addons.mozilla.org/fr/firefox/addon/cookie-glasses/
 
 ### Manual install from source:
@@ -70,7 +71,7 @@ The extension has been tested on Chromium.
 
 #### Firefox
 
-* Warning! CookieGlasses for TCFv2 on Firefox has not been extensively tested
+Warning! CookieGlasses for TCFv2 on Firefox has not been extensively tested
 
 On Firefox, out-of-store addons can only be loaded for the duration of the session (you will have to redo these steps if you close your browser).
 
