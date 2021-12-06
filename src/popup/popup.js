@@ -172,7 +172,11 @@ function getActiveTabStorage() {
         }
 
         // tcfapiLocator has been found & received tcString
-        if (data.tcfapiLocatorFound === true && data.tcString !== undefined) {
+        // only update the extension if gdprApplies
+        if (data.tcfapiLocatorFound === true
+            && data.tcString !== undefined
+            && data.gdprApplies === true
+        ) {
           // no longer need to show found message or any fetching messages
           hideElement('nothing_found');
           hideElement('error_fetching');
