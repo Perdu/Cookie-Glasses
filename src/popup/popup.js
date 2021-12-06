@@ -7,15 +7,12 @@ import { TCString } from '@iabtcf/core';
 import './img/Octicons-tools.png';
 import './img/question_mark.svg';
 import './ucookie.css';
-import greenIcon19 from '../button/19_green.png';
-import greenIcon38 from '../button/38_green.png';
-import redIcon19 from '../button/19_red.png';
-import redIcon38 from '../button/38_red.png';
-import neutralIcon19 from '../button/19.png';
-import neutralIcon38 from '../button/38.png';
 import handleVendors from '../js/vendorUtils';
 import { hideElement, showHiddenElement, isElementHidden } from '../js/htmlUtils';
 import handlePurposes from '../js/purposeUtils';
+import {
+  updateIcon, setIcon, setIconBadgeText, ICON_NEUTRAL,
+} from '../js/iconUtils';
 
 const cmpListFull = require('../scripts/cmp_list_full.json');
 
@@ -82,38 +79,6 @@ function showCmp(cmpId) {
   }
 }
 
-function setIcon(
-  numConsentPurposes,
-  numConsentVendors,
-  numLegitimateInterestPurposes,
-  numLegitimateInterestVendors,
-  tabId,
-) {
-  if (numConsentPurposes * numConsentVendors === 0
-    && numLegitimateInterestPurposes * numLegitimateInterestVendors === 0) {
-    api.browserAction.setIcon({
-      tabId,
-      path: {
-        19: greenIcon19,
-        38: greenIcon38,
-      },
-    });
-  } else {
-    api.browserAction.setIcon({
-      tabId,
-      path: {
-        19: redIcon19,
-        38: redIcon38,
-      },
-    });
-  }
-
-  api.browserAction.setBadgeText({
-    tabId,
-    text: (numConsentPurposes + numLegitimateInterestPurposes).toString(),
-  });
-}
-
 function formatDate(date) {
   return date.toLocaleString(undefined, {
     day: 'numeric',
@@ -147,7 +112,7 @@ function showTimestamps(createdAt, lastUpdated, lastFetched) {
   }
 }
 
-function handleTCData(data, timestampTcDataLoaded, tabId) {
+function handleTCData(data, tabId, timestampTcDataLoaded) {
   const forceUpdate = timestampTcDataLoaded === undefined;
   showCmp(data.cmpId_);
   showTimestamps(data.created, data.lastUpdated, timestampTcDataLoaded);
@@ -158,7 +123,7 @@ function handleTCData(data, timestampTcDataLoaded, tabId) {
   handlePurposes(data, forceUpdate);
 
   // set icon based on number of purposes
-  setIcon(
+  updateIcon(
     data.purposeConsents.set_.size,
     data.vendorConsents.set_.size,
     data.purposeLegitimateInterests.set_.size,
@@ -176,17 +141,8 @@ function getActiveTabStorage() {
       console.log('active tab id', tabs[0].id);
 
       // reset icon
-      api.browserAction.setIcon({
-        tabId: activeTabId,
-        path: {
-          19: neutralIcon19,
-          38: neutralIcon38,
-        },
-      });
-      api.browserAction.setBadgeText({
-        tabId: activeTabId,
-        text: '0',
-      });
+      setIcon(activeTabId, ICON_NEUTRAL);
+      setIconBadgeText(activeTabId, '0');
 
       api.storage.local.get([String(activeTabId)], (result) => {
         const data = result[activeTabId];
@@ -227,7 +183,7 @@ function getActiveTabStorage() {
 
           const decodedString = TCString.decode(data.tcString);
           console.log('decoded string', decodedString);
-          handleTCData(decodedString, data.timestampTcDataLoaded, activeTabId);
+          handleTCData(decodedString, activeTabId, data.timestampTcDataLoaded);
         }
         return true;
       });
@@ -263,44 +219,58 @@ function pruneTabStorage() {
   });
 }
 
-if (document.getElementById('decode_cs')) {
-  document.getElementById('decode_cs').onclick = function () {
-    const rawConsentString = document.getElementById('cs_to_decode').value;
-    try {
-      const decodedString = TCString.decode(rawConsentString);
-      handleTCData(decodedString, undefined);
-      hideElement('decode_cs_error');
-      showHiddenElement('warning_header');
-    } catch {
-      showHiddenElement('decode_cs_error');
-    }
-  };
+function setUpDecoder() {
+  // set up open decoder button (tool icon)
+  if (document.getElementById('open_decoder')) {
+    document.getElementById('open_decoder').onclick = () => {
+      if (isElementHidden(document.getElementById('decoder'))) {
+        showHiddenElement('decoder');
+        hideElement('details');
+      } else {
+        hideElement('decoder');
+      }
+    };
+  }
+
+  // set up decode consent string button
+  if (document.getElementById('decode_cs')) {
+    document.getElementById('decode_cs').onclick = () => {
+      api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTabId = tabs[0].id;
+        const rawConsentString = document.getElementById('cs_to_decode').value;
+        try {
+          const decodedString = TCString.decode(rawConsentString);
+
+          // show the new consent string
+          showTCString(rawConsentString);
+
+          // update the UI accordingly
+          handleTCData(decodedString, activeTabId, undefined);
+          hideElement('decode_cs_error');
+          showHiddenElement('warning_header');
+        } catch {
+          showHiddenElement('decode_cs_error');
+        }
+      });
+    };
+  }
 }
 
-if (document.getElementById('open_decoder')) {
-  document.getElementById('open_decoder').onclick = (e) => {
-    e.preventDefault();
-    if (isElementHidden(document.getElementById('decoder'))) {
-      showHiddenElement('decoder');
-      hideElement('details');
-    } else {
-      hideElement('decoder');
-    }
-  };
+function setUpDetailsButton() {
+  if (document.getElementById('open_details')) {
+    document.getElementById('open_details').onclick = () => {
+      if (isElementHidden(document.getElementById('details'))) {
+        showHiddenElement('details');
+        hideElement('decoder');
+      } else {
+        hideElement('details');
+      }
+    };
+  }
 }
 
-if (document.getElementById('open_details')) {
-  document.getElementById('open_details').onclick = (e) => {
-    e.preventDefault();
-    if (isElementHidden(document.getElementById('details'))) {
-      showHiddenElement('details');
-      hideElement('decoder');
-    } else {
-      hideElement('details');
-    }
-  };
-}
-
+setUpDetailsButton();
+setUpDecoder();
 pruneTabStorage();
 getActiveTabStorage();
 

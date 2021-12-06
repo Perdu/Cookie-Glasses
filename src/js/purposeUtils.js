@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  createColumnWithTextContent, isElementHidden, showHiddenElement, hideElement,
+  createColumnWithTextContent, isElementHidden,
 } from './htmlUtils';
 
 const PURPOSES = {
