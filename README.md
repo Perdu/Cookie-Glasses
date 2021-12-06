@@ -33,15 +33,17 @@ Other features:
 
 #### Update the CMP list
 
-Run the `fetch_cmp_list.py` script to update the CMP list. This script scrapes https://iabeurope.eu/cmp-list/ to get the most up-to-date CMP list information. According to the website, the list can change daily but in practice, we've observed it changes less frequently.
+Run the `fetch_cmp_list.py` script to scrape the IAB website (https://iabeurope.eu/cmp-list/) to get the most up-to-date CMP list information and save it to `cmp_list_full.json`. According to the IAB documentation, the list can change daily, but in practice, we've observed it changes less frequently.
 
-It's important to refetch the CMP list, since the list on IAB's website reflects all CMP's that are currently registered _and_ compliant with the TCF.
+```
+python3 Cookie-Glasses/src/scripts/fetch_cmp_list.py
+```
 
-`python3 Cookie-Glasses/src/scripts/fetch_cmp_list.py`
-
-It's important to make sure our CMP list is up to date to ensure that Cookie Glasses shows the correct CMP information to the user. The information at https://iabeurope.eu/cmp-list/ shows all the CMPs who have been approved by the IAB, and occassionally CMPs are added or removed from the list. If a website uses a CMP that is not included in that list, then the CMP has not been approved by the IAB and users should be wary of how vendors are processing the user's data. Below is the message shown when the CMP a website uses is not in the list.
+Any CMP not included in the list provided by IAB is either not compliant or not registered with the TCF, and the extension will warn the user accordingly:
 
 <img src="unknown_cmp.png" alt="no_cmp" width="512"/>
+
+Ideally we should fetch the list regularly, and we hope to provide future functionality to get the latest CMP list directly from the extension ([Issue #56](https://github.com/katie-ta/Cookie-Glasses/issues/56)).
 
 ## Install
 
