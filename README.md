@@ -47,47 +47,34 @@ Ideally we should fetch the list regularly, and we hope to provide future functi
 
 ## Install
 
-You can either install the extension from browsers' addon stores (simple, easy), or manually install it from source.
+This version of Cookie Glasses is not available on the Chrome Webstore of Firefox Addons, so it must be manually installed from source.
 
-### Install from addon store
+### Chrome / Chromium
 
-Chrome / Chromium : https://chrome.google.com/webstore/detail/cookie-glasses/gncnjghkclkhpkfhghcbobednpchjifk
-
-
-Warning! CookieGlasses for TCFv2 on Firefox has not been extensively tested
-
-Firefox: https://addons.mozilla.org/fr/firefox/addon/cookie-glasses/
-
-### Manual install from source:
-
-The extension has been tested on Chromium.
-
-#### Chrome / Chromium
-
-1. Download the ZIP file of Cookie Glasses on your computer.
+1. Download the ZIP file of Cookie Glasses.
 ![Location of the zip file](https://camo.githubusercontent.com/71c8e3ec5ddbd2cac3b1d6469311f6bbf26c6465/68747470733a2f2f692e696d6775722e636f6d2f47784f6d6a46682e706e67)
-2. Unzip the ZIP file you just downloaded on your computer.
-3. Open Chrome and enter the following URL in your tab bar: chrome://extensions/
-4. Enable Developer mode in the top right.
-5. Click "Load unpacked"
-6. Choose the `Cookie-Glasse-master` folder on your computer.
-7. Visit websites implementing the Transparency & Consent Framework
-8. Enjoy detecting violations!
+2. Unpack the ZIP file.
+3. In the `Cookie-Glasses` directory, run `yarn run build`. This should produce a new `build` folder.
+4. Open Chrome and visit the Chrome extensions settings: chrome://extensions/
+5. Enable Developer mode in the top right.
+6. Choose "Load unpacked"
+7. Choose the `build` folder generated in Step 3.
+8. Visit websites implementing the Transparency & Consent Framework (note that you may need a VPN for some sites if you are not residing in the EU) 
+10. Enjoy detecting violations!
 
-#### Firefox
-
-Warning! CookieGlasses for TCFv2 on Firefox has not been extensively tested
+### Firefox
 
 On Firefox, out-of-store addons can only be loaded for the duration of the session (you will have to redo these steps if you close your browser).
 
-1. Download the ZIP file of Cookie Glasses on your computer.
+1. Download the ZIP file of Cookie Glasses.
 ![Location of the zip file](https://camo.githubusercontent.com/71c8e3ec5ddbd2cac3b1d6469311f6bbf26c6465/68747470733a2f2f692e696d6775722e636f6d2f47784f6d6a46682e706e67)
-2. Unzip the ZIP file you just downloaded on your computer.
-3. Open Firefox and enter the following URL in your tab bar: about:debugging#/runtime/this-firefox
-4. Click "Load temporary addon"
-5. Choose the `manifest.json` file in the `Cookie-Glasse-master` folder on your computer.
-6. Visit websites implementing the Transparency & Consent Framework
-7. Enjoy detecting violations!
+2. Unpack the ZIP file.
+3. In the `Cookie-Glasses` directory, run `yarn run build`. This should produce a new `build` folder.
+4. Open Firefox and visit: about:debugging#/runtime/this-firefox
+5. Click `Load Temporary Add-on...`
+6. Choose any file in the `build` folder generated in Step 3.
+8. Visit websites implementing the Transparency & Consent Framework (note that you may need a VPN for some sites if you are not residing in the EU) 
+10. Enjoy detecting violations!
 
 ## Limitations
 
@@ -104,6 +91,14 @@ If you want to see consent on the remaining 21% of websites, here's a manual wor
 3. If you obtain a response, copy the string in the "tcString" field and decode it in the "Manually decode Consent String" section of the extension. You can find this section by clicking on the Tool icon at the bottom of the extension.
 
 For now, the extension does not display the global shared cookie (which is a cookie storing consent, readable and writable by all CMPs of the framework).
+
+## Run in developer mode
+Follow the same instructions for both Chrome and Firefox as above, but instead of building the extension via `yarn build`, start the hot-reloading script with:
+```
+yarn run start
+```
+
+This will pick up any local changes made and automatically upload them to the unpacked extension in your browser.
 
 ## Privacy Policy
 Cookie Glasses does not handle any personal information.
