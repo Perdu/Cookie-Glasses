@@ -22,14 +22,14 @@ Based on the TC string from the CMP, we decode and show the following informatio
 - List of all the vendors who are allowed to process your data and a list of the data processing purposes and features for each vendor
 - Several aggregate values including the number of active and inactive vendors (inactive means they are allowed to process your data but you've rejected all of the purposes for which they would process your data)
 
-<img src="cookie-glasses-purposes.gif" alt="purposes" width="256"/> <img src="cookie-glasses-features.gif" alt="features" width="256"/>
+<img src="./screenshots/cookie-glasses-purposes.gif" alt="purposes" width="256"/> <img src="./screenshots/cookie-glasses-features.gif" alt="features" width="256"/>
 
 Other features:
 - Functionality to manually decode a so-called "consent string" of the framework
 - Communicates if the current webpage does not implement the TCF
 
-<img src="manual_decode_tcstring.png" alt="manual_decode" width="512"/>
-<img src="no_cmp_found.png" alt="no_cmp" width="512"/>
+<img src="./screenshots/manual_decode_tcstring.png" alt="manual_decode" width="512"/>
+<img src="./screenshots/no_cmp_found.png" alt="no_cmp" width="512"/>
 
 #### Update the CMP list
 
@@ -41,7 +41,7 @@ python3 Cookie-Glasses/src/scripts/fetch_cmp_list.py
 
 Any CMP not included in the list provided by IAB is either not compliant or not registered with the TCF, and the extension will warn the user accordingly:
 
-<img src="unknown_cmp.png" alt="no_cmp" width="512"/>
+<img src="./screenshots/unknown_cmp.png" alt="no_cmp" width="512"/>
 
 Ideally we should fetch the list regularly, and we hope to provide future functionality to get the latest CMP list directly from the extension ([Issue #56](https://github.com/katie-ta/Cookie-Glasses/issues/56)).
 

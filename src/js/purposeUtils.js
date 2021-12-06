@@ -3,6 +3,7 @@ import {
   createColumnWithTextContent, isElementHidden,
 } from './htmlUtils';
 
+// purposes as defined by the TCF policy: https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/
 const PURPOSES = {
   1: {
     title: 'Store and/or access information on a device',
@@ -65,6 +66,7 @@ function updatePurposes(tcData) {
     purposeLegitimateInterests: purposeLegitInt,
   } = tcData;
 
+  // create row for each purpose
   Object.entries(PURPOSES).map((p) => {
     const row = document.createElement('tr');
     const purposeId = parseInt(p[0], 10);
@@ -72,6 +74,8 @@ function updatePurposes(tcData) {
     row.appendChild(createColumnWithTextContent(purposeId));
     row.appendChild(createColumnWithTextContent(purpose.title));
     row.appendChild(createColumnWithTextContent(purpose.description));
+
+    // check if user has allowed purpose via consent or legitimate interest
     row.appendChild(createColumnWithTextContent(purposeConsents.set_.has(purposeId) ? '✅' : '❌', 'purpose-column'));
     row.appendChild(createColumnWithTextContent(purposeLegitInt.set_.has(purposeId) ? '✅' : '❌', 'purpose-column'));
 
@@ -79,6 +83,7 @@ function updatePurposes(tcData) {
     return true;
   });
 
+  // add special purposes
   Object.entries(SPECIAL_PURPOSES).map((p) => {
     const row = document.createElement('tr');
     const purposeId = parseInt(p[0], 10);
@@ -86,6 +91,8 @@ function updatePurposes(tcData) {
     row.appendChild(createColumnWithTextContent(`${purposeId}⭐`));
     row.appendChild(createColumnWithTextContent(purpose.title));
     row.appendChild(createColumnWithTextContent(purpose.description));
+
+    // users cannot opt out of special purposes
     row.appendChild(createColumnWithTextContent('n/a', 'purpose-column'));
     row.appendChild(createColumnWithTextContent('✅', 'purpose-column'));
 
@@ -103,17 +110,17 @@ export default function handlePurposes(tcData) {
   document.getElementById('nb_legitimate_interests').textContent = tcData.purposeLegitimateInterests.set_.size;
   updatePurposes(tcData);
 
-  const showVendorsButton = document.getElementById(buttonId);
-  const vendorsContainerElement = document.getElementById(containerId);
-  showVendorsButton.onclick = () => {
-    if (isElementHidden(vendorsContainerElement)) {
-      vendorsContainerElement.classList.remove('hidden');
-      showVendorsButton.innerText = 'Hide';
-      showVendorsButton.classList.add('button_hide');
+  const showPurposesButton = document.getElementById(buttonId);
+  const purposesContainerElement = document.getElementById(containerId);
+  showPurposesButton.onclick = () => {
+    if (isElementHidden(purposesContainerElement)) {
+      purposesContainerElement.classList.remove('hidden');
+      showPurposesButton.innerText = 'Hide';
+      showPurposesButton.classList.add('button_hide');
     } else {
-      showVendorsButton.innerText = 'Show purposes';
-      vendorsContainerElement.classList.add('hidden');
-      showVendorsButton.classList.remove('button_hide');
+      showPurposesButton.innerText = 'Show purposes';
+      purposesContainerElement.classList.add('hidden');
+      showPurposesButton.classList.remove('button_hide');
     }
   };
 }

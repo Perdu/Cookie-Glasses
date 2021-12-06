@@ -101,8 +101,6 @@ api.tabs.onActivated.addListener(() => {
   setUpConnection();
 });
 
-// TODO: reset connection when page refreshes (i.e. uCookie gets refreshes)
-
 chrome.webNavigation.onCommitted.addListener((details) => {
   if (['reload', 'link', 'typed', 'generated'].includes(details.transitionType)) {
     if (details.frameId === 0) {
