@@ -137,28 +137,6 @@ function formatIntlDate(date) {
   }).format(date);
 }
 
-const showLegIntPurposesButton = document.getElementById('show_legitimate_interests');
-const showConsentPurposesButton = document.getElementById('show_consents');
-const legitimateInterestsList = document.getElementById('legitimate_interests_list');
-if (showLegIntPurposesButton && legitimateInterestsList) {
-  showLegIntPurposesButton.onclick = () => {
-    if (isElementHidden(legitimateInterestsList)) {
-      showLegIntPurposesButton.textContent = 'Hide';
-      showLegIntPurposesButton.classList.add('button_hide');
-      showHiddenElement('legitimate_interests_list');
-
-      // update consents button, hide consent purposes list
-      hideElement('consent_purposes_list');
-      showConsentPurposesButton.textContent = 'Show purposes';
-      showConsentPurposesButton.classList.remove('button_hide');
-    } else {
-      showLegIntPurposesButton.textContent = 'Show purposes';
-      showLegIntPurposesButton.classList.remove('button_hide');
-      hideElement('legitimate_interests_list');
-    }
-  };
-}
-
 function showTimestamps(createdAt, lastUpdated, lastFetched) {
   document.getElementById('created').textContent = formatDate(createdAt);
   document.getElementById('last_updated').textContent = formatDate(lastUpdated);

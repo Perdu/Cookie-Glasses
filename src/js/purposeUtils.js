@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  createColumnWithTextContent, isElementHidden,
+  createColumnWithTextContent, isElementHidden, showHiddenElement, hideElement,
 } from './htmlUtils';
 
 const PURPOSES = {
@@ -103,17 +103,17 @@ export default function handlePurposes(tcData) {
   document.getElementById('nb_legitimate_interests').textContent = tcData.purposeLegitimateInterests.set_.size;
   updatePurposes(tcData);
 
-  const showVendorsButton = document.getElementById(buttonId);
-  const vendorsContainerElement = document.getElementById(containerId);
-  showVendorsButton.onclick = () => {
-    if (isElementHidden(vendorsContainerElement)) {
-      vendorsContainerElement.classList.remove('hidden');
-      showVendorsButton.innerText = 'Hide';
-      showVendorsButton.classList.add('button_hide');
+  const showPurposesButton = document.getElementById(buttonId);
+  const purposesContainerElement = document.getElementById(containerId);
+  showPurposesButton.onclick = () => {
+    if (isElementHidden(purposesContainerElement)) {
+      purposesContainerElement.classList.remove('hidden');
+      showPurposesButton.innerText = 'Hide';
+      showPurposesButton.classList.add('button_hide');
     } else {
-      showVendorsButton.innerText = 'Show purposes';
-      vendorsContainerElement.classList.add('hidden');
-      showVendorsButton.classList.remove('button_hide');
+      showPurposesButton.innerText = 'Show purposes';
+      purposesContainerElement.classList.add('hidden');
+      showPurposesButton.classList.remove('button_hide');
     }
   };
 }
