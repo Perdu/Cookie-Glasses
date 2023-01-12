@@ -1,0 +1,39 @@
+{
+  "name": "cookie-glasses",
+  "version": "1.0.0",
+  "description": "Cookie Glasses browser extension",
+  "scripts": {
+    "build": "node utils/build.js",
+    "start": "node utils/webserver.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katie-ta/Cookie-Glasses.git"
+  },
+  "author": "Katie Ta, Charles Tan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katie-ta/Cookie-Glasses/issues"
+  },
+  "homepage": "https://github.com/katie-ta/Cookie-Glasses#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "6",
+    "css-loader": "3.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "file-loader": "4.3.0",
+    "fs-extra": "8.1.0",
+    "html-loader": "0.5.5",
+    "html-webpack-plugin": "3.2.0",
+    "style-loader": "1.0.0",
+    "webpack": "4.41.2",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "3.9.0",
+    "write-file-webpack-plugin": "4.5.1"
+  },
+  "dependencies": {
+    "@iabtcf/core": "^1.3.1"
+  }
+}
