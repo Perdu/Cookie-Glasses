@@ -9,6 +9,11 @@
         "url": "https://adnuntius.com/",
         "subdomain": "Adnuntius.mgr.consensu.org"
     },
+    "396": {
+        "name": "Adtelligent Inc.",
+        "url": "https://adtelligent.com/",
+        "subdomain": "N/A"
+    },
     "335": {
         "name": "AdZapier Holdings LLC",
         "url": "https://adzapier.com/",
@@ -99,15 +104,10 @@
         "url": "https://www.cookiebot.com",
         "subdomain": "cookiebot.mgr.consensu.org"
     },
-    "304": {
-        "name": "Decidio GmbH",
-        "url": "https://truendo.com/",
-        "subdomain": "TRUENDO.mgr.consensu.org"
-    },
-    "221": {
-        "name": "Dentsu Germany GmbH",
-        "url": "https://www.dentsu.com/de/de",
-        "subdomain": "dan.mgr.consensu.org"
+    "354": {
+        "name": "CookieHub",
+        "url": "https://www.cookiehub.com/",
+        "subdomain": "N/A"
     },
     "367": {
         "name": "devowl.io GmbH",
@@ -133,6 +133,11 @@
         "name": "Ezoic",
         "url": "https://www.ezoic.com/",
         "subdomain": "ezoic.mgr.consensu.org"
+    },
+    "388": {
+        "name": "FastCMP",
+        "url": "https://www.fastcmp.com",
+        "subdomain": "N/A"
     },
     "104": {
         "name": "Gemius SA",
@@ -164,6 +169,11 @@
         "url": "https://jumpgroup.it/",
         "subdomain": "Avacy.mgr.consensu.org"
     },
+    "340": {
+        "name": "Ketch Kloud, Inc.",
+        "url": "https://www.ketch.com/",
+        "subdomain": "N/A"
+    },
     "3": {
         "name": "LiveRamp",
         "url": "https://liveramp.com/",
@@ -173,11 +183,6 @@
         "name": "Madvertise Media",
         "url": "https://madvertise.com/en/",
         "subdomain": "madvertise.mgr.consensu.org"
-    },
-    "252": {
-        "name": "MAIRDUMONT NETLETIX GmbH & Co. KG",
-        "url": "https://www.mairdumont-netletix.com/",
-        "subdomain": "MDNXCMP.mgr.consensu.org"
     },
     "181": {
         "name": "Marfeel Solutions S.L",
@@ -246,7 +251,7 @@
     },
     "185": {
         "name": "Playwire LLC",
-        "url": "https://www.webads.nl/",
+        "url": "https://www.playwire.com/",
         "subdomain": "playwire.mgr.consensu.org"
     },
     "322": {
@@ -264,10 +269,10 @@
         "url": "https://www.rcspubblicita.it/site/home.html",
         "subdomain": "rcsmediagroup.mgr.consensu.org"
     },
-    "30": {
-        "name": "Rich Audience International SL",
-        "url": "https://richaudience.com",
-        "subdomain": "richaudience.mgr.consensu.org"
+    "383": {
+        "name": "Redge Technologies Sp. z o.o.",
+        "url": "https://portal.redge.media/",
+        "subdomain": "N/A"
     },
     "280": {
         "name": "Ringier Axel Springer Polska",
@@ -304,6 +309,11 @@
         "url": "https://www.shinystat.com",
         "subdomain": "shinystat.mgr.consensu.org"
     },
+    "379": {
+        "name": "SIA Setupad",
+        "url": "https://setupad.com/",
+        "subdomain": "N/A"
+    },
     "76": {
         "name": "SIBBO",
         "url": "https://sibboventures.com/en/gdpr/",
@@ -329,6 +339,11 @@
         "url": "https://sourcepoint.com",
         "subdomain": "sourcepoint.mgr.consensu.org"
     },
+    "183": {
+        "name": "Sub2 Technologies Ltd",
+        "url": "https://www.sub2tech.com/",
+        "subdomain": "N/A"
+    },
     "352": {
         "name": "talks srl",
         "url": "https://www.pubtech.ai/",
@@ -339,20 +354,25 @@
         "url": "https://admetricspro.com",
         "subdomain": "cmp.mgr.consensu.org"
     },
-    "373": {
-        "name": "This is not just a software company SL",
-        "url": "https://www.vikinguard.com/",
-        "subdomain": "N/A"
-    },
     "21": {
         "name": "Traffective GmbH",
         "url": "https://traffective.com",
         "subdomain": "traffective.mgr.consensu.org"
     },
+    "399": {
+        "name": "Transcend Inc",
+        "url": "https://transcend.io/",
+        "subdomain": "N/A"
+    },
     "68": {
         "name": "Transfon Ltd",
         "url": "https://uniconsent.com",
         "subdomain": "uniconsent.mgr.consensu.org"
+    },
+    "304": {
+        "name": "TRUENDO Technologies GmbH",
+        "url": "https://truendo.com/",
+        "subdomain": "TRUENDO.mgr.consensu.org"
     },
     "47": {
         "name": "TrustArc Inc",
@@ -394,9 +414,19 @@
         "url": "https://ottwow.com/",
         "subdomain": "N/A"
     },
+    "387": {
+        "name": "IDAILYBREAD CO., LIMITED",
+        "url": "http://www.learnings.ai/aboutus.html",
+        "subdomain": "N/A"
+    },
     "303": {
         "name": "Impala Studios B.V.",
         "url": "https://www.impalastudios.com/",
+        "subdomain": "N/A"
+    },
+    "393": {
+        "name": "Kana\u0142 Sportowy Sp. z o.o.",
+        "url": "https://www.kanalsportowy.pl",
         "subdomain": "N/A"
     },
     "339": {
@@ -435,7 +465,7 @@
         "subdomain": "N/A"
     },
     "318": {
-        "name": "ProSiebenSat.1 Digital GmbH",
+        "name": "Seven.One Entertainment Group GmbH",
         "url": "https://www.prosieben.de/",
         "subdomain": "ProSiebenSat.1Digital.mgr.consensu.org"
     },
@@ -469,10 +499,25 @@
         "url": "https://www.amazon.co.uk/",
         "subdomain": "N/A"
     },
+    "341": {
+        "name": "Appush LTD",
+        "url": "https://www.vidstart.com/",
+        "subdomain": "Vidstart.mgr.consensu.org"
+    },
+    "386": {
+        "name": "Aspiegel SE.",
+        "url": "https://aspiegel.com",
+        "subdomain": "N/A"
+    },
     "258": {
         "name": "Automattic, Inc.",
         "url": "https://automattic.com/",
         "subdomain": "Automattic.mgr.consensu.org"
+    },
+    "397": {
+        "name": "AutoScout24 GmbH",
+        "url": "https://www.autoscout24.de/",
+        "subdomain": "N/A"
     },
     "292": {
         "name": "Blasting SA",
@@ -483,6 +528,11 @@
         "name": "Bring! Labs AG",
         "url": "https://www.getbring.com/#!/app",
         "subdomain": "getbring.mgr.consensu.org"
+    },
+    "35": {
+        "name": "BurdaForward GmbH",
+        "url": "https://www.burda-forward.de/",
+        "subdomain": "N/A"
     },
     "378": {
         "name": "CASTOOLA D.O.O.",
@@ -503,6 +553,11 @@
         "name": "Deezer",
         "url": "https://www.deezer.com/us/",
         "subdomain": "deezer.mgr.consensu.org"
+    },
+    "221": {
+        "name": "Dentsu Germany GmbH",
+        "url": "https://www.dentsu.com/de/de",
+        "subdomain": "dan.mgr.consensu.org"
     },
     "125": {
         "name": "eBay Inc",
@@ -529,6 +584,11 @@
         "url": "https://www.thefreedictionary.com/",
         "subdomain": "TheFreeDictionary.mgr.consensu.org"
     },
+    "385": {
+        "name": "freenet.de GmbH",
+        "url": "https://www.freenet.de/index.html",
+        "subdomain": "N/A"
+    },
     "327": {
         "name": "FUNCORP LIMITED",
         "url": "https://fun.co/rp",
@@ -554,6 +614,16 @@
         "url": "https://www.gruparmf.pl/",
         "subdomain": "GrupaRMF.mgr.consensu.org"
     },
+    "112": {
+        "name": "Guardian News and Media",
+        "url": "https://www.theguardian.com",
+        "subdomain": "N/A"
+    },
+    "384": {
+        "name": "Guitar Tabs LLC",
+        "url": "https://www.songsterr.com/",
+        "subdomain": "N/A"
+    },
     "227": {
         "name": "Healthline Media, Inc.",
         "url": "https://www.healthline.com/",
@@ -578,6 +648,11 @@
         "name": "Microsoft Corporation",
         "url": "https://www.microsoft.com/",
         "subdomain": "Microsoftcasualgames.mgr.consensu.org"
+    },
+    "392": {
+        "name": "NetRange MMH GmbH",
+        "url": "https://netrange.com/",
+        "subdomain": "N/A"
     },
     "284": {
         "name": "Otto (GmbH & Co KG)",
@@ -624,30 +699,35 @@
         "url": "https://www.lemonde.fr/",
         "subdomain": "N/A"
     },
-    "61": {
-        "name": "Spolecznosci Sp. z o.o. Sp.k.",
-        "url": "https://spolecznosci.pl/",
-        "subdomain": "spolecznosci.mgr.consensu.org"
-    },
     "38": {
         "name": "System1 LLC",
         "url": "https://system1.com/",
         "subdomain": "system1.mgr.consensu.org"
+    },
+    "61": {
+        "name": "Tri-table Sp. z o.o.",
+        "url": "https://spolecznosci.pl/",
+        "subdomain": "spolecznosci.mgr.consensu.org"
     },
     "351": {
         "name": "TVP S.A.",
         "url": "https://rc.tvp.info/#",
         "subdomain": "TVP.mgr.consensu.org"
     },
+    "380": {
+        "name": "Twitch Inc.",
+        "url": "https://www.twitch.tv/",
+        "subdomain": "N/A"
+    },
+    "390": {
+        "name": "Vevo (UK) Limited",
+        "url": "https://www.hq.vevo.com/",
+        "subdomain": "N/A"
+    },
     "171": {
         "name": "Viber Media sarl",
         "url": "https://viber.com/",
         "subdomain": "viber.mgr.consensu.org"
-    },
-    "341": {
-        "name": "Vidstart LTD",
-        "url": "https://www.vidstart.com/",
-        "subdomain": "Vidstart.mgr.consensu.org"
     },
     "329": {
         "name": "wetter.com GmbH",
