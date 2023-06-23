@@ -1,3 +1,3 @@
 #!/bin/bash
 
-web-ext build -s src/
+web-ext build -s src/ --overwrite-dest
