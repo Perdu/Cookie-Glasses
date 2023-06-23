@@ -6,51 +6,199 @@
     <link rel="stylesheet" href="ucookie.css"/>
     <title>Cookie Glasses</title>
   </head>
-
   <body>
-    <div id="nothing_found">
-      <p>This webpage does not seem to implement IAB Europe's Transparency and Consent Framework (this extension only works for websites using IAB Europe's TCF).</p>
+    <header role="banner" class="banner header">
+      <div class="cookie_glasses_title">
+        Cookie Glasses &#127850; &#129400; 
+      </div>
+    </header>
+    <div role="banner" class="warning_header hidden" id="warning_header">
+      <div class="cookie_glasses_manual_warning">
+        &#128227; Heads up! The below information was loaded from manually decoding a consent string
+      </div>
     </div>
-    <div id="cmplocator_found" class="hidden">
-      <p>A CMP on this webpage implements IAB Europe's Transparency and Consent Framework.<br />Waiting for an answer from CMP... (We may not get one before you close the cookie banner)</p>
+    <div class="main_content">
+      <div id="nothing_found">
+        <h2>&#9888; No CMP found.</h2>
+        <p>This webpage does not implement IAB Europe's <a href="https://iabeurope.eu/tcf-2-0/" target="_blank">Transparency and Consent Framework.</a></p>
+      </div>
+      <div id="error_fetching_retry" class = "hidden">
+        <h2>&#9888; Error</h2>
+        <p>We were not able to check if this webpage implements the TCF.</p>
+        <p>Retrying...</p>
+      </div>
+      <div id="error_fetching" class = "hidden">
+        <h2>&#9888; Error</h2>
+        <p>We were not able to check if this webpage implements the TCF.</p>
+        <p>Please try again later, or try refreshing the page.</p>
+      </div>
+      <div id="cmplocator_found" class="hidden">
+        <p>A CMP on this webpage implements IAB Europe's Transparency and Consent Framework.<br /><br />Waiting for an answer from CMP... (We may not get one before you close the cookie banner)</p>
+      </div>
+      <div id="gdpr_applies_false" class="hidden">
+        <h2>&#x1f61e; GDPR does not apply.</h2>
+        <p>
+          The CMP on this webpage implements IAB Europe's Transparency and Consent Framework, but the CMP has determined that GDPR does not apply in this context.
+          <br/>
+          <br/>
+          If you are not residing in the EU, try using a <a href="https://en.wikipedia.org/wiki/Virtual_private_network" target="_blank">VPN</a>.
+          <br/><br/>
+          Find more information <a target="_blank" href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean">here</a>.
+        </p>
+      </div>
+      <div id="cmp_content" class="hidden">
+        <div class="content-container">
+          <div class="cmp_name_container">
+            <div class="cmp_decorator">CMP</div>
+            <a id='cmp' class="cmp_name" target="_blank"></a>
+            <span id='cmpid'></span>
+          </div>
+          <div id="unknown_cmp_container" class="hidden">
+            <div class="unknown_cmp_container">
+              <div id="alert_icon">&#128680;</div> 
+              <div id="unknown_cmp">
+                <strong>This CMP is either not registered or not compliant with TCF.</strong> See all compliant CMPs <a href="https://iabeurope.eu/cmp-list/" target="_blank">here</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-container">
+          <h2>Purposes</h2>
+          <div class="counts_container">
+            <div class="section_container">
+              <div class="summary_container">
+                <div class="total_nb_summary_container">
+                  <h3>Consents</h3>
+                  <div id='nb_purposes' class="total_nb total_nb_purposes">n/a</div> 
+                  <div class='purpose_description'>out of 10 purposes for data processing allowed on the legal basis of your consent.</div>
+                </div>
+                <div class="total_nb_summary_container">
+                  <h3>Legitimate Interests</h3>
+                  <div id='nb_legitimate_interests' class="total_nb total_nb_purposes">n/a</div> 
+                  <div class='purpose_description'>out of 10 purposes for data processing allowed on the legal basis of the CMP's legitimate interest, in accordance with GDPR Article 6(1).</div>
+                </div>
+              </div>
+              <button id="show_purposes_button" class="show_button">Show purposes</button>
+            </div>
+          </div>
+          <div id="purposes_list_container" class="hidden">
+            <div class="table_description">⭐ = special purpose (no right to opt-out)</div>
+            <div class="bounded_container">
+              <table id="consent_purposes_list" class="styled-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Purpose</th>
+                    <th>Description</th>
+                    <th>Consent?</th>
+                    <th>Legit. Interest?</th>
+                  </tr>
+                  <tbody id="purpose_list_body">
+                  </tbody>
+                </thead>
+              </table>
+              <i>Read more about the <a href="https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/" target="_blank">TCF policies</a></i>
+            </div>
+          </div>
+        </div>
+        <div class="content-container">
+          <h2>Vendors</h2>
+          <div class="counts_container">
+            <div class="section_container">
+              <div class="summary_container">
+                <div class="total_nb_summary_container">
+                  <div class="nb_vendor_details">
+                    <div id='nb_active_vendors' class="total_nb total_nb_vendors">n/a</div> 
+                    <div class="nb_vendor_description">total <b>active</b> vendors processing your data based on allowed purposes.</div>
+                  </div>
+                </div>
+                <div class="total_nb_summary_container">
+                  <div class="nb_vendor_details">
+                    <div id='nb_inactive_vendors' class="total_nb total_nb_vendors">n/a</div> 
+                    <div class="nb_vendor_description">total inactive vendors allowed to process data.</div>
+                  </div>
+                </div>
+            </div>
+            <div class="features_container">
+              <div class="features_title_container">
+                <h3>Features</h3>
+                <button id="show_feature_button" class="feature_button">▽</button>
+              </div>
+              <ol id="feature_list" class="feature_list hidden">
+                <li class="feature-list-item"><span id="nb_vendors_feature_1" class="nb_vendors_feature">n/a</span> vendors combining your online data with your offline data.</li>
+                <li class="feature-list-item"><span id="nb_vendors_feature_2" class="nb_vendors_feature">n/a</span> vendors can determine if different devices belong to you or your household.</li>
+                <li class="feature-list-item"><span id="nb_vendors_feature_3" class="nb_vendors_feature">n/a</span> vendors are using information about your device that is automatically sent, such as IP address or browser type.</li>
+              </ol>
+            </div>
+            <div class="features_container">
+              <div class="features_title_container">
+                <h3>Special features</h3>
+                <button id="show_special_feature_button" class="feature_button">▽</button>
+              </div>
+              <ol id="special_feature_list" class="feature_list hidden">
+                <li class="feature-list-item"><span id="nb_vendors_special_feature_1" class="nb_vendors_feature">n/a</span> vendors can collect and process precise geolocation data in support of one or more purposes.</li>
+                <li class="feature-list-item"><span id="nb_vendors_special_feature_2" class="nb_vendors_feature">n/a</span> vendors can create an identifier using data collected via actively scanning a device for specific characteristics (e.g. installed fonts or screen resolution) then use such an identifier to re-identify a device.</li>
+              </ol>
+              <button id="show_vendors" class="show_button">Show vendors</button>
+            </div>
+          </div>
+          </div>
+          <div id="active_vendors_container" class="hidden">
+            <div class="table_description">Purpose/feature numbers correspond to purpose/feature numbers above</div>
+            <div class="table_description">😴 = inactive vendor</div>
+            <div class="bounded_container">
+              <table id="active_vendors_list" class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Vendor name</th>
+                    <th>Consent purposes</th>
+                    <th>Leg. int. purposes</th>
+                    <th>Special purposes</th>
+                    <th>Features</th>
+                    <th>Special features</th>
+                  </tr>
+                </thead>
+                <tbody id="vendor_list_body">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="content-container">
+          <h2>Consent string</h2>
+          <ul id="consent_string_details">
+            <li><i>Created: </i><span id='created'></span></li>
+            <li><i>Last Updated: </i><span id='last_updated'></span></li>
+            <li><i>Last Fetched: </i><span id='last_fetched'></span></li>
+          </ul>
+          <textarea rows='5' id='consent_string'></textarea>
+        </div>
+      </div>
+      <div id="extras_container">
+        <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
+        <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
+        <div class="hidden bounded_container" id="decoder">
+          <div id="decoder_title">Manually decode a consent string:</div>
+          <div id="decode_cs_error" class="hidden">&#128680; <i><b>Error:</b> Invalid consent string</i></div>
+          <textarea rows='2' type="text" id="cs_to_decode"></textarea>
+          <div><strong>Note:</strong> this will override the existing information on the extension.</div>
+          <button id="decode_cs">Decode</button>
+        </div>
+        <div class="hidden bounded_container" id="details">
+          <h3>Icon details</h3>
+          <ul>
+            <li>Red indicates that consent is still set for at least one vendor and one purpose.</li>
+            <li>Green indicates that consent is completely refused.</li>
+            <li>The number shown in the icon is the number of allowed purposes for both Consent and Legitimate Interests.</li>
+          </ul>
+          <strong>Note:</strong> Vendors (advertisers) are supposed to check that <i>both</i> purposes and their Vendor ID is allowed to perform tracking.
+        </div>
+      </div>
     </div>
-    <div id="cmp_content" class="hidden">
-      The consent string registered by the CMP on this page contains the following information:<br />
-      CMP: <span id='cmp'></span><span id='cmpid'></span><br />
-      Number of vendors you consented to: <span id='nb_vendors'></span> <button id="show_vendors">Show</button><br />
-      Number of purposes of data processing you consented to: <span id='nb_purposes'></span><br />
-      Purposes of data processing you consented to: <span id='purposes'></span><br />
-      <br />
-      <span id="manual_cs" class="hidden">User-provided consent string.<br /></span>
-      <span id="show_cs">Consent string stored by CMP:<br /><textarea rows='5' id='consent_string'></textarea></span>
-      <br />
-      Created: <span id='created'></span><br />
-      Last Updated: <span id='last_updated'></span><br />
-      <span id='vendors' class="hidden"></span>
+    <div role="banner" class="banner footer">
+      <div id="version">
+        Cookie Glasses version: 2.0.0
+      </div>
     </div>
-    <br />
-    <a href="#" id="open_decoder" title="Open manual consent string decoder"><img src="img/Octicons-tools.png" class="icon"></a>
-    <a href="#" id="open_details" title="Open explanations about the icon's color scheme"><img src="img/question_mark.svg" class="icon"></a>
-    <div class="hidden" id="decoder">
-      Manually decode a consent string:
-      <input type="text" id="cs_to_decode" />
-      <button id="decode_cs">Decode</button>
-      <span id="decode_cs_error" class="hidden">Error: Invalid consent string</span>
-    </div>
-    <div class="hidden" id="details">
-      Icon color scheme:<br />
-      - Red indicates that consent is still set for at least one vendor and one purpose.<br />
-      - Green indicates that consent is completely refused.<br />
-      Vendors (advertisers) are supposed to check that <b>both</b> purposes and their vendor identifier is allowed to perform tracking.<br />
-      The number shown in the icon is the number of allowed purposes.
-    </div>
-    <div id="version">
-      Cookie Glasses version: 1.1.5
-    </div>
-    <script src="IAB_CMP_list_full.js"></script>
-    <script src="lib.js"></script>
-    <script src="popup.js"></script>
-    <script src="popup_monitor.js"></script>
   </body>
-
 </html>
