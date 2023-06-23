@@ -2,12 +2,12 @@
 /* global chrome */
 /* global browser */
 
-export const TCF_VERSION_NUMBER = 2;
-export const LOOKING_FOR_LOCATOR_MSG = 'looking for __tcfapiLocator';
-export const FOUND_MSG = 'found';
-export const NOT_FOUND_MSG = 'not found';
-export const API_MSG = 'api';
-export const GET_TC_DATA_CALL = 'getTCData';
+const TCF_VERSION_NUMBER = 2;
+const LOOKING_FOR_LOCATOR_MSG = 'looking for __tcfapiLocator';
+const FOUND_MSG = 'found';
+const NOT_FOUND_MSG = 'not found';
+const API_MSG = 'api';
+const GET_TC_DATA_CALL = 'getTCData';
 
 let api;
 

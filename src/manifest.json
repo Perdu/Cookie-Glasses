@@ -16,7 +16,7 @@
   "content_scripts": [
     {
         "matches": [ "*://*/*" ],
-        "js": ["contentScript.bundle.js"] ,
+        "js": ["content_scripts/uCookie.js"] ,
         "run_at": "document_end",
         "all_frames": true
     }
@@ -27,16 +27,20 @@
   ],
 
     "background": {
-        "page": "background.html"
+        "service_worker": "background.html"
+    },
+
+    "background": {
+	"scripts": ["popup/lib.js", "popup/popup.js"]
     },
 
     "browser_action": {
         "default_icon": {
-            "19": "19.png",
-            "38": "38.png"
+            "19": "button/19.png",
+            "38": "button/38.png"
         },
         "default_title": "Cookie Glasses",
-        "default_popup": "ucookie.html"
+        "default_popup": "popup/ucookie.html"
     },
     "content_security_policy":  "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
