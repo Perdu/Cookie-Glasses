@@ -38,17 +38,17 @@ const options = {
     rules: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        use: ['style-loader', 'css-loader'],
         exclude: /node_modules/,
       },
       {
         test: new RegExp(`.(${fileExtensions.join('|')})$`),
-        loader: 'file-loader?name=[name].[ext]',
+        use: 'file-loader?name=[name].[ext]',
         exclude: /node_modules/,
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
+        use: 'html-loader',
         exclude: /node_modules/,
       },
     ],
@@ -98,7 +98,7 @@ const options = {
 };
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-eval-source-map';
+  options.devtool = 'cheap-module-source-map';
 }
 
 module.exports = options;
