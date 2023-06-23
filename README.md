@@ -1,7 +1,7 @@
 # Cookie Glasses
 This browser extension shows you whether consent registered by cookie banners of IAB Europe's Transparency &amp; Consent Framework corresponds to your choice
 
-Update September 2020: CMPs switched to TCFv2 in August 2020. This extension only handles TCFv1 and is therefore obsolete unless it's adapted to the new TCF version (contact me if interested).
+Update September 2020: CMPs switched to TCFv2 in August 2020. This extension only handles TCFv1 and is therefore obsolete unless work is done to integrate [pull request 10](pull/10). Project is currently abandoned.
 
 ## Introduction
 
